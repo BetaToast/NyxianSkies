@@ -1,21 +1,21 @@
-var __extends = this.__extends || function (d, b) {
+﻿var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var TestApp;
-(function (TestApp) {
-    var TestGame = (function (_super) {
-        __extends(TestGame, _super);
-        function TestGame() {
+var NyxianSkies;
+(function (NyxianSkies) {
+    var NyxianSkiesGame = (function (_super) {
+        __extends(NyxianSkiesGame, _super);
+        function NyxianSkiesGame() {
             _super.call(this);
             //var button = new BetaToast.Button();
         }
-        TestGame.prototype.create = function () {
+        NyxianSkiesGame.prototype.create = function () {
         };
-        return TestGame;
+        return NyxianSkiesGame;
     })(BetaToast.Game);
-    TestApp.TestGame = TestGame;
-})(TestApp || (TestApp = {}));
+    NyxianSkies.NyxianSkiesGame = NyxianSkiesGame;
+})(NyxianSkies || (NyxianSkies = {}));
 //# sourceMappingURL=NyxianSkiesGame.js.map

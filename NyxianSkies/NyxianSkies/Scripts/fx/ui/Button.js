@@ -1,4 +1,4 @@
-var BetaToast;
+﻿var BetaToast;
 (function (BetaToast) {
     var Button = (function () {
         function Button() {
