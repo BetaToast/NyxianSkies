@@ -56,6 +56,10 @@
     <Reference Include="Microsoft.Owin.Security">
       <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -114,6 +118,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServerSide\GameInstance\Actions.cs" />
+    <Compile Include="ServerSide\GameInstance\NyxianSkiesGameInstance.cs" />
+    <Compile Include="ServerSide\GameInstance\Player.cs" />
+    <Compile Include="ServerSide\Server\HandlerManager.cs" />
+    <Compile Include="ServerSide\Server\MainHub.cs" />
+    <Compile Include="ServerSide\Server\MessageBaseGame.cs" />
+    <Compile Include="ServerSide\Server\MultiInstanceGameManager.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
