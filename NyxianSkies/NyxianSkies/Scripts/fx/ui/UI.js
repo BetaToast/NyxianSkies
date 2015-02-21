@@ -1,4 +1,4 @@
-var BetaToast;
+﻿var BetaToast;
 (function (BetaToast) {
     var UserInterface = (function () {
         function UserInterface(uiColor) {
@@ -6,8 +6,10 @@ var BetaToast;
             this.sheetName = uiColor + "sheet";
             this.xmlFilename = "assets//ui//" + this.sheetName + ".xml";
             this.pngFilename = "assets//ui//" + this.sheetName + ".png";
+
             var xmlstr = BetaToast.Utils.readAllText(this.xmlFilename);
             var textureAtlas = BetaToast.Utils.xml2json(xmlstr);
+
             this.partRectBoxCheckmark = this.getRectFromAtlas(textureAtlas, 0);
             this.partRectBoxCross = this.getRectFromAtlas(textureAtlas, 1);
             this.partRectBoxTick = this.getRectFromAtlas(textureAtlas, 2);
@@ -47,6 +49,7 @@ var BetaToast;
         return UserInterface;
     })();
     BetaToast.UserInterface = UserInterface;
+
     ///////////////////////////////////////
     // Enumerations
     ///////////////////////////////////////

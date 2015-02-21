@@ -1,4 +1,4 @@
-var BetaToast;
+﻿var BetaToast;
 (function (BetaToast) {
     var Rect = (function () {
         function Rect(x, y, w, h) {
