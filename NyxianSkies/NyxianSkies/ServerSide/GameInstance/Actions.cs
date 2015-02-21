@@ -3,9 +3,7 @@
 namespace NyxianSkies.ServerSide.GameInstance
 {
     //Marker Interface for everything that needs to be deserialized from json
-    public interface IActions
-    {
-    }
+    public interface IActions { }
 
     public interface IGameActions : IActions
     {
@@ -20,11 +18,6 @@ namespace NyxianSkies.ServerSide.GameInstance
     public class StartGame : IGameActions
     {
         public Guid GameId { get; set; }
-    }
-
-    public class ClientConnection : IPlayerActions
-    {
-        public Guid PlayerId { get; set; }
     }
 
     public class ClientDisconnect : IPlayerActions

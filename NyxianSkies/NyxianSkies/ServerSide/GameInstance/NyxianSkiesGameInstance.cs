@@ -15,5 +15,7 @@ namespace NyxianSkies.ServerSide.GameInstance
             allGameActions.Add(playerAction);
             await ((dynamic)this).HandleAction((dynamic)playerAction);
         }
+
+
     }
 }

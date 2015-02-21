@@ -26,6 +26,12 @@ namespace NyxianSkies.ServerSide.Server
             return base.OnDisconnected(stopCalled);
         }
 
+        public override Task OnConnected()
+        {
+            Clients.Caller.YourPlayerId(Context.ConnectionId);
+            return base.OnConnected();
+        }
+
         public void SendAction(string jsonActionBatch)
         {
             //Take jsonActionBatch and break it into its different actions
@@ -39,23 +45,12 @@ namespace NyxianSkies.ServerSide.Server
         {
             InjectKnownData(ref rawObject);
 
-            //Take Action and find a method to handle it.
             try
             {
-                var managerActionClientConnection = rawObject as ClientConnection;
-                if (managerActionClientConnection != null)
-                {
-                    var playerId = Context.ConnectionId;
-                    Clients.Caller.YourPlayerId(playerId);
-                }
-                else
-                {
-                    _multiInstanceGameManager.SendAction(rawObject);
-                }
+                _multiInstanceGameManager.SendAction(rawObject);
             }
             catch
-            {
-            }
+            { }
         }
 
         private void InjectKnownData(ref object rawObject)

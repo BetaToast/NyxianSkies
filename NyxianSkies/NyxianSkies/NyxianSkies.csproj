@@ -103,6 +103,7 @@
     <Content Include="assets\ui\redSheet.xml" />
     <Content Include="assets\ui\yellowSheet.png" />
     <Content Include="assets\ui\yellowSheet.xml" />
+    <Content Include="comm.js" />
     <Content Include="index.html" />
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\Website.pubxml" />
