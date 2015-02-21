@@ -88,6 +88,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\main.css" />
+    <Content Include="assets\ui\blueSheet.png" />
+    <Content Include="assets\ui\blueSheet.xml" />
+    <Content Include="assets\ui\greenSheet.png" />
+    <Content Include="assets\ui\greenSheet.xml" />
+    <Content Include="assets\ui\greySheet.png" />
+    <Content Include="assets\ui\greySheet.xml" />
+    <Content Include="assets\ui\redSheet.png" />
+    <Content Include="assets\ui\redSheet.xml" />
+    <Content Include="assets\ui\yellowSheet.png" />
+    <Content Include="assets\ui\yellowSheet.xml" />
     <Content Include="index.html" />
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\Website.pubxml" />
@@ -96,6 +107,8 @@
     <Content Include="Scripts\jquery-2.1.3.min.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
+    <Content Include="Scripts\phaser\phaser.js" />
+    <Content Include="Scripts\phaser\phaser.min.js" />
     <Content Include="Web.config" />
     <Content Include="Scripts\jquery-2.1.3.min.map" />
   </ItemGroup>
@@ -104,14 +117,25 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\typescript\typescript.d.ts" />
+    <TypeScriptCompile Include="Scripts\fx\core\Core.ts" />
+    <TypeScriptCompile Include="Scripts\fx\core\Game.ts" />
+    <TypeScriptCompile Include="Scripts\fx\core\Utilities.ts" />
+    <TypeScriptCompile Include="Scripts\fx\ui\Button.ts" />
+    <TypeScriptCompile Include="Scripts\fx\ui\UI.ts" />
+    <TypeScriptCompile Include="Scripts\game\NyxianSkiesGame.ts" />
+    <TypeScriptCompile Include="Scripts\main.ts" />
+    <TypeScriptCompile Include="Scripts\phaser\phaser.d.ts" />
+    <TypeScriptCompile Include="Scripts\phaser\pixi.d.ts" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptOutFile>scripts/game.js</TypeScriptOutFile>
+  </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
