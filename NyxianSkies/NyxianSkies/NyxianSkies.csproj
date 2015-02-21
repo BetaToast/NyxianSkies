@@ -92,6 +92,16 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\audio\Styx.mp3" />
+    <Content Include="assets\images\black.png" />
+    <Content Include="assets\images\blue.png" />
+    <Content Include="assets\images\darkPurple.png" />
+    <Content Include="assets\images\loader.png" />
+    <Content Include="assets\images\playerShip1_red.png" />
+    <Content Include="assets\images\purple.png" />
+    <Content Include="assets\images\sheet.png" />
+    <Content Include="assets\images\sheet.xml" />
+    <Content Include="assets\images\Title.png" />
     <Content Include="assets\main.css" />
     <Content Include="assets\ui\blueSheet.png" />
     <Content Include="assets\ui\blueSheet.xml" />
@@ -136,7 +146,15 @@
     <TypeScriptCompile Include="Scripts\fx\core\Utilities.ts" />
     <TypeScriptCompile Include="Scripts\fx\ui\Button.ts" />
     <TypeScriptCompile Include="Scripts\fx\ui\UI.ts" />
+    <TypeScriptCompile Include="Scripts\game\Boot.ts" />
+    <TypeScriptCompile Include="Scripts\game\GameOver.ts" />
+    <TypeScriptCompile Include="Scripts\game\Gameplay.ts" />
     <TypeScriptCompile Include="Scripts\game\NyxianSkiesGame.ts" />
+    <TypeScriptCompile Include="Scripts\game\Preloader.ts" />
+    <TypeScriptCompile Include="Scripts\game\ShipSelect.ts" />
+    <TypeScriptCompile Include="Scripts\game\StageSelect.ts" />
+    <TypeScriptCompile Include="Scripts\game\TechSelect.ts" />
+    <TypeScriptCompile Include="Scripts\game\TitleScreen.ts" />
     <TypeScriptCompile Include="Scripts\main.ts" />
     <TypeScriptCompile Include="Scripts\phaser\phaser.d.ts" />
     <TypeScriptCompile Include="Scripts\phaser\pixi.d.ts" />

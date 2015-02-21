@@ -3,7 +3,7 @@
         ui: UserInterface;
 
         constructor(uiColor = "blue") {
-            super(800, 600, Phaser.AUTO, 'content', null);
+            super(1280, 720, Phaser.AUTO, 'content', null);
 
             this.ui = new UserInterface(uiColor);
         }

@@ -23,7 +23,7 @@ var BetaToast;
         __extends(Game, _super);
         function Game(uiColor) {
             if (typeof uiColor === "undefined") { uiColor = "blue"; }
-            _super.call(this, 800, 600, Phaser.AUTO, 'content', null);
+            _super.call(this, 1280, 720, Phaser.AUTO, 'content', null);
 
             this.ui = new BetaToast.UserInterface(uiColor);
         }
@@ -181,17 +181,193 @@ var BetaToast;
 })(BetaToast || (BetaToast = {}));
 var NyxianSkies;
 (function (NyxianSkies) {
+    var Boot = (function (_super) {
+        __extends(Boot, _super);
+        function Boot() {
+            _super.apply(this, arguments);
+        }
+        Boot.prototype.preload = function () {
+            this.load.image('preloadBar', 'assets/images/loader.png');
+        };
+
+        Boot.prototype.create = function () {
+            this.input.maxPointers = 1;
+            this.stage.disableVisibilityChange = true;
+            this.game.state.start('Preloader', true, false);
+        };
+        return Boot;
+    })(Phaser.State);
+    NyxianSkies.Boot = Boot;
+})(NyxianSkies || (NyxianSkies = {}));
+var NyxianSkies;
+(function (NyxianSkies) {
+    var GameOver = (function (_super) {
+        __extends(GameOver, _super);
+        function GameOver() {
+            _super.apply(this, arguments);
+        }
+        return GameOver;
+    })(Phaser.State);
+    NyxianSkies.GameOver = GameOver;
+})(NyxianSkies || (NyxianSkies = {}));
+var NyxianSkies;
+(function (NyxianSkies) {
+    var Gameplay = (function (_super) {
+        __extends(Gameplay, _super);
+        function Gameplay() {
+            _super.apply(this, arguments);
+        }
+        return Gameplay;
+    })(Phaser.State);
+    NyxianSkies.Gameplay = Gameplay;
+})(NyxianSkies || (NyxianSkies = {}));
+var NyxianSkies;
+(function (NyxianSkies) {
     var NyxianSkiesGame = (function (_super) {
         __extends(NyxianSkiesGame, _super);
         function NyxianSkiesGame() {
             _super.call(this);
-            //var button = new BetaToast.Button();
+
+            // Add all of our screens here
+            this.state.add('Boot', NyxianSkies.Boot, false);
+            this.state.add('GameOver', NyxianSkies.GameOver, false);
+            this.state.add('Gameplay', NyxianSkies.Gameplay, false);
+            this.state.add('Preloader', NyxianSkies.Preloader, false);
+            this.state.add('ShipSelect', NyxianSkies.ShipSelect, false);
+            this.state.add('StageSelect', NyxianSkies.StageSelect, false);
+            this.state.add('TechSelect', NyxianSkies.TechSelect, false);
+            this.state.add('TitleScreen', NyxianSkies.TitleScreen, false);
+
+            // Start Boot screen
+            this.state.start('Boot');
         }
-        NyxianSkiesGame.prototype.create = function () {
-        };
         return NyxianSkiesGame;
     })(BetaToast.Game);
     NyxianSkies.NyxianSkiesGame = NyxianSkiesGame;
+})(NyxianSkies || (NyxianSkies = {}));
+var NyxianSkies;
+(function (NyxianSkies) {
+    var Preloader = (function (_super) {
+        __extends(Preloader, _super);
+        function Preloader() {
+            _super.apply(this, arguments);
+        }
+        Preloader.prototype.preload = function () {
+            this.preloadBar = this.add.sprite(640 - 200, 360 - 20, 'preloadBar');
+            this.load.setPreloadSprite(this.preloadBar);
+
+            // Load all of our assets here
+            // Images
+            this.load.image('spritesheet', 'assets/images/sheet.png');
+            this.load.image('blueUISpriteSheet', 'assets/ui/blueSheet.png');
+            this.load.image('greenUISpriteSheet', 'assets/ui/greenSheet.png');
+            this.load.image('greyUISpriteSheet', 'assets/ui/greySheet.png');
+            this.load.image('redUISpriteSheet', 'assets/ui/redSheet.png');
+            this.load.image('yellowUISpriteSheet', 'assets/ui/yellowSheet.png');
+            this.load.image('title', 'assets/images/title.png');
+            this.load.image('blackBackground', 'assets/images/black.png');
+            this.load.image('blueBackground', 'assets/images/blue.png');
+            this.load.image('darkPurpleBackground', 'assets/images/darkPurple.png');
+            this.load.image('purpleBackground', 'assets/images/purple.png');
+            this.load.image('playerShip1_red', 'assets/images/playerShip1_red.png');
+
+            // Audio
+            this.load.audio('styx', 'assets/audio/styx.mp3');
+        };
+
+        Preloader.prototype.create = function () {
+            var tween = this.add.tween(this.preloadBar).to({ alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+            tween.onComplete.add(this.startTitleScreen, this);
+        };
+
+        Preloader.prototype.startTitleScreen = function () {
+            this.game.state.start('TitleScreen', true, false);
+        };
+        return Preloader;
+    })(Phaser.State);
+    NyxianSkies.Preloader = Preloader;
+})(NyxianSkies || (NyxianSkies = {}));
+var NyxianSkies;
+(function (NyxianSkies) {
+    var ShipSelect = (function (_super) {
+        __extends(ShipSelect, _super);
+        function ShipSelect() {
+            _super.apply(this, arguments);
+        }
+        return ShipSelect;
+    })(Phaser.State);
+    NyxianSkies.ShipSelect = ShipSelect;
+})(NyxianSkies || (NyxianSkies = {}));
+var NyxianSkies;
+(function (NyxianSkies) {
+    var StageSelect = (function (_super) {
+        __extends(StageSelect, _super);
+        function StageSelect() {
+            _super.apply(this, arguments);
+        }
+        return StageSelect;
+    })(Phaser.State);
+    NyxianSkies.StageSelect = StageSelect;
+})(NyxianSkies || (NyxianSkies = {}));
+var NyxianSkies;
+(function (NyxianSkies) {
+    var TechSelect = (function (_super) {
+        __extends(TechSelect, _super);
+        function TechSelect() {
+            _super.apply(this, arguments);
+        }
+        return TechSelect;
+    })(Phaser.State);
+    NyxianSkies.TechSelect = TechSelect;
+})(NyxianSkies || (NyxianSkies = {}));
+var NyxianSkies;
+(function (NyxianSkies) {
+    var TitleScreen = (function (_super) {
+        __extends(TitleScreen, _super);
+        function TitleScreen() {
+            _super.apply(this, arguments);
+            this.backgroundTiles = [];
+        }
+        TitleScreen.prototype.create = function () {
+            for (var y = 0; y < 720; y += 256) {
+                for (var x = 0; x < 1536; x += 256) {
+                    var index = this.backgroundTiles.length;
+                    this.backgroundTiles[index] = this.add.sprite(x, y, 'blackBackground');
+                }
+            }
+
+            this.ship = this.add.sprite(-256, 512, 'playerShip1_red');
+            this.ship.anchor.setTo(0.5, 0.5);
+            this.ship.rotation = 90 * (Math.PI / 180);
+
+            this.title = this.add.sprite(this.world.centerX, -300, 'title');
+            this.title.anchor.setTo(0.5, 0.5);
+
+            this.add.tween(this.title).to({ y: 220 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
+            this.add.tween(this.ship).to({ x: this.world.centerX }, 2000, Phaser.Easing.Elastic.InOut, true, 100);
+
+            this.music = this.add.audio('styx', 1, true);
+            this.music.play();
+
+            this.input.onDown.addOnce(this.fadeOut, this);
+        };
+
+        TitleScreen.prototype.update = function () {
+            for (var i = 0; i < this.backgroundTiles.length; i++) {
+                var tile = this.backgroundTiles[i];
+                tile.x--;
+                if (tile.x <= -256)
+                    tile.x = 1280;
+            }
+        };
+
+        TitleScreen.prototype.fadeOut = function () {
+            this.add.tween(this.title).to({ y: -512 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
+            var tween = this.add.tween(this.ship).to({ x: 1536 }, 2000, Phaser.Easing.Elastic.InOut, true, 100);
+        };
+        return TitleScreen;
+    })(Phaser.State);
+    NyxianSkies.TitleScreen = TitleScreen;
 })(NyxianSkies || (NyxianSkies = {}));
 window.onload = function () {
     var game = new NyxianSkies.NyxianSkiesGame();
