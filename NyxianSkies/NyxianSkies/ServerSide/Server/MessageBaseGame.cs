@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,10 +17,13 @@ namespace NyxianSkies.ServerSide.Server
         public bool GameOver { get; set; }
         public bool AwaitingPlayers { get; protected set; }
 
-        public ConcurrentQueue<IActions> ActionQueue = new ConcurrentQueue<IActions>();
 
-        private Stopwatch GameTime = new Stopwatch();
+        protected long CurrentGameTime { get { return GameTime.ElapsedMilliseconds; } }
         protected readonly IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<MainHub>();
+
+        private readonly List<LoggedAction> _allGameActions = new List<LoggedAction>();
+        private ConcurrentQueue<IAction> ActionQueue = new ConcurrentQueue<IAction>();
+        private Stopwatch GameTime = new Stopwatch();
 
         protected MessageBaseGame()
         {
@@ -34,34 +38,45 @@ namespace NyxianSkies.ServerSide.Server
             {
                 GameTime.Stop();
 
-                //Process New Events
-                IGameActions ge;
-
-
                 //Do game actions
-                IActions ga;
+                IAction ga;
                 if (ActionQueue.TryDequeue(out ga))
                 {
+
                     //Do something with the event
-                    ProcessAction(ga);
+                    _processAction(ga);
 
                     //Then start loop over
-                    Thread.Sleep(10);
+                    GameTime.Start();
+                    Thread.Sleep(0);
+                    GameTime.Stop();
                     continue;
                 }
                 //Then start loop over
-
-                //Validate Actions
-                //For each new event added, restart loop
 
                 //if nothing was done, just sleep.
                 GameTime.Start();
                 if (GameTime.Elapsed.TotalMinutes >= 10 || GameOver)
                     return;
-                Thread.Sleep(100);
+                Thread.Sleep(0);
             }
         }
 
-        internal abstract void ProcessAction(IActions playerAction);
+        private void _processAction(IAction action)
+        {
+            _allGameActions.Add(new LoggedAction(CurrentGameTime, action));
+            ProcessAction(action);
+        }
+
+        //internal abstract void ProcessAction(IAction playerAction);
+        internal async void ProcessAction(IAction playerAction)
+        {
+            await ((dynamic)this).HandleAction((dynamic)playerAction);
+        }
+
+        public void Enqueue(IAction action)
+        {
+            ActionQueue.Enqueue(action);
+        }
     }
 }

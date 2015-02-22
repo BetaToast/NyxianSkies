@@ -31,7 +31,7 @@ namespace NyxianSkies.ServerSide.Server
 
         private void findMessageTypes()
         {
-            var gameActionType = typeof(IActions);
+            var gameActionType = typeof(IAction);
             var typeNameToTypes = AppDomain.CurrentDomain.GetAssemblies()
                 //.Where(a => a.FullName.Contains("ShipBattle"))
                 .SelectMany(s => s.GetTypes())
