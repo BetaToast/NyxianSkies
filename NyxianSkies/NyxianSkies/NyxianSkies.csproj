@@ -141,6 +141,7 @@
     <Compile Include="ServerSide\GameInstance\Actions\Actions.cs" />
     <Compile Include="ServerSide\GameInstance\NyxianSkiesGameInstance.cs" />
     <Compile Include="ServerSide\GameInstance\Player.cs" />
+    <Compile Include="ServerSide\Server\ConnectionMapping.cs" />
     <Compile Include="ServerSide\Server\HandlerManager.cs" />
     <Compile Include="ServerSide\Server\LoggedAction.cs" />
     <Compile Include="ServerSide\Server\MainHub.cs" />

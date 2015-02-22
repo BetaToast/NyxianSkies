@@ -14,24 +14,28 @@ namespace NyxianSkies.ServerSide.GameInstance
     //Actions that are specific to a player not related to a game
     public interface IPlayerAction : IAction
     {
-        Guid PlayerId { get; set; }
+        Int64 PlayerId { get; set; }
     }
 
     public class ClientDisconnect : IPlayerAction
     {
-        public Guid PlayerId { get; set; }
+        public Int64 PlayerId { get; set; }
     }
 
-    public interface IJoinGame : IPlayerAction { }
+    public interface IJoinGame : IPlayerAction
+    {
+        String PlayerAddress { get; set; }
+    }
 
     public class JoinMultiPlayerGame : IJoinGame
     {
-        public Guid PlayerId { get; set; }
-        public bool IsBot { get; set; }
+        public Int64 PlayerId { get; set; }
+        public String PlayerAddress { get; set; }
     }
 
     public class JoinSinglePlayerGame : IJoinGame
     {
-        public Guid PlayerId { get; set; }
+        public Int64 PlayerId { get; set; }
+        public String PlayerAddress { get; set; }
     }
 }

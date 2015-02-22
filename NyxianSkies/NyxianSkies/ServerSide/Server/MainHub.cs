@@ -11,6 +11,7 @@ namespace NyxianSkies.ServerSide.Server
     public class MainHub : Hub
     {
         //put generic  SignalR specific stuff in here
+        private readonly static ConnectionMapping<string> _connections =new ConnectionMapping<string>();
         private readonly MultiInstanceGameManager _multiInstanceGameManager;
         private readonly HandlerManager _handlerManager;
 
@@ -55,11 +56,10 @@ namespace NyxianSkies.ServerSide.Server
 
         private void InjectKnownData(ref object rawObject)
         {
-            if (rawObject is IPlayerAction)
+            if (rawObject is IJoinGame)
             {
-                var player = (IPlayerAction)rawObject;
-                var playerId = Context.ConnectionId;
-                player.PlayerId = Guid.Parse(playerId);
+                var player = (IJoinGame)rawObject;
+                player.PlayerAddress = Context.ConnectionId;
             }
         }
 

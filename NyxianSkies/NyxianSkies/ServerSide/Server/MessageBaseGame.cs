@@ -13,22 +13,23 @@ namespace NyxianSkies.ServerSide.Server
     public abstract class MessageBaseGame
     {
         public Guid GameId { get; private set; }
-        public bool IsStarted { get; set; }
-        public bool GameOver { get; set; }
-        public bool AwaitingPlayers { get; protected set; }
-
+        public Boolean IsStarted { get; set; }
+        public Boolean GameOver { get; set; }
+        public Boolean AwaitingPlayers { get; protected set; }
 
         protected long CurrentGameTime { get { return GameTime.ElapsedMilliseconds; } }
         protected readonly IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<MainHub>();
 
+        private readonly Boolean IsMultiPlayer;
         private readonly List<LoggedAction> _allGameActions = new List<LoggedAction>();
         private ConcurrentQueue<IAction> ActionQueue = new ConcurrentQueue<IAction>();
         private Stopwatch GameTime = new Stopwatch();
 
-        protected MessageBaseGame()
+        protected MessageBaseGame(Boolean isMultiPlayer)
         {
             GameId = Guid.NewGuid();
             AwaitingPlayers = true;
+            IsMultiPlayer = isMultiPlayer;
             Task.Run(() => GameLoop());
         }
 

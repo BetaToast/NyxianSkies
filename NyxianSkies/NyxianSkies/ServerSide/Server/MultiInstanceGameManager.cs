@@ -82,7 +82,7 @@ namespace NyxianSkies.ServerSide.Server
             {
                 if (!_games.Any(c => c.Value.AwaitingPlayers))
                 {
-                    CreateGame();
+                    CreateGame(true);
                 }
 
                 var a = _games.FirstOrDefault(c => c.Value.AwaitingPlayers).Value;
@@ -94,29 +94,17 @@ namespace NyxianSkies.ServerSide.Server
         {
             lock (_games)
             {
-                var game = CreateGame();
+                var game = CreateGame(false);
                 game.Enqueue(new JoinMultiPlayerGame
                 {
                     PlayerId = action.PlayerId
                 });
-
-                var playerId = Guid.NewGuid();
-                game.Enqueue(new JoinMultiPlayerGame
-                {
-                    PlayerId = playerId,
-                    IsBot = true
-                });
-                game.Enqueue(new ClientDisconnect
-                {
-                    PlayerId = playerId
-                });
             }
         }
 
-        private NyxianSkiesGameInstance CreateGame()
+        private NyxianSkiesGameInstance CreateGame(Boolean isMultiPlayer)
         {
-            //In the future, we could make this method take a gameType (or figure it out some how) that way it can start any game type
-            var i = new NyxianSkiesGameInstance();
+            var i = new NyxianSkiesGameInstance(isMultiPlayer);
             _games.GetOrAdd(i.GameId, i);
             SendGameStatsToClients();
             return i;

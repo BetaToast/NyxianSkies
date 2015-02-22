@@ -4,13 +4,17 @@ namespace NyxianSkies.ServerSide.GameInstance
 {
     public class Player
     {
-        public Guid PlayerId { get; private set; }
-        public string PlayerName { get; set; }
-        public bool Ready { get; set; }
+        public Int64 PlayerId { get; private set; }
+        public String PlayerName { get; set; }
+        public Boolean Ready { get; set; }
 
-        public Player(Guid playerAddress)
+
+        private String PlayerAddress { get; set; }
+
+        public Player(long playerId, String playerAddress)
         {
-            PlayerId = playerAddress;
+            PlayerId = playerId;
+            PlayerAddress = playerAddress;
         }
     }
 }
