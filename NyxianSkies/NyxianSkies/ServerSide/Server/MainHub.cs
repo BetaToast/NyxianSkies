@@ -55,9 +55,9 @@ namespace NyxianSkies.ServerSide.Server
 
         private void InjectKnownData(ref object rawObject)
         {
-            if (rawObject is IPlayerActions)
+            if (rawObject is IPlayerAction)
             {
-                var player = (IPlayerActions)rawObject;
+                var player = (IPlayerAction)rawObject;
                 var playerId = Context.ConnectionId;
                 player.PlayerId = Guid.Parse(playerId);
             }

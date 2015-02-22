@@ -11,16 +11,16 @@ namespace NyxianSkies.ServerSide.Server
 {
     public class MultiInstanceGameManager
     {
-        private static readonly Lazy<MultiInstanceGameManager> _instance = new Lazy<MultiInstanceGameManager>();
+        private static readonly Lazy<MultiInstanceGameManager> InstanceManager = new Lazy<MultiInstanceGameManager>();
 
         public static MultiInstanceGameManager Instance
         {
-            get { return _instance.Value; }
+            get { return InstanceManager.Value; }
         }
 
-        private readonly IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<MainHub>();
+        private readonly IHubContext _hub = GlobalHost.ConnectionManager.GetHubContext<MainHub>();
 
-        private readonly ConcurrentDictionary<Guid, MessageBaseGame> _Games =
+        private readonly ConcurrentDictionary<Guid, MessageBaseGame> _games =
             new ConcurrentDictionary<Guid, MessageBaseGame>();
 
         public MultiInstanceGameManager()
@@ -36,31 +36,28 @@ namespace NyxianSkies.ServerSide.Server
 
                 Thread.Sleep(10000);
             }
+            // ReSharper disable once FunctionNeverReturns
         }
 
         private void SendGameStatsToClients()
         {
-            int GamesWaitingForPlayers = _Games.Count(c => c.Value.AwaitingPlayers);
-            int TotalGames = _Games.Count();
-            hub.Clients.All.UpdatedGameStats(GamesWaitingForPlayers, TotalGames);
+            var gamesWaitingForPlayers = _games.Count(c => c.Value.AwaitingPlayers);
+            var totalGames = _games.Count();
+            _hub.Clients.All.UpdatedGameStats(gamesWaitingForPlayers, totalGames);
         }
 
         public void SendAction(object action)
         {
             //Clean up all games that are over
-            foreach (var a in _Games.Where(c => c.Value.GameOver).Select(c => c.Key).ToList())
+            foreach (var a in _games.Where(c => c.Value.GameOver).Select(c => c.Key).ToList())
             {
                 MessageBaseGame b;
-                _Games.TryRemove(a, out b);
+                _games.TryRemove(a, out b);
             }
 
-            if (action is StartGame)
+            if (action is JoinMultiPlayerGame)
             {
-                //CreateGame();
-            }
-            else if (action is JoinGame)
-            {
-                JoinGame((JoinGame)action);
+                JoinMultiPlayerGame((JoinMultiPlayerGame)action);
             }
             else if (action is JoinSinglePlayerGame)
             {
@@ -69,49 +66,47 @@ namespace NyxianSkies.ServerSide.Server
             else if (action is ClientDisconnect)
             {
                 //For all games this connection is part of, send this action.
-                foreach (var a in _Games.Values)
-                    a.ActionQueue.Enqueue((IActions)action);
+                foreach (var a in _games.Values)
+                    a.Enqueue((IAction)action);
             }
-            else if (action is IGameActions && _Games.ContainsKey(((IGameActions)action).GameId))
+            else if (action is IGameAction && _games.ContainsKey(((IGameAction)action).GameId))
             {
-                var game = _Games[((IGameActions)action).GameId];
-                game.ActionQueue.Enqueue((IGameActions)action);
+                var game = _games[((IGameAction)action).GameId];
+                game.Enqueue((IGameAction)action);
             }
         }
 
-        private void JoinGame(JoinGame managerActionJoin)
+        private void JoinMultiPlayerGame(JoinMultiPlayerGame managerActionJoin)
         {
-            lock (_Games)
+            lock (_games)
             {
-                if (!_Games.Any(c => c.Value.AwaitingPlayers))
+                if (!_games.Any(c => c.Value.AwaitingPlayers))
                 {
                     CreateGame();
                 }
 
-                var a = _Games.FirstOrDefault(c => c.Value.AwaitingPlayers).Value;
-                a.ActionQueue.Enqueue(managerActionJoin);
+                var a = _games.FirstOrDefault(c => c.Value.AwaitingPlayers).Value;
+                a.Enqueue(managerActionJoin);
             }
         }
 
         private void JoinSinglePlayerGame(JoinSinglePlayerGame action)
         {
-            lock (_Games)
+            lock (_games)
             {
                 var game = CreateGame();
-                game.ActionQueue.Enqueue(new JoinGame()
+                game.Enqueue(new JoinMultiPlayerGame
                 {
-                    GameId = game.GameId,
                     PlayerId = action.PlayerId
                 });
 
-                Guid playerId = Guid.NewGuid();
-                game.ActionQueue.Enqueue(new JoinGame()
+                var playerId = Guid.NewGuid();
+                game.Enqueue(new JoinMultiPlayerGame
                 {
-                    GameId = game.GameId,
                     PlayerId = playerId,
                     IsBot = true
                 });
-                game.ActionQueue.Enqueue(new ClientDisconnect()
+                game.Enqueue(new ClientDisconnect
                 {
                     PlayerId = playerId
                 });
@@ -122,7 +117,7 @@ namespace NyxianSkies.ServerSide.Server
         {
             //In the future, we could make this method take a gameType (or figure it out some how) that way it can start any game type
             var i = new NyxianSkiesGameInstance();
-            _Games.GetOrAdd(i.GameId, i);
+            _games.GetOrAdd(i.GameId, i);
             SendGameStatsToClients();
             return i;
         }
