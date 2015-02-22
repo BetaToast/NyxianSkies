@@ -1,4 +1,4 @@
-﻿var __extends = this.__extends || function (d, b) {
+var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     __.prototype = b.prototype;
@@ -34,23 +34,19 @@ var BetaToast;
             rawFile.send(null);
             return ret;
         };
-
         Utils.parseXml = function (xml) {
             var dom = (new DOMParser()).parseFromString(xml, "text/xml");
             return dom;
         };
-
         Utils.xml2json = function (xml) {
             var xmlDoc = this.parseXml(xml);
             var jsonStr = this.json2Str(this.setJsonObj(xmlDoc));
             return JSON.parse(jsonStr);
         };
-
         Utils.json2Str = function (js_obj) {
             var rejsn = JSON.stringify(js_obj, undefined, 2).replace(/(\\t|\\r|\\n)/g, '').replace(/"",[\n\t\r\s]+""[,]*/g, '').replace(/(\n[\t\s\r]*\n)/g, '').replace(/[\s\t]{2,}""[,]{0,1}/g, '').replace(/"[\s\t]{1,}"[,]{0,1}/g, '').replace(/\[[\t\s]*\]/g, '""');
             return (rejsn.indexOf('"parsererror": {') == -1) ? rejsn : 'Invalid XML format';
         };
-
         Utils.setJsonObj = function (xml) {
             var js_obj = {};
             if (xml.nodeType == 1) {
@@ -61,7 +57,8 @@ var BetaToast;
                         js_obj["attributes"][attribute.nodeName] = attribute.value;
                     }
                 }
-            } else if (xml.nodeType == 3) {
+            }
+            else if (xml.nodeType == 3) {
                 js_obj = xml.nodeValue;
             }
             if (xml.hasChildNodes()) {
@@ -70,7 +67,8 @@ var BetaToast;
                     var nodeName = item.nodeName;
                     if (typeof (js_obj[nodeName]) == "undefined") {
                         js_obj[nodeName] = this.setJsonObj(item);
-                    } else {
+                    }
+                    else {
                         if (typeof (js_obj[nodeName].push) == "undefined") {
                             var old = js_obj[nodeName];
                             js_obj[nodeName] = [];
@@ -118,15 +116,12 @@ var BetaToast;
             //}
             //this.sprite.updateCrop();
         };
-
         Button.prototype.onHover = function (button, pointer) {
             //this.state = ControlState.Hover;
         };
-
         Button.prototype.onLeave = function (button, pointer) {
             //this.state = ControlState.Normal;
         };
-
         Button.prototype.onClick = function (button, pointer) {
             //this.state = ControlState.Click;
         };
@@ -145,10 +140,8 @@ var BetaToast;
             this.xmlFilename = "assets//ui//" + this.sheetName + ".xml";
             this.pngFilename = "assets//ui//" + this.sheetName + ".png";
             this.keyName = uiColor + "UISpriteSheet";
-
             var xmlstr = BetaToast.Utils.readAllText(this.xmlFilename);
             var textureAtlas = BetaToast.Utils.xml2json(xmlstr);
-
             this.partRectBoxCheckmark = this.getRectFromAtlas(textureAtlas, 0);
             this.partRectBoxCross = this.getRectFromAtlas(textureAtlas, 1);
             this.partRectBoxTick = this.getRectFromAtlas(textureAtlas, 2);
@@ -185,22 +178,19 @@ var BetaToast;
             var ret = new Phaser.Rectangle(x, y, w, h);
             return ret;
         };
-
         UserInterface.prototype.update = function () {
             for (var i = 0; i < this.controls.length; i++) {
                 var control = this.controls[i];
                 control.update();
             }
         };
-
         ///////////////////////////////////////
         // Add Control Methods
         ///////////////////////////////////////
         UserInterface.prototype.addButton = function (x, y, content, tx, ty) {
-            if (typeof tx === "undefined") { tx = 0; }
-            if (typeof ty === "undefined") { ty = 0; }
+            if (tx === void 0) { tx = 0; }
+            if (ty === void 0) { ty = 0; }
             var ret = new BetaToast.Button();
-
             ret.normalRect = this.partRectButton04;
             ret.hoverRect = this.partRectButton00;
             ret.clickRect = this.partRectButton03;
@@ -209,27 +199,22 @@ var BetaToast;
             ret.width = ret.normalRect.width;
             ret.height = ret.normalRect.height;
             ret.content = content;
-
             ret.sprite = this.parent.add.sprite(ret.x, ret.y, this.keyName);
             ret.sprite.inputEnabled = true;
             ret.sprite.crop(ret.normalRect, false);
             ret.sprite.events.onInputOver.add(ret.onHover, ret);
             ret.sprite.events.onInputOut.add(ret.onLeave, ret);
             ret.sprite.events.onInputDown.add(ret.onClick, ret);
-
             var textX = x + tx;
             var textY = y + ty;
             ret.textSpriteShadow = this.parent.game.add.text(textX + 1, textY + 1, ret.content, ret.textShadowStyle);
             ret.textSprite = this.parent.game.add.text(textX, textY, ret.content, ret.textStyle);
-
             this.controls[this.controls.length] = ret;
-
             return ret;
         };
         return UserInterface;
     })();
     BetaToast.UserInterface = UserInterface;
-
     ///////////////////////////////////////
     // Enumerations
     ///////////////////////////////////////
@@ -251,7 +236,6 @@ var NyxianSkies;
         Boot.prototype.preload = function () {
             this.load.image('preloadBar', 'assets/images/loader.png');
         };
-
         Boot.prototype.create = function () {
             this.input.maxPointers = 1;
             this.stage.disableVisibilityChange = true;
@@ -289,7 +273,6 @@ var NyxianSkies;
         __extends(NyxianSkiesGame, _super);
         function NyxianSkiesGame() {
             _super.call(this);
-
             // Add all of our screens here
             this.state.add('Boot', NyxianSkies.Boot, false);
             this.state.add('GameOver', NyxianSkies.GameOver, false);
@@ -299,7 +282,6 @@ var NyxianSkies;
             this.state.add('StageSelect', NyxianSkies.StageSelect, false);
             this.state.add('TechSelect', NyxianSkies.TechSelect, false);
             this.state.add('TitleScreen', NyxianSkies.TitleScreen, false);
-
             // Start Boot screen
             this.state.start('Boot');
         }
@@ -317,7 +299,6 @@ var NyxianSkies;
         Preloader.prototype.preload = function () {
             this.preloadBar = this.add.sprite(640 - 200, 360 - 20, 'preloadBar');
             this.load.setPreloadSprite(this.preloadBar);
-
             // Load all of our assets here
             // Images
             this.load.image('spritesheet', 'assets/images/sheet.png');
@@ -332,18 +313,14 @@ var NyxianSkies;
             this.load.image('darkPurpleBackground', 'assets/images/darkPurple.png');
             this.load.image('purpleBackground', 'assets/images/purple.png');
             this.load.image('playerShip1_red', 'assets/images/playerShip1_red.png');
-
             this.load.spritesheet('blueUISpriteSheet-Button', 'assets/ui/blueSheet.png', 190, 49);
-
             // Audio
             this.load.audio('styx', 'assets/audio/styx.mp3');
         };
-
         Preloader.prototype.create = function () {
             var tween = this.add.tween(this.preloadBar).to({ alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
             tween.onComplete.add(this.startTitleScreen, this);
         };
-
         Preloader.prototype.startTitleScreen = function () {
             this.game.state.start('TitleScreen', true, false);
         };
@@ -399,27 +376,20 @@ var NyxianSkies;
                     this.backgroundTiles[index] = this.add.sprite(x, y, 'blackBackground');
                 }
             }
-
             this.ship = this.add.sprite(-256, 512, 'playerShip1_red');
             this.ship.anchor.setTo(0.5, 0.5);
             this.ship.rotation = 90 * (Math.PI / 180);
-
             this.title = this.add.sprite(this.world.centerX, -300, 'title');
             this.title.anchor.setTo(0.5, 0.5);
-
             this.add.tween(this.title).to({ y: 220 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
             this.add.tween(this.ship).to({ x: this.world.centerX }, 2000, Phaser.Easing.Elastic.InOut, true, 100);
-
             this.music = this.add.audio('styx', 1, true);
             this.music.play();
-
             this.input.onDown.addOnce(this.fadeOut, this);
-
             this.ui = new BetaToast.UserInterface(this, "blue");
             var btnOnePlayer = this.ui.addButton(348, 600, "1 Player", 48, 8);
             var btnTwoPlayer = this.ui.addButton(728, 600, "2 Player", 48, 8);
         };
-
         TitleScreen.prototype.update = function () {
             for (var i = 0; i < this.backgroundTiles.length; i++) {
                 var tile = this.backgroundTiles[i];
@@ -427,10 +397,8 @@ var NyxianSkies;
                 if (tile.x <= -256)
                     tile.x = 1280;
             }
-
             this.ui.update();
         };
-
         TitleScreen.prototype.fadeOut = function () {
             this.add.tween(this.title).to({ y: -512 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
             var tween = this.add.tween(this.ship).to({ x: 1536 }, 2000, Phaser.Easing.Elastic.InOut, true, 100);
