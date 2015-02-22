@@ -8,11 +8,8 @@ var BetaToast;
 (function (BetaToast) {
     var Game = (function (_super) {
         __extends(Game, _super);
-        function Game(uiColor) {
-            if (typeof uiColor === "undefined") { uiColor = "blue"; }
+        function Game() {
             _super.call(this, 1280, 720, Phaser.AUTO, 'content', null);
-
-            this.ui = new BetaToast.UserInterface(uiColor);
         }
         return Game;
     })(Phaser.Game);

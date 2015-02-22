@@ -34,6 +34,10 @@ var NyxianSkies;
             this.music.play();
 
             this.input.onDown.addOnce(this.fadeOut, this);
+
+            this.ui = new BetaToast.UserInterface(this, "blue");
+            var btnOnePlayer = this.ui.addButton(348, 600, "1 Player", 48, 8);
+            var btnTwoPlayer = this.ui.addButton(728, 600, "2 Player", 48, 8);
         };
 
         TitleScreen.prototype.update = function () {
@@ -43,6 +47,8 @@ var NyxianSkies;
                 if (tile.x <= -256)
                     tile.x = 1280;
             }
+
+            this.ui.update();
         };
 
         TitleScreen.prototype.fadeOut = function () {

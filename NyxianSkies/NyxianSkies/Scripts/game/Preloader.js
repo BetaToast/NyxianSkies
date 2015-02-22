@@ -30,6 +30,8 @@ var NyxianSkies;
             this.load.image('purpleBackground', 'assets/images/purple.png');
             this.load.image('playerShip1_red', 'assets/images/playerShip1_red.png');
 
+            this.load.spritesheet('blueUISpriteSheet-Button', 'assets/ui/blueSheet.png', 190, 49);
+
             // Audio
             this.load.audio('styx', 'assets/audio/styx.mp3');
         };
