@@ -1,17 +1,4 @@
-﻿var BetaToast;
-(function (BetaToast) {
-    var Rect = (function () {
-        function Rect(x, y, w, h) {
-            this.x = x;
-            this.y = y;
-            this.width = w;
-            this.height = h;
-        }
-        return Rect;
-    })();
-    BetaToast.Rect = Rect;
-})(BetaToast || (BetaToast = {}));
-var __extends = this.__extends || function (d, b) {
+﻿var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     __.prototype = b.prototype;
@@ -21,11 +8,8 @@ var BetaToast;
 (function (BetaToast) {
     var Game = (function (_super) {
         __extends(Game, _super);
-        function Game(uiColor) {
-            if (typeof uiColor === "undefined") { uiColor = "blue"; }
+        function Game() {
             _super.call(this, 1280, 720, Phaser.AUTO, 'content', null);
-
-            this.ui = new BetaToast.UserInterface(uiColor);
         }
         return Game;
     })(Phaser.Game);
@@ -111,7 +95,41 @@ var BetaToast;
             this.y = 0;
             this.width = 0;
             this.height = 0;
+            this.textStyle = {
+                font: "22px Arial",
+                fill: "#FFFFFF"
+            };
+            this.textShadowStyle = {
+                font: "22px Arial",
+                fill: "#000000"
+            };
         }
+        Button.prototype.update = function () {
+            //switch (this.state) {
+            //    case ControlState.Normal:
+            //        this.sprite.cropRect = this.normalRect;
+            //        break;
+            //    case ControlState.Hover:
+            //        this.sprite.cropRect = this.hoverRect;
+            //        break;
+            //    case ControlState.Click:
+            //        this.sprite.cropRect = this.clickRect;
+            //        break;
+            //}
+            //this.sprite.updateCrop();
+        };
+
+        Button.prototype.onHover = function (button, pointer) {
+            //this.state = ControlState.Hover;
+        };
+
+        Button.prototype.onLeave = function (button, pointer) {
+            //this.state = ControlState.Normal;
+        };
+
+        Button.prototype.onClick = function (button, pointer) {
+            //this.state = ControlState.Click;
+        };
         return Button;
     })();
     BetaToast.Button = Button;
@@ -119,11 +137,14 @@ var BetaToast;
 var BetaToast;
 (function (BetaToast) {
     var UserInterface = (function () {
-        function UserInterface(uiColor) {
+        function UserInterface(parent, uiColor) {
+            this.controls = [];
+            this.parent = parent;
             this.uiColor = uiColor;
             this.sheetName = uiColor + "sheet";
             this.xmlFilename = "assets//ui//" + this.sheetName + ".xml";
             this.pngFilename = "assets//ui//" + this.sheetName + ".png";
+            this.keyName = uiColor + "UISpriteSheet";
 
             var xmlstr = BetaToast.Utils.readAllText(this.xmlFilename);
             var textureAtlas = BetaToast.Utils.xml2json(xmlstr);
@@ -161,7 +182,48 @@ var BetaToast;
             var y = attribs.y;
             var w = attribs.width;
             var h = attribs.height;
-            var ret = new BetaToast.Rect(x, y, w, h);
+            var ret = new Phaser.Rectangle(x, y, w, h);
+            return ret;
+        };
+
+        UserInterface.prototype.update = function () {
+            for (var i = 0; i < this.controls.length; i++) {
+                var control = this.controls[i];
+                control.update();
+            }
+        };
+
+        ///////////////////////////////////////
+        // Add Control Methods
+        ///////////////////////////////////////
+        UserInterface.prototype.addButton = function (x, y, content, tx, ty) {
+            if (typeof tx === "undefined") { tx = 0; }
+            if (typeof ty === "undefined") { ty = 0; }
+            var ret = new BetaToast.Button();
+
+            ret.normalRect = this.partRectButton04;
+            ret.hoverRect = this.partRectButton00;
+            ret.clickRect = this.partRectButton03;
+            ret.x = x;
+            ret.y = y;
+            ret.width = ret.normalRect.width;
+            ret.height = ret.normalRect.height;
+            ret.content = content;
+
+            ret.sprite = this.parent.add.sprite(ret.x, ret.y, this.keyName);
+            ret.sprite.inputEnabled = true;
+            ret.sprite.crop(ret.normalRect, false);
+            ret.sprite.events.onInputOver.add(ret.onHover, ret);
+            ret.sprite.events.onInputOut.add(ret.onLeave, ret);
+            ret.sprite.events.onInputDown.add(ret.onClick, ret);
+
+            var textX = x + tx;
+            var textY = y + ty;
+            ret.textSpriteShadow = this.parent.game.add.text(textX + 1, textY + 1, ret.content, ret.textShadowStyle);
+            ret.textSprite = this.parent.game.add.text(textX, textY, ret.content, ret.textStyle);
+
+            this.controls[this.controls.length] = ret;
+
             return ret;
         };
         return UserInterface;
@@ -271,6 +333,8 @@ var NyxianSkies;
             this.load.image('purpleBackground', 'assets/images/purple.png');
             this.load.image('playerShip1_red', 'assets/images/playerShip1_red.png');
 
+            this.load.spritesheet('blueUISpriteSheet-Button', 'assets/ui/blueSheet.png', 190, 49);
+
             // Audio
             this.load.audio('styx', 'assets/audio/styx.mp3');
         };
@@ -350,6 +414,10 @@ var NyxianSkies;
             this.music.play();
 
             this.input.onDown.addOnce(this.fadeOut, this);
+
+            this.ui = new BetaToast.UserInterface(this, "blue");
+            var btnOnePlayer = this.ui.addButton(348, 600, "1 Player", 48, 8);
+            var btnTwoPlayer = this.ui.addButton(728, 600, "2 Player", 48, 8);
         };
 
         TitleScreen.prototype.update = function () {
@@ -359,6 +427,8 @@ var NyxianSkies;
                 if (tile.x <= -256)
                     tile.x = 1280;
             }
+
+            this.ui.update();
         };
 
         TitleScreen.prototype.fadeOut = function () {
