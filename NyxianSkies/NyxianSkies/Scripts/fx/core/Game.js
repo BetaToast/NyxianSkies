@@ -10,7 +10,7 @@ var BetaToast;
         __extends(Game, _super);
         function Game(uiColor) {
             if (typeof uiColor === "undefined") { uiColor = "blue"; }
-            _super.call(this, 800, 600, Phaser.AUTO, 'content', null);
+            _super.call(this, 1280, 720, Phaser.AUTO, 'content', null);
 
             this.ui = new BetaToast.UserInterface(uiColor);
         }

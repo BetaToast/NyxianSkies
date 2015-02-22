@@ -10,10 +10,20 @@ var NyxianSkies;
         __extends(NyxianSkiesGame, _super);
         function NyxianSkiesGame() {
             _super.call(this);
-            //var button = new BetaToast.Button();
+
+            // Add all of our screens here
+            this.state.add('Boot', NyxianSkies.Boot, false);
+            this.state.add('GameOver', NyxianSkies.GameOver, false);
+            this.state.add('Gameplay', NyxianSkies.Gameplay, false);
+            this.state.add('Preloader', NyxianSkies.Preloader, false);
+            this.state.add('ShipSelect', NyxianSkies.ShipSelect, false);
+            this.state.add('StageSelect', NyxianSkies.StageSelect, false);
+            this.state.add('TechSelect', NyxianSkies.TechSelect, false);
+            this.state.add('TitleScreen', NyxianSkies.TitleScreen, false);
+
+            // Start Boot screen
+            this.state.start('Boot');
         }
-        NyxianSkiesGame.prototype.create = function () {
-        };
         return NyxianSkiesGame;
     })(BetaToast.Game);
     NyxianSkies.NyxianSkiesGame = NyxianSkiesGame;
