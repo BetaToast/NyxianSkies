@@ -226,6 +226,8 @@ var BetaToast;
     var ControlState = BetaToast.ControlState;
     ;
 })(BetaToast || (BetaToast = {}));
+/// <reference path="../typings/phaser/phaser.d.ts" />
+/// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
     var Boot = (function (_super) {
@@ -245,6 +247,8 @@ var NyxianSkies;
     })(Phaser.State);
     NyxianSkies.Boot = Boot;
 })(NyxianSkies || (NyxianSkies = {}));
+/// <reference path="../typings/phaser/phaser.d.ts" />
+/// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
     var GameOver = (function (_super) {
@@ -256,6 +260,8 @@ var NyxianSkies;
     })(Phaser.State);
     NyxianSkies.GameOver = GameOver;
 })(NyxianSkies || (NyxianSkies = {}));
+/// <reference path="../typings/phaser/phaser.d.ts" />
+/// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
     var Gameplay = (function (_super) {
@@ -267,6 +273,8 @@ var NyxianSkies;
     })(Phaser.State);
     NyxianSkies.Gameplay = Gameplay;
 })(NyxianSkies || (NyxianSkies = {}));
+/// <reference path="../typings/phaser/phaser.d.ts" />
+/// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
     var NyxianSkiesGame = (function (_super) {
@@ -289,6 +297,8 @@ var NyxianSkies;
     })(BetaToast.Game);
     NyxianSkies.NyxianSkiesGame = NyxianSkiesGame;
 })(NyxianSkies || (NyxianSkies = {}));
+/// <reference path="../typings/phaser/phaser.d.ts" />
+/// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
     var Preloader = (function (_super) {
@@ -328,6 +338,8 @@ var NyxianSkies;
     })(Phaser.State);
     NyxianSkies.Preloader = Preloader;
 })(NyxianSkies || (NyxianSkies = {}));
+/// <reference path="../typings/phaser/phaser.d.ts" />
+/// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
     var ShipSelect = (function (_super) {
@@ -339,6 +351,8 @@ var NyxianSkies;
     })(Phaser.State);
     NyxianSkies.ShipSelect = ShipSelect;
 })(NyxianSkies || (NyxianSkies = {}));
+/// <reference path="../typings/phaser/phaser.d.ts" />
+/// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
     var StageSelect = (function (_super) {
@@ -350,6 +364,8 @@ var NyxianSkies;
     })(Phaser.State);
     NyxianSkies.StageSelect = StageSelect;
 })(NyxianSkies || (NyxianSkies = {}));
+/// <reference path="../typings/phaser/phaser.d.ts" />
+/// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
     var TechSelect = (function (_super) {
@@ -361,6 +377,8 @@ var NyxianSkies;
     })(Phaser.State);
     NyxianSkies.TechSelect = TechSelect;
 })(NyxianSkies || (NyxianSkies = {}));
+/// <reference path="../typings/phaser/phaser.d.ts" />
+/// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
     var TitleScreen = (function (_super) {

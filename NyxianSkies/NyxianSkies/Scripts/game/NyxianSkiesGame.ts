@@ -1,4 +1,7 @@
-﻿module NyxianSkies {
+﻿/// <reference path="../typings/phaser/phaser.d.ts" />
+/// <reference path="../typings/phaser/pixi.d.ts" />
+
+module NyxianSkies {
     export class NyxianSkiesGame extends BetaToast.Game {
         constructor() {
             super();
