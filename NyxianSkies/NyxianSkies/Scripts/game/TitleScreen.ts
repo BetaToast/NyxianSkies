@@ -8,6 +8,8 @@ module NyxianSkies {
         ship: Phaser.Sprite;
         music: Phaser.Sound;
         ui: BetaToast.UserInterface;
+        btnOnePlayer: BetaToast.Button;
+        btnTwoPlayer: BetaToast.Button;
 
         create() {
             for (var y = 0; y < 720; y += 256) {
@@ -25,16 +27,20 @@ module NyxianSkies {
             this.title.anchor.setTo(0.5, 0.5);
 
             this.add.tween(this.title).to({ y: 220 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
-            this.add.tween(this.ship).to({ x: this.world.centerX }, 2000, Phaser.Easing.Elastic.InOut, true, 100);
+            var shipTween = this.add.tween(this.ship).to({ x: this.world.centerX }, 2000, Phaser.Easing.Elastic.InOut, true, 100);
+            shipTween.onComplete.add(this.allowClick, this);
 
             this.music = this.add.audio('styx', 1, true);
             this.music.play();
 
-            this.input.onDown.addOnce(this.fadeOut, this);
-
             this.ui = new BetaToast.UserInterface(this, "blue");
-            var btnOnePlayer = this.ui.addButton(348, 600, "1 Player", 48, 8);
-            var btnTwoPlayer = this.ui.addButton(728, 600, "2 Player", 48, 8);
+            this.btnOnePlayer = this.ui.addButton(348, 600, "1 Player", 48, 8);
+            this.btnOnePlayer.onClickAction = this.btnOnePlayerClick;
+            this.btnOnePlayer.enabled = false;
+            
+            this.btnTwoPlayer = this.ui.addButton(728, 600, "2 Player", 48, 8);
+            this.btnTwoPlayer.onClickAction = this.btnTwoPlayerClick;
+            this.btnTwoPlayer.enabled = false;
         }
 
         update() {
@@ -49,7 +55,32 @@ module NyxianSkies {
 
         fadeOut() {
             this.add.tween(this.title).to({ y: -512 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
+            this.add.tween(this.btnOnePlayer.sprite).to({ x: -1000 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
+            this.add.tween(this.btnTwoPlayer.sprite).to({ x: 2200 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
+            this.add.tween(this.btnOnePlayer.textSprite).to({ x: -1000 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
+            this.add.tween(this.btnTwoPlayer.textSprite).to({ x: 2200 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
+            this.add.tween(this.btnOnePlayer.textSpriteShadow).to({ x: -1000 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
+            this.add.tween(this.btnTwoPlayer.textSpriteShadow).to({ x: 2200 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
+
             var tween = this.add.tween(this.ship).to({ x: 1536 }, 2000, Phaser.Easing.Elastic.InOut, true, 100);
+            tween.onComplete.add(this.startShipSelectScreen, this);
+        }
+
+        allowClick() {
+            this.btnOnePlayer.enabled = true;
+            this.btnTwoPlayer.enabled = true;
+        }
+
+        btnOnePlayerClick(button) {
+            button.parent.fadeOut();
+        }
+
+        btnTwoPlayerClick(button) {
+            button.parent.fadeOut();
+        }
+
+        startShipSelectScreen() {
+            this.game.state.start('ShipSelect', true, false);
         }
     }
 }  

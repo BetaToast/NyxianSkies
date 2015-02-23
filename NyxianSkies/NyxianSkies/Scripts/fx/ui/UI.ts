@@ -107,6 +107,7 @@
             ret.content = content;
 
             ret.sprite = this.parent.add.sprite(ret.x, ret.y, this.keyName);
+            ret.parent = this.parent;
             ret.sprite.inputEnabled = true;
             ret.sprite.crop(ret.normalRect, false);
             ret.sprite.events.onInputOver.add(ret.onHover, ret);
