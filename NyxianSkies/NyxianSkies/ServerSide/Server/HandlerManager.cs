@@ -33,7 +33,6 @@ namespace NyxianSkies.ServerSide.Server
         {
             var gameActionType = typeof(IAction);
             var typeNameToTypes = AppDomain.CurrentDomain.GetAssemblies()
-                //.Where(a => a.FullName.Contains("ShipBattle"))
                 .SelectMany(s => s.GetTypes())
                 .Where(gameActionType.IsAssignableFrom)
                 .Select(t => new
