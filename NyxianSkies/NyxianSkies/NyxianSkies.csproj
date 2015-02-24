@@ -145,6 +145,11 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerSide\GameInstance\Actions\Actions.cs" />
+    <Compile Include="ServerSide\GameInstance\Actions\JoinActions.cs" />
+    <Compile Include="ServerSide\GameInstance\Actions\MovementActions.cs" />
+    <Compile Include="ServerSide\GameInstance\SecondaryWeapon.cs" />
+    <Compile Include="ServerSide\GameInstance\Actions\ServerActions.cs" />
+    <Compile Include="ServerSide\GameInstance\Actions\WeaponActions.cs" />
     <Compile Include="ServerSide\GameInstance\ShipType.cs" />
     <Compile Include="ServerSide\GameInstance\NyxianSkiesGameInstance.cs" />
     <Compile Include="ServerSide\GameInstance\Player.cs" />

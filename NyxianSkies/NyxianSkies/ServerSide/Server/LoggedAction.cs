@@ -1,4 +1,4 @@
-using NyxianSkies.ServerSide.GameInstance;
+using NyxianSkies.ServerSide.GameInstance.Actions;
 
 namespace NyxianSkies.ServerSide.Server
 {

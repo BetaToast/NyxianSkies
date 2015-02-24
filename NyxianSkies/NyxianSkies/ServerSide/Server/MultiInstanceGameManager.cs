@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
 using NyxianSkies.ServerSide.GameInstance;
+using NyxianSkies.ServerSide.GameInstance.Actions;
 
 
 namespace NyxianSkies.ServerSide.Server
