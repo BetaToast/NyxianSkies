@@ -11,7 +11,7 @@ namespace NyxianSkies.ServerSide.Server
     public class MainHub : Hub
     {
         //put generic  SignalR specific stuff in here
-        private readonly static ConnectionMapping<string> _connections =new ConnectionMapping<string>();
+        private readonly static ConnectionMapping<string> _connections = new ConnectionMapping<string>();
         private readonly MultiInstanceGameManager _multiInstanceGameManager;
         private readonly HandlerManager _handlerManager;
 
@@ -48,7 +48,13 @@ namespace NyxianSkies.ServerSide.Server
 
             try
             {
-                _multiInstanceGameManager.SendAction(rawObject);
+                if (rawObject is PingServer)
+                {
+                    var ping = (PingServer)rawObject;
+                    Clients.Caller.Pong(ping.ID);
+                }
+                else
+                    _multiInstanceGameManager.SendAction(rawObject);
             }
             catch
             { }

@@ -16,16 +16,17 @@
 </head>
 <body>
     <div id="content"></div>
-    <div id="target">
-        Click here
-    </div>
+    <div id="Latency"></div>
     <script>
-        $("#target").click(function () {
+        var pingServer = function() {
+            pingId = (new Date()).getTime();
             hub.server.sendAction(JSON.stringify(
                         {
-                            action: 'JoinMultiPlayerGame'
+                            action: 'PingServer',
+                            ID: pingId
                         }));
-        });
+        }
+        setInterval(pingServer, 1000);
     </script>
 </body>
 </html>
