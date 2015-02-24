@@ -20,16 +20,16 @@ namespace NyxianSkies.ServerSide.Server
         protected long CurrentGameTime { get { return GameTime.ElapsedMilliseconds; } }
         protected readonly IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<MainHub>();
 
-        private readonly Boolean IsMultiPlayer;
+        private readonly int NumberOfPlayers;
         private readonly List<LoggedAction> _allGameActions = new List<LoggedAction>();
         private ConcurrentQueue<IAction> ActionQueue = new ConcurrentQueue<IAction>();
         private Stopwatch GameTime = new Stopwatch();
 
-        protected MessageBaseGame(Boolean isMultiPlayer)
+        protected MessageBaseGame(int numberOfPlayers)
         {
             GameId = Guid.NewGuid();
             AwaitingPlayers = true;
-            IsMultiPlayer = isMultiPlayer;
+            NumberOfPlayers = numberOfPlayers;
             Task.Run(() => GameLoop());
         }
 

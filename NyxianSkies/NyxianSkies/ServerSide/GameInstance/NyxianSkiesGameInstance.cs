@@ -9,8 +9,8 @@ namespace NyxianSkies.ServerSide.GameInstance
     {
         private readonly ConcurrentDictionary<Int64, Player> _myPlayers = new ConcurrentDictionary<Int64, Player>();
 
-        public NyxianSkiesGameInstance(bool isMultiPlayer)
-            : base(isMultiPlayer)
+        public NyxianSkiesGameInstance(int numberOfPlayers)
+            : base(numberOfPlayers)
         {
         }
 
@@ -24,9 +24,8 @@ namespace NyxianSkies.ServerSide.GameInstance
 
         public async Task HandleAction(ClientDisconnect disconnect)
         {
-
+            //TODO:  What shall we do whena player disconnects
         }
-
 
     }
 }

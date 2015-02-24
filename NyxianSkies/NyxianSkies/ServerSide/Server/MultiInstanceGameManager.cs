@@ -95,16 +95,13 @@ namespace NyxianSkies.ServerSide.Server
             lock (_games)
             {
                 var game = CreateGame(false);
-                game.Enqueue(new JoinMultiPlayerGame
-                {
-                    PlayerId = action.PlayerId
-                });
+                game.Enqueue(action);
             }
         }
 
         private NyxianSkiesGameInstance CreateGame(Boolean isMultiPlayer)
         {
-            var i = new NyxianSkiesGameInstance(isMultiPlayer);
+            var i = new NyxianSkiesGameInstance(isMultiPlayer ? 2 : 1);
             _games.GetOrAdd(i.GameId, i);
             SendGameStatsToClients();
             return i;
