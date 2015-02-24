@@ -9,9 +9,13 @@
         height: number = 0;
         onClickAction = null;
 
-        normalRect: Phaser.Rectangle;
-        hoverRect: Phaser.Rectangle;
-        clickRect: Phaser.Rectangle;
+        //normalRect: Phaser.Rectangle;
+        //hoverRect: Phaser.Rectangle;
+        //clickRect: Phaser.Rectangle;
+        normalSprite: Phaser.Sprite;
+        hoverSprite: Phaser.Sprite;
+        clickSprite: Phaser.Sprite;
+
         sprite: Phaser.Sprite;
         content: string;
         textSprite: Phaser.Text;
@@ -36,30 +40,33 @@
         }
 
         update() {
-            //switch (this.state) {
-            //    case ControlState.Normal:
-            //        this.sprite.cropRect = this.normalRect;
-            //        break;
-            //    case ControlState.Hover:
-            //        this.sprite.cropRect = this.hoverRect;
-            //        break;
-            //    case ControlState.Click:
-            //        this.sprite.cropRect = this.clickRect;
-            //        break;
-            //}
-            //this.sprite.updateCrop();
+            this.normalSprite.visible = false;
+            this.hoverSprite.visible = false;
+            this.clickSprite.visible = false;
+
+            switch (this.state) {
+                case ControlState.Normal:
+                    this.normalSprite.visible = true;
+                    break;
+                case ControlState.Hover:
+                    this.hoverSprite.visible = true;
+                    break;
+                case ControlState.Click:
+                    this.clickSprite.visible = true;
+                    break;
+            }
         }
 
         onHover(button, pointer) {
-            //this.state = ControlState.Hover;
+            this.state = ControlState.Hover;
         }
 
         onLeave(button, pointer) {
-            //this.state = ControlState.Normal;
+            this.state = ControlState.Normal;
         }
 
         onClick(button, pointer) {
-            //this.state = ControlState.Click;
+            this.state = ControlState.Click;
             if (this.onClickAction != null && this.enabled) this.onClickAction(this);
         }
     }

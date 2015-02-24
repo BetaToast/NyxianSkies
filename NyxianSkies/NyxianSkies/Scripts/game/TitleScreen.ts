@@ -41,8 +41,6 @@ module NyxianSkies {
             this.btnTwoPlayer = this.ui.addButton(728, 600, "2 Player", 48, 8);
             this.btnTwoPlayer.onClickAction = this.btnTwoPlayerClick;
             this.btnTwoPlayer.enabled = false;
-
-            var sprite = this.add.sprite(100, 100, 'spritesheet', 'blue_panel.png');
         }
 
         update() {
@@ -57,8 +55,14 @@ module NyxianSkies {
 
         fadeOut() {
             this.add.tween(this.title).to({ y: -512 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
-            this.add.tween(this.btnOnePlayer.sprite).to({ x: -1000 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
-            this.add.tween(this.btnTwoPlayer.sprite).to({ x: 2200 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
+
+            this.add.tween(this.btnOnePlayer.normalSprite).to({ x: -1000 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
+            this.add.tween(this.btnTwoPlayer.normalSprite).to({ x: 2200 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
+            this.add.tween(this.btnOnePlayer.hoverSprite).to({ x: -1000 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
+            this.add.tween(this.btnTwoPlayer.hoverSprite).to({ x: 2200 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
+            this.add.tween(this.btnOnePlayer.clickSprite).to({ x: -1000 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
+            this.add.tween(this.btnTwoPlayer.clickSprite).to({ x: 2200 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
+
             this.add.tween(this.btnOnePlayer.textSprite).to({ x: -1000 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
             this.add.tween(this.btnTwoPlayer.textSprite).to({ x: 2200 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
             this.add.tween(this.btnOnePlayer.textSpriteShadow).to({ x: -1000 }, 2000, Phaser.Easing.Elastic.Out, true, 0);

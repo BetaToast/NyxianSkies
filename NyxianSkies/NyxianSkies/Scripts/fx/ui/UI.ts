@@ -97,23 +97,28 @@
         addButton(x: number, y: number, content: string, tx: number = 0, ty: number = 0) : BetaToast.Button {
             var ret = new BetaToast.Button();
 
-            ret.normalRect = this.partRectButton04;
-            ret.hoverRect = this.partRectButton00;
-            ret.clickRect = this.partRectButton03;
+            ret.parent = this.parent;
             ret.x = x;
             ret.y = y;
-            ret.width = ret.normalRect.width;
-            ret.height = ret.normalRect.height;
+
+            ret.normalSprite = this.parent.add.sprite(ret.x, ret.y, 'spritesheet', 'blue_button04.png');
+            ret.normalSprite.inputEnabled = true;
+            ret.normalSprite.events.onInputOver.add(ret.onHover, ret);
+
+            ret.hoverSprite = this.parent.add.sprite(ret.x, ret.y, 'spritesheet', 'blue_button00.png');
+            ret.hoverSprite.visible = false;
+            ret.hoverSprite.inputEnabled = true;
+            ret.hoverSprite.events.onInputOut.add(ret.onLeave, ret);
+            ret.hoverSprite.events.onInputDown.add(ret.onClick, ret);
+
+            ret.clickSprite = this.parent.add.sprite(ret.x, ret.y, 'spritesheet', 'blue_button03.png');
+            ret.clickSprite.visible = false;
+            ret.clickSprite.inputEnabled = true;
+            ret.clickSprite.events.onInputOut.add(ret.onLeave, ret);
+            ret.clickSprite.events.onInputDown.add(ret.onClick, ret);
+            ret.clickSprite.events.onInputUp.add(ret.onHover, ret);
+            
             ret.content = content;
-
-            ret.sprite = this.parent.add.sprite(ret.x, ret.y, this.keyName);
-            ret.parent = this.parent;
-            ret.sprite.inputEnabled = true;
-            ret.sprite.crop(ret.normalRect, false);
-            ret.sprite.events.onInputOver.add(ret.onHover, ret);
-            ret.sprite.events.onInputOut.add(ret.onLeave, ret);
-            ret.sprite.events.onInputDown.add(ret.onClick, ret);
-
             var textX = x + tx;
             var textY = y + ty;
             ret.textSpriteShadow = this.parent.game.add.text(textX + 1, textY + 1, ret.content, ret.textShadowStyle);
@@ -127,23 +132,28 @@
         addSmallButton(x: number, y: number, content: string, tx: number = 0, ty: number = 0): BetaToast.Button {
             var ret = new BetaToast.Button();
 
-            ret.normalRect = this.partRectButton11;
-            ret.hoverRect = this.partRectButton07;
-            ret.clickRect = this.partRectButton08;
+            ret.parent = this.parent;
             ret.x = x;
             ret.y = y;
-            ret.width = ret.normalRect.width;
-            ret.height = ret.normalRect.height;
+
+            ret.normalSprite = this.parent.add.sprite(ret.x, ret.y, 'spritesheet', 'blue_button11.png');
+            ret.normalSprite.inputEnabled = true;
+            ret.normalSprite.events.onInputOver.add(ret.onHover, ret);
+
+            ret.hoverSprite = this.parent.add.sprite(ret.x, ret.y, 'spritesheet', 'blue_button07.png');
+            ret.hoverSprite.visible = false;
+            ret.hoverSprite.inputEnabled = true;
+            ret.hoverSprite.events.onInputOut.add(ret.onLeave, ret);
+            ret.hoverSprite.events.onInputDown.add(ret.onClick, ret);
+
+            ret.clickSprite = this.parent.add.sprite(ret.x, ret.y, 'spritesheet', 'blue_button08.png');
+            ret.clickSprite.visible = false;
+            ret.clickSprite.inputEnabled = true;
+            ret.clickSprite.events.onInputOut.add(ret.onLeave, ret);
+            ret.clickSprite.events.onInputDown.add(ret.onClick, ret);
+            ret.clickSprite.events.onInputUp.add(ret.onHover, ret);
+
             ret.content = content;
-
-            ret.sprite = this.parent.add.sprite(ret.x, ret.y, this.keyName);
-            ret.parent = this.parent;
-            ret.sprite.inputEnabled = true;
-            ret.sprite.crop(ret.normalRect, false);
-            ret.sprite.events.onInputOver.add(ret.onHover, ret);
-            ret.sprite.events.onInputOut.add(ret.onLeave, ret);
-            ret.sprite.events.onInputDown.add(ret.onClick, ret);
-
             var textX = x + tx;
             var textY = y + ty;
             ret.textSpriteShadow = this.parent.game.add.text(textX + 1, textY + 1, ret.content, ret.textShadowStyle);

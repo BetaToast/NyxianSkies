@@ -105,27 +105,29 @@ var BetaToast;
             this.enabled = true;
         }
         Button.prototype.update = function () {
-            //switch (this.state) {
-            //    case ControlState.Normal:
-            //        this.sprite.cropRect = this.normalRect;
-            //        break;
-            //    case ControlState.Hover:
-            //        this.sprite.cropRect = this.hoverRect;
-            //        break;
-            //    case ControlState.Click:
-            //        this.sprite.cropRect = this.clickRect;
-            //        break;
-            //}
-            //this.sprite.updateCrop();
+            this.normalSprite.visible = false;
+            this.hoverSprite.visible = false;
+            this.clickSprite.visible = false;
+            switch (this.state) {
+                case 0 /* Normal */:
+                    this.normalSprite.visible = true;
+                    break;
+                case 1 /* Hover */:
+                    this.hoverSprite.visible = true;
+                    break;
+                case 2 /* Click */:
+                    this.clickSprite.visible = true;
+                    break;
+            }
         };
         Button.prototype.onHover = function (button, pointer) {
-            //this.state = ControlState.Hover;
+            this.state = 1 /* Hover */;
         };
         Button.prototype.onLeave = function (button, pointer) {
-            //this.state = ControlState.Normal;
+            this.state = 0 /* Normal */;
         };
         Button.prototype.onClick = function (button, pointer) {
-            //this.state = ControlState.Click;
+            this.state = 2 /* Click */;
             if (this.onClickAction != null && this.enabled)
                 this.onClickAction(this);
         };
@@ -195,21 +197,24 @@ var BetaToast;
             if (tx === void 0) { tx = 0; }
             if (ty === void 0) { ty = 0; }
             var ret = new BetaToast.Button();
-            ret.normalRect = this.partRectButton04;
-            ret.hoverRect = this.partRectButton00;
-            ret.clickRect = this.partRectButton03;
+            ret.parent = this.parent;
             ret.x = x;
             ret.y = y;
-            ret.width = ret.normalRect.width;
-            ret.height = ret.normalRect.height;
+            ret.normalSprite = this.parent.add.sprite(ret.x, ret.y, 'spritesheet', 'blue_button04.png');
+            ret.normalSprite.inputEnabled = true;
+            ret.normalSprite.events.onInputOver.add(ret.onHover, ret);
+            ret.hoverSprite = this.parent.add.sprite(ret.x, ret.y, 'spritesheet', 'blue_button00.png');
+            ret.hoverSprite.visible = false;
+            ret.hoverSprite.inputEnabled = true;
+            ret.hoverSprite.events.onInputOut.add(ret.onLeave, ret);
+            ret.hoverSprite.events.onInputDown.add(ret.onClick, ret);
+            ret.clickSprite = this.parent.add.sprite(ret.x, ret.y, 'spritesheet', 'blue_button03.png');
+            ret.clickSprite.visible = false;
+            ret.clickSprite.inputEnabled = true;
+            ret.clickSprite.events.onInputOut.add(ret.onLeave, ret);
+            ret.clickSprite.events.onInputDown.add(ret.onClick, ret);
+            ret.clickSprite.events.onInputUp.add(ret.onHover, ret);
             ret.content = content;
-            ret.sprite = this.parent.add.sprite(ret.x, ret.y, this.keyName);
-            ret.parent = this.parent;
-            ret.sprite.inputEnabled = true;
-            ret.sprite.crop(ret.normalRect, false);
-            ret.sprite.events.onInputOver.add(ret.onHover, ret);
-            ret.sprite.events.onInputOut.add(ret.onLeave, ret);
-            ret.sprite.events.onInputDown.add(ret.onClick, ret);
             var textX = x + tx;
             var textY = y + ty;
             ret.textSpriteShadow = this.parent.game.add.text(textX + 1, textY + 1, ret.content, ret.textShadowStyle);
@@ -221,21 +226,24 @@ var BetaToast;
             if (tx === void 0) { tx = 0; }
             if (ty === void 0) { ty = 0; }
             var ret = new BetaToast.Button();
-            ret.normalRect = this.partRectButton11;
-            ret.hoverRect = this.partRectButton07;
-            ret.clickRect = this.partRectButton08;
+            ret.parent = this.parent;
             ret.x = x;
             ret.y = y;
-            ret.width = ret.normalRect.width;
-            ret.height = ret.normalRect.height;
+            ret.normalSprite = this.parent.add.sprite(ret.x, ret.y, 'spritesheet', 'blue_button11.png');
+            ret.normalSprite.inputEnabled = true;
+            ret.normalSprite.events.onInputOver.add(ret.onHover, ret);
+            ret.hoverSprite = this.parent.add.sprite(ret.x, ret.y, 'spritesheet', 'blue_button07.png');
+            ret.hoverSprite.visible = false;
+            ret.hoverSprite.inputEnabled = true;
+            ret.hoverSprite.events.onInputOut.add(ret.onLeave, ret);
+            ret.hoverSprite.events.onInputDown.add(ret.onClick, ret);
+            ret.clickSprite = this.parent.add.sprite(ret.x, ret.y, 'spritesheet', 'blue_button08.png');
+            ret.clickSprite.visible = false;
+            ret.clickSprite.inputEnabled = true;
+            ret.clickSprite.events.onInputOut.add(ret.onLeave, ret);
+            ret.clickSprite.events.onInputDown.add(ret.onClick, ret);
+            ret.clickSprite.events.onInputUp.add(ret.onHover, ret);
             ret.content = content;
-            ret.sprite = this.parent.add.sprite(ret.x, ret.y, this.keyName);
-            ret.parent = this.parent;
-            ret.sprite.inputEnabled = true;
-            ret.sprite.crop(ret.normalRect, false);
-            ret.sprite.events.onInputOver.add(ret.onHover, ret);
-            ret.sprite.events.onInputOut.add(ret.onLeave, ret);
-            ret.sprite.events.onInputDown.add(ret.onClick, ret);
             var textX = x + tx;
             var textY = y + ty;
             ret.textSpriteShadow = this.parent.game.add.text(textX + 1, textY + 1, ret.content, ret.textShadowStyle);
@@ -408,12 +416,14 @@ var NyxianSkies;
             this.add.tween(this.ship.scale).to({ x: 2, y: 2 }, 2000, Phaser.Easing.Back.Out, true, 1000);
             this.add.tween(this.title).to({ y: 128 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
             this.ui = new BetaToast.UserInterface(this, "blue");
-            this.btnSelectLeft = this.ui.addSmallButton(348, 600, "<", 48, 8);
+            this.btnSelectLeft = this.ui.addSmallButton(460, 512, "<", 16, 12);
             this.btnSelectLeft.onClickAction = this.btnSelectLeftClick;
             this.btnSelectLeft.enabled = true;
-            this.btnSelectRight = this.ui.addSmallButton(728, 600, ">", 48, 8);
+            this.btnSelectRight = this.ui.addSmallButton(776, 512, ">", 16, 12);
             this.btnSelectRight.onClickAction = this.btnSelectRightClick;
             this.btnSelectRight.enabled = true;
+            this.btnCancel = this.ui.addButton(64, 656, "Cancel", 48, 12);
+            this.btnAccept = this.ui.addButton(1026, 656, "Start", 48, 12);
         };
         ShipSelect.prototype.update = function () {
             for (var i = 0; i < this.backgroundTiles.length; i++) {
@@ -502,7 +512,6 @@ var NyxianSkies;
             this.btnTwoPlayer = this.ui.addButton(728, 600, "2 Player", 48, 8);
             this.btnTwoPlayer.onClickAction = this.btnTwoPlayerClick;
             this.btnTwoPlayer.enabled = false;
-            var sprite = this.add.sprite(100, 100, 'spritesheet', 'blue_panel.png');
         };
         TitleScreen.prototype.update = function () {
             for (var i = 0; i < this.backgroundTiles.length; i++) {
@@ -515,8 +524,12 @@ var NyxianSkies;
         };
         TitleScreen.prototype.fadeOut = function () {
             this.add.tween(this.title).to({ y: -512 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
-            this.add.tween(this.btnOnePlayer.sprite).to({ x: -1000 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
-            this.add.tween(this.btnTwoPlayer.sprite).to({ x: 2200 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
+            this.add.tween(this.btnOnePlayer.normalSprite).to({ x: -1000 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
+            this.add.tween(this.btnTwoPlayer.normalSprite).to({ x: 2200 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
+            this.add.tween(this.btnOnePlayer.hoverSprite).to({ x: -1000 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
+            this.add.tween(this.btnTwoPlayer.hoverSprite).to({ x: 2200 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
+            this.add.tween(this.btnOnePlayer.clickSprite).to({ x: -1000 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
+            this.add.tween(this.btnTwoPlayer.clickSprite).to({ x: 2200 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
             this.add.tween(this.btnOnePlayer.textSprite).to({ x: -1000 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
             this.add.tween(this.btnTwoPlayer.textSprite).to({ x: 2200 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
             this.add.tween(this.btnOnePlayer.textSpriteShadow).to({ x: -1000 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
