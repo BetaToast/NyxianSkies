@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NyxianSkies.ServerSide.GameInstance;
+using NyxianSkies.ServerSide.GameInstance.Actions;
 
 namespace NyxianSkies.ServerSide.Server
 {

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NyxianSkies.ServerSide.GameInstance;
+using NyxianSkies.ServerSide.GameInstance.Actions;
 
 
 namespace NyxianSkies.ServerSide.Server

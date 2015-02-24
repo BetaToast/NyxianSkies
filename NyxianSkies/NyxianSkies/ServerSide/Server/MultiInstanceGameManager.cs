@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
 using NyxianSkies.ServerSide.GameInstance;
+using NyxianSkies.ServerSide.GameInstance.Actions;
 
 
 namespace NyxianSkies.ServerSide.Server
@@ -95,16 +96,13 @@ namespace NyxianSkies.ServerSide.Server
             lock (_games)
             {
                 var game = CreateGame(false);
-                game.Enqueue(new JoinMultiPlayerGame
-                {
-                    PlayerId = action.PlayerId
-                });
+                game.Enqueue(action);
             }
         }
 
         private NyxianSkiesGameInstance CreateGame(Boolean isMultiPlayer)
         {
-            var i = new NyxianSkiesGameInstance(isMultiPlayer);
+            var i = new NyxianSkiesGameInstance(isMultiPlayer ? 2 : 1);
             _games.GetOrAdd(i.GameId, i);
             SendGameStatsToClients();
             return i;

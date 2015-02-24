@@ -8,9 +8,12 @@ namespace NyxianSkies.ServerSide.GameInstance
         public String PlayerName { get; set; }
         public Boolean Ready { get; set; }
 
+        public ShipType Ship { get; private set; }
+        public decimal Health { get; private set; }
+        public decimal HullShield { get; private set; }
+
 
         private String PlayerAddress { get; set; }
-
         public Player(long playerId, String playerAddress)
         {
             PlayerId = playerId;

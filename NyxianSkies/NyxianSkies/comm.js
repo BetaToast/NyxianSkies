@@ -22,6 +22,6 @@ $(function () {
 
 
     //Start the hub and wire up server call functions after it is started
-    $.connection.hub.logging = true; //debugging
+    //$.connection.hub.logging = true; //debugging
     $.connection.hub.start();
 });

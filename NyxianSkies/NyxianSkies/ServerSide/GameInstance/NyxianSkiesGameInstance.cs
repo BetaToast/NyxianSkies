@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
+using NyxianSkies.ServerSide.GameInstance.Actions;
 using NyxianSkies.ServerSide.Server;
 
 namespace NyxianSkies.ServerSide.GameInstance
@@ -9,8 +10,8 @@ namespace NyxianSkies.ServerSide.GameInstance
     {
         private readonly ConcurrentDictionary<Int64, Player> _myPlayers = new ConcurrentDictionary<Int64, Player>();
 
-        public NyxianSkiesGameInstance(bool isMultiPlayer)
-            : base(isMultiPlayer)
+        public NyxianSkiesGameInstance(int numberOfPlayers)
+            : base(numberOfPlayers)
         {
         }
 
@@ -24,9 +25,9 @@ namespace NyxianSkies.ServerSide.GameInstance
 
         public async Task HandleAction(ClientDisconnect disconnect)
         {
-
+            //TODO:  What shall we do whena player disconnects
         }
 
-
+        
     }
 }
