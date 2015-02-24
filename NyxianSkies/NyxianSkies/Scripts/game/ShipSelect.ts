@@ -9,6 +9,8 @@ module NyxianSkies {
         title: Phaser.Sprite;
         btnSelectLeft: BetaToast.Button;
         btnSelectRight: BetaToast.Button;
+        btnCancel: BetaToast.Button;
+        btnAccept: BetaToast.Button;
         shipIndex: number = 1;
 
         create() {
@@ -30,13 +32,16 @@ module NyxianSkies {
             this.add.tween(this.title).to({ y: 128 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
 
             this.ui = new BetaToast.UserInterface(this, "blue");
-            this.btnSelectLeft = this.ui.addSmallButton(348, 600, "<", 48, 8);
+            this.btnSelectLeft = this.ui.addSmallButton(460, 512, "<", 16, 12);
             this.btnSelectLeft.onClickAction = this.btnSelectLeftClick;
             this.btnSelectLeft.enabled = true;
 
-            this.btnSelectRight = this.ui.addSmallButton(728, 600, ">", 48, 8);
+            this.btnSelectRight = this.ui.addSmallButton(776, 512, ">", 16, 12);
             this.btnSelectRight.onClickAction = this.btnSelectRightClick;
             this.btnSelectRight.enabled = true;
+
+            this.btnCancel = this.ui.addButton(64, 656, "Cancel", 48, 12);
+            this.btnAccept = this.ui.addButton(1026, 656, "Start", 48, 12);
         }
 
         update() {
