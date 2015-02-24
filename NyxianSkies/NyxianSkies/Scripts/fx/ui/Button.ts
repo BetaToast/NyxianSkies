@@ -7,6 +7,7 @@
         y: number = 0;
         width: number = 0;
         height: number = 0;
+        onClickAction = null;
 
         normalRect: Phaser.Rectangle;
         hoverRect: Phaser.Rectangle;
@@ -15,6 +16,8 @@
         content: string;
         textSprite: Phaser.Text;
         textSpriteShadow: Phaser.Text;
+        parent: Phaser.State;
+        enabled: boolean;
 
 
         textStyle = {
@@ -29,7 +32,7 @@
 
 
         constructor() {
-
+            this.enabled = true;
         }
 
         update() {
@@ -57,6 +60,7 @@
 
         onClick(button, pointer) {
             //this.state = ControlState.Click;
+            if (this.onClickAction != null && this.enabled) this.onClickAction(this);
         }
     }
 }  
