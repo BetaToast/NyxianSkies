@@ -12,10 +12,8 @@ namespace NyxianSkies.ServerSide.GameInstance
         public decimal Health { get; private set; }
         public decimal HullShield { get; private set; }
 
+
         private String PlayerAddress { get; set; }
-
-
-
         public Player(long playerId, String playerAddress)
         {
             PlayerId = playerId;
