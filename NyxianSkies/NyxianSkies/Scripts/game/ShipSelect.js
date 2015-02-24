@@ -13,6 +13,7 @@ var NyxianSkies;
         function ShipSelect() {
             _super.apply(this, arguments);
             this.backgroundTiles = [];
+            this.shipIndex = 1;
         }
         ShipSelect.prototype.create = function () {
             for (var y = -256; y < 976; y += 256) {
@@ -21,7 +22,7 @@ var NyxianSkies;
                     this.backgroundTiles[index] = this.add.sprite(x, y, 'blackBackground');
                 }
             }
-            this.ship = this.add.sprite(this.world.centerX, 800, 'playerShip1_red');
+            this.ship = this.add.sprite(this.world.centerX, 800, 'playerShip1');
             this.ship.anchor.setTo(0.5, 0.5);
             this.title = this.add.sprite(this.world.centerX, -300, 'selectShipText');
             this.title.anchor.setTo(0.5, 0.5);
@@ -29,6 +30,14 @@ var NyxianSkies;
             this.add.tween(this.ship.scale).to({ x: 2, y: 2 }, 2000, Phaser.Easing.Back.Out, true, 1000);
             this.add.tween(this.title).to({ y: 128 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
             this.ui = new BetaToast.UserInterface(this, "blue");
+            this.btnSelectLeft = this.ui.addSmallButton(460, 512, "<", 16, 12);
+            this.btnSelectLeft.onClickAction = this.btnSelectLeftClick;
+            this.btnSelectLeft.enabled = true;
+            this.btnSelectRight = this.ui.addSmallButton(776, 512, ">", 16, 12);
+            this.btnSelectRight.onClickAction = this.btnSelectRightClick;
+            this.btnSelectRight.enabled = true;
+            this.btnCancel = this.ui.addButton(64, 656, "Cancel", 48, 12);
+            this.btnAccept = this.ui.addButton(1026, 656, "Start", 48, 12);
         };
         ShipSelect.prototype.update = function () {
             for (var i = 0; i < this.backgroundTiles.length; i++) {
@@ -38,6 +47,20 @@ var NyxianSkies;
                     tile.y = -256;
             }
             this.ui.update();
+        };
+        ShipSelect.prototype.btnSelectLeftClick = function (button) {
+            button.parent.shipIndex--;
+            if (button.parent.shipIndex <= 0)
+                button.parent.shipIndex = 12;
+            button.parent.ship.key = 'playerShip' + button.parent.shipIndex;
+            button.parent.ship.setTexture(PIXI.TextureCache[button.parent.ship.key]);
+        };
+        ShipSelect.prototype.btnSelectRightClick = function (button) {
+            button.parent.shipIndex++;
+            if (button.parent.shipIndex >= 13)
+                button.parent.shipIndex = 1;
+            button.parent.ship.key = 'playerShip' + button.parent.shipIndex;
+            button.parent.ship.setTexture(PIXI.TextureCache[button.parent.ship.key]);
         };
         return ShipSelect;
     })(Phaser.State);

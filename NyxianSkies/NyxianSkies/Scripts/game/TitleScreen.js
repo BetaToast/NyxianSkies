@@ -21,7 +21,7 @@ var NyxianSkies;
                     this.backgroundTiles[index] = this.add.sprite(x, y, 'blackBackground');
                 }
             }
-            this.ship = this.add.sprite(-256, 512, 'playerShip1_red');
+            this.ship = this.add.sprite(-256, 512, 'playerShip1');
             this.ship.anchor.setTo(0.5, 0.5);
             this.ship.rotation = 90 * (Math.PI / 180);
             this.title = this.add.sprite(this.world.centerX, -300, 'title');
@@ -50,8 +50,12 @@ var NyxianSkies;
         };
         TitleScreen.prototype.fadeOut = function () {
             this.add.tween(this.title).to({ y: -512 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
-            this.add.tween(this.btnOnePlayer.sprite).to({ x: -1000 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
-            this.add.tween(this.btnTwoPlayer.sprite).to({ x: 2200 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
+            this.add.tween(this.btnOnePlayer.normalSprite).to({ x: -1000 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
+            this.add.tween(this.btnTwoPlayer.normalSprite).to({ x: 2200 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
+            this.add.tween(this.btnOnePlayer.hoverSprite).to({ x: -1000 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
+            this.add.tween(this.btnTwoPlayer.hoverSprite).to({ x: 2200 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
+            this.add.tween(this.btnOnePlayer.clickSprite).to({ x: -1000 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
+            this.add.tween(this.btnTwoPlayer.clickSprite).to({ x: 2200 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
             this.add.tween(this.btnOnePlayer.textSprite).to({ x: -1000 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
             this.add.tween(this.btnTwoPlayer.textSprite).to({ x: 2200 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
             this.add.tween(this.btnOnePlayer.textSpriteShadow).to({ x: -1000 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
