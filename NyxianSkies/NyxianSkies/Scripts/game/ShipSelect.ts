@@ -7,6 +7,9 @@ module NyxianSkies {
         ship: Phaser.Sprite;
         ui: BetaToast.UserInterface;
         title: Phaser.Sprite;
+        btnSelectLeft: BetaToast.Button;
+        btnSelectRight: BetaToast.Button;
+        shipIndex: number = 1;
 
         create() {
             for (var y = -256; y < 976; y += 256) {
@@ -16,7 +19,7 @@ module NyxianSkies {
                 }
             }
 
-            this.ship = this.add.sprite(this.world.centerX, 800, 'playerShip1_red');
+            this.ship = this.add.sprite(this.world.centerX, 800, 'playerShip1');
             this.ship.anchor.setTo(0.5, 0.5);
 
             this.title = this.add.sprite(this.world.centerX, -300, 'selectShipText');
@@ -27,6 +30,13 @@ module NyxianSkies {
             this.add.tween(this.title).to({ y: 128 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
 
             this.ui = new BetaToast.UserInterface(this, "blue");
+            this.btnSelectLeft = this.ui.addSmallButton(348, 600, "<", 48, 8);
+            this.btnSelectLeft.onClickAction = this.btnSelectLeftClick;
+            this.btnSelectLeft.enabled = true;
+
+            this.btnSelectRight = this.ui.addSmallButton(728, 600, ">", 48, 8);
+            this.btnSelectRight.onClickAction = this.btnSelectRightClick;
+            this.btnSelectRight.enabled = true;
         }
 
         update() {
@@ -37,6 +47,20 @@ module NyxianSkies {
             }
 
             this.ui.update();
+        }
+
+        btnSelectLeftClick(button) {
+            button.parent.shipIndex--;
+            if (button.parent.shipIndex <= 0) button.parent.shipIndex = 12;
+            button.parent.ship.key = 'playerShip' + button.parent.shipIndex;
+            button.parent.ship.setTexture(PIXI.TextureCache[button.parent.ship.key]);
+        }
+
+        btnSelectRightClick(button) {
+            button.parent.shipIndex++;
+            if (button.parent.shipIndex >= 13) button.parent.shipIndex = 1;
+            button.parent.ship.key = 'playerShip' + button.parent.shipIndex;
+            button.parent.ship.setTexture(PIXI.TextureCache[button.parent.ship.key]);
         }
     }
 }  

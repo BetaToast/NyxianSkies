@@ -217,6 +217,32 @@ var BetaToast;
             this.controls[this.controls.length] = ret;
             return ret;
         };
+        UserInterface.prototype.addSmallButton = function (x, y, content, tx, ty) {
+            if (tx === void 0) { tx = 0; }
+            if (ty === void 0) { ty = 0; }
+            var ret = new BetaToast.Button();
+            ret.normalRect = this.partRectButton11;
+            ret.hoverRect = this.partRectButton07;
+            ret.clickRect = this.partRectButton08;
+            ret.x = x;
+            ret.y = y;
+            ret.width = ret.normalRect.width;
+            ret.height = ret.normalRect.height;
+            ret.content = content;
+            ret.sprite = this.parent.add.sprite(ret.x, ret.y, this.keyName);
+            ret.parent = this.parent;
+            ret.sprite.inputEnabled = true;
+            ret.sprite.crop(ret.normalRect, false);
+            ret.sprite.events.onInputOver.add(ret.onHover, ret);
+            ret.sprite.events.onInputOut.add(ret.onLeave, ret);
+            ret.sprite.events.onInputDown.add(ret.onClick, ret);
+            var textX = x + tx;
+            var textY = y + ty;
+            ret.textSpriteShadow = this.parent.game.add.text(textX + 1, textY + 1, ret.content, ret.textShadowStyle);
+            ret.textSprite = this.parent.game.add.text(textX, textY, ret.content, ret.textStyle);
+            this.controls[this.controls.length] = ret;
+            return ret;
+        };
         return UserInterface;
     })();
     BetaToast.UserInterface = UserInterface;
@@ -316,7 +342,7 @@ var NyxianSkies;
             this.load.setPreloadSprite(this.preloadBar);
             // Load all of our assets here
             // Images
-            this.load.image('spritesheet', 'assets/images/sheet.png');
+            //this.load.image('spritesheet', 'assets/images/sheet.png');
             this.load.image('blueUISpriteSheet', 'assets/ui/blueSheet.png');
             this.load.image('greenUISpriteSheet', 'assets/ui/greenSheet.png');
             this.load.image('greyUISpriteSheet', 'assets/ui/greySheet.png');
@@ -327,8 +353,20 @@ var NyxianSkies;
             this.load.image('blueBackground', 'assets/images/blue.png');
             this.load.image('darkPurpleBackground', 'assets/images/darkPurple.png');
             this.load.image('purpleBackground', 'assets/images/purple.png');
-            this.load.image('playerShip1_red', 'assets/images/playerShip1_red.png');
             this.load.image('selectShipText', 'assets/images/selectship.png');
+            this.load.image('playerShip1', 'assets/images/playerShip1_red.png');
+            this.load.image('playerShip2', 'assets/images/playerShip1_blue.png');
+            this.load.image('playerShip3', 'assets/images/playerShip1_green.png');
+            this.load.image('playerShip4', 'assets/images/playerShip1_orange.png');
+            this.load.image('playerShip5', 'assets/images/playerShip2_red.png');
+            this.load.image('playerShip6', 'assets/images/playerShip2_blue.png');
+            this.load.image('playerShip7', 'assets/images/playerShip2_green.png');
+            this.load.image('playerShip8', 'assets/images/playerShip2_orange.png');
+            this.load.image('playerShip9', 'assets/images/playerShip3_red.png');
+            this.load.image('playerShip10', 'assets/images/playerShip3_blue.png');
+            this.load.image('playerShip11', 'assets/images/playerShip3_green.png');
+            this.load.image('playerShip12', 'assets/images/playerShip3_orange.png');
+            this.load.atlasJSONHash('spritesheet', 'assets/images/nyxianskies-spritesheet.png', 'assets/images/nyxianskies-hash.json');
             this.load.spritesheet('blueUISpriteSheet-Button', 'assets/ui/blueSheet.png', 190, 49);
             // Audio
             this.load.audio('styx', 'assets/audio/styx.mp3');
@@ -353,6 +391,7 @@ var NyxianSkies;
         function ShipSelect() {
             _super.apply(this, arguments);
             this.backgroundTiles = [];
+            this.shipIndex = 1;
         }
         ShipSelect.prototype.create = function () {
             for (var y = -256; y < 976; y += 256) {
@@ -361,7 +400,7 @@ var NyxianSkies;
                     this.backgroundTiles[index] = this.add.sprite(x, y, 'blackBackground');
                 }
             }
-            this.ship = this.add.sprite(this.world.centerX, 800, 'playerShip1_red');
+            this.ship = this.add.sprite(this.world.centerX, 800, 'playerShip1');
             this.ship.anchor.setTo(0.5, 0.5);
             this.title = this.add.sprite(this.world.centerX, -300, 'selectShipText');
             this.title.anchor.setTo(0.5, 0.5);
@@ -369,6 +408,12 @@ var NyxianSkies;
             this.add.tween(this.ship.scale).to({ x: 2, y: 2 }, 2000, Phaser.Easing.Back.Out, true, 1000);
             this.add.tween(this.title).to({ y: 128 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
             this.ui = new BetaToast.UserInterface(this, "blue");
+            this.btnSelectLeft = this.ui.addSmallButton(348, 600, "<", 48, 8);
+            this.btnSelectLeft.onClickAction = this.btnSelectLeftClick;
+            this.btnSelectLeft.enabled = true;
+            this.btnSelectRight = this.ui.addSmallButton(728, 600, ">", 48, 8);
+            this.btnSelectRight.onClickAction = this.btnSelectRightClick;
+            this.btnSelectRight.enabled = true;
         };
         ShipSelect.prototype.update = function () {
             for (var i = 0; i < this.backgroundTiles.length; i++) {
@@ -378,6 +423,20 @@ var NyxianSkies;
                     tile.y = -256;
             }
             this.ui.update();
+        };
+        ShipSelect.prototype.btnSelectLeftClick = function (button) {
+            button.parent.shipIndex--;
+            if (button.parent.shipIndex <= 0)
+                button.parent.shipIndex = 12;
+            button.parent.ship.key = 'playerShip' + button.parent.shipIndex;
+            button.parent.ship.setTexture(PIXI.TextureCache[button.parent.ship.key]);
+        };
+        ShipSelect.prototype.btnSelectRightClick = function (button) {
+            button.parent.shipIndex++;
+            if (button.parent.shipIndex >= 13)
+                button.parent.shipIndex = 1;
+            button.parent.ship.key = 'playerShip' + button.parent.shipIndex;
+            button.parent.ship.setTexture(PIXI.TextureCache[button.parent.ship.key]);
         };
         return ShipSelect;
     })(Phaser.State);
@@ -426,7 +485,7 @@ var NyxianSkies;
                     this.backgroundTiles[index] = this.add.sprite(x, y, 'blackBackground');
                 }
             }
-            this.ship = this.add.sprite(-256, 512, 'playerShip1_red');
+            this.ship = this.add.sprite(-256, 512, 'playerShip1');
             this.ship.anchor.setTo(0.5, 0.5);
             this.ship.rotation = 90 * (Math.PI / 180);
             this.title = this.add.sprite(this.world.centerX, -300, 'title');
@@ -443,6 +502,7 @@ var NyxianSkies;
             this.btnTwoPlayer = this.ui.addButton(728, 600, "2 Player", 48, 8);
             this.btnTwoPlayer.onClickAction = this.btnTwoPlayerClick;
             this.btnTwoPlayer.enabled = false;
+            var sprite = this.add.sprite(100, 100, 'spritesheet', 'blue_panel.png');
         };
         TitleScreen.prototype.update = function () {
             for (var i = 0; i < this.backgroundTiles.length; i++) {

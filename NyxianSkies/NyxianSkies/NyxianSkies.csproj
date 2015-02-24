@@ -89,8 +89,21 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\images\nyxianskies-spritesheet.png" />
+    <Content Include="assets\images\playerShip1_blue.png" />
+    <Content Include="assets\images\playerShip1_green.png" />
+    <Content Include="assets\images\playerShip1_orange.png" />
+    <Content Include="assets\images\playerShip2_blue.png" />
+    <Content Include="assets\images\playerShip2_green.png" />
+    <Content Include="assets\images\playerShip2_orange.png" />
+    <Content Include="assets\images\playerShip2_red.png" />
+    <Content Include="assets\images\playerShip3_blue.png" />
+    <Content Include="assets\images\playerShip3_green.png" />
+    <Content Include="assets\images\playerShip3_orange.png" />
+    <Content Include="assets\images\playerShip3_red.png" />
     <Content Include="assets\images\SelectShip.png" />
     <Content Include="Scripts\game.js.map" />
+    <None Include="assets\images\nyxianskies-hash.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
