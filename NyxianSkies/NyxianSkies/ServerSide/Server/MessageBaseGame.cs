@@ -15,7 +15,7 @@ namespace NyxianSkies.ServerSide.Server
         public Guid GameId { get; private set; }
         public Boolean IsStarted { get; set; }
         public Boolean GameOver { get; set; }
-        public Boolean AwaitingPlayers { get; protected set; }
+        //public Boolean AwaitingPlayers { get; protected set; }
 
         protected long CurrentGameTime { get { return GameTime.ElapsedMilliseconds; } }
         protected readonly IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<MainHub>();
@@ -28,7 +28,7 @@ namespace NyxianSkies.ServerSide.Server
         protected MessageBaseGame(int numberOfPlayers)
         {
             GameId = Guid.NewGuid();
-            AwaitingPlayers = true;
+            //AwaitingPlayers = true;
             NumberOfPlayers = numberOfPlayers;
             Task.Run(() => GameLoop());
         }

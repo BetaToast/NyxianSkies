@@ -14,9 +14,9 @@ namespace NyxianSkies.ServerSide.GameInstance.Actions
         public Guid GameId { get; set; }
         public string ID { get; set; }
     }
-    public class ClientDisconnect : IPlayerAction
+    public class ClientDisconnect : IAction
     {
-        public Int64 PlayerId { get; set; }
+        public String PlayerAddress { get; set; }
     }
 
 }

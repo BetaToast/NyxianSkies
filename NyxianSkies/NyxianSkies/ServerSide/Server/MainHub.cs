@@ -22,7 +22,7 @@ namespace NyxianSkies.ServerSide.Server
 
         public override Task OnDisconnected(bool stopCalled)
         {
-            SendAction(new ClientDisconnect());
+            SendAction(new ClientDisconnect { PlayerAddress = Context.ConnectionId });
             return base.OnDisconnected(stopCalled);
         }
 
@@ -61,6 +61,7 @@ namespace NyxianSkies.ServerSide.Server
 
         private void InjectKnownData(ref object rawObject)
         {
+            //TODO:  I think we can do a lot more in here
             if (rawObject is IJoinGame)
             {
                 var player = (IJoinGame)rawObject;
