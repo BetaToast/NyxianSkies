@@ -15,6 +15,7 @@ module NyxianSkies {
             this.state.add('StageSelect', StageSelect, false);
             this.state.add('TechSelect', TechSelect, false);
             this.state.add('TitleScreen', TitleScreen, false);
+            this.state.add('WaitingLobby', WaitingLobby, false);
 
             // Start Boot screen
             this.state.start('Boot');

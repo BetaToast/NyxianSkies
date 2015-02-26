@@ -329,6 +329,7 @@ var NyxianSkies;
             this.state.add('StageSelect', NyxianSkies.StageSelect, false);
             this.state.add('TechSelect', NyxianSkies.TechSelect, false);
             this.state.add('TitleScreen', NyxianSkies.TitleScreen, false);
+            this.state.add('WaitingLobby', NyxianSkies.WaitingLobby, false);
             // Start Boot screen
             this.state.start('Boot');
         }
@@ -424,6 +425,7 @@ var NyxianSkies;
             this.btnSelectRight.enabled = true;
             this.btnCancel = this.ui.addButton(64, 656, "Cancel", 48, 12);
             this.btnAccept = this.ui.addButton(1026, 656, "Start", 48, 12);
+            this.btnAccept.onClickAction = this.btnAcceptOnClick;
         };
         ShipSelect.prototype.update = function () {
             for (var i = 0; i < this.backgroundTiles.length; i++) {
@@ -433,6 +435,10 @@ var NyxianSkies;
                     tile.y = -256;
             }
             this.ui.update();
+        };
+        ShipSelect.prototype.btnAcceptOnClick = function (button) {
+            var shipId = button.parent.ship.key;
+            button.parent.game.state.start('WaitingLobby', true, false);
         };
         ShipSelect.prototype.btnSelectLeftClick = function (button) {
             button.parent.shipIndex--;
@@ -553,6 +559,44 @@ var NyxianSkies;
         return TitleScreen;
     })(Phaser.State);
     NyxianSkies.TitleScreen = TitleScreen;
+})(NyxianSkies || (NyxianSkies = {}));
+/// <reference path="../typings/phaser/phaser.d.ts" />
+/// <reference path="../typings/phaser/pixi.d.ts" />
+var NyxianSkies;
+(function (NyxianSkies) {
+    var WaitingLobby = (function (_super) {
+        __extends(WaitingLobby, _super);
+        function WaitingLobby() {
+            _super.apply(this, arguments);
+            this.backgroundTiles = [];
+            this.shipIndex = 1;
+        }
+        WaitingLobby.prototype.create = function () {
+            for (var y = -256; y < 976; y += 256) {
+                for (var x = 0; x < 1280; x += 256) {
+                    var index = this.backgroundTiles.length;
+                    this.backgroundTiles[index] = this.add.sprite(x, y, 'blackBackground');
+                }
+            }
+            this.ui = new BetaToast.UserInterface(this, "blue");
+            this.ship = this.add.sprite(this.world.centerX, this.world.height + 100, 'playerShip1');
+            this.ship.anchor.setTo(0.5, 0.5);
+            this.add.tween(this.ship).to({ y: -100 }, 8000, Phaser.Easing.Elastic.InOut, true, 100);
+            this.add.tween(this.ship).to({ x: this.world.width - (this.world.width / 10), y: this.world.height - (this.world.height / 8) }, 8000, Phaser.Easing.Elastic.InOut, true, 15000);
+            this.add.tween(this.ship).to({ x: -100, y: -100 }, 4000, Phaser.Easing.Elastic.InOut, true, 23000);
+        };
+        WaitingLobby.prototype.update = function () {
+            for (var i = 0; i < this.backgroundTiles.length; i++) {
+                var tile = this.backgroundTiles[i];
+                tile.y++;
+                if (tile.y >= 720)
+                    tile.y = -256;
+            }
+            this.ui.update();
+        };
+        return WaitingLobby;
+    })(Phaser.State);
+    NyxianSkies.WaitingLobby = WaitingLobby;
 })(NyxianSkies || (NyxianSkies = {}));
 window.onload = function () {
     var game = new NyxianSkies.NyxianSkiesGame();
