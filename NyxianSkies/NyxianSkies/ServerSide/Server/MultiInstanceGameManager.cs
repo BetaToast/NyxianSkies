@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,6 +14,8 @@ namespace NyxianSkies.ServerSide.Server
     public class MultiInstanceGameManager
     {
         private static readonly Lazy<MultiInstanceGameManager> InstanceManager = new Lazy<MultiInstanceGameManager>();
+        private readonly List<JoinMultiPlayerGame> waittingLobby = new List<JoinMultiPlayerGame>();
+
 
         public static MultiInstanceGameManager Instance
         {
@@ -42,7 +45,7 @@ namespace NyxianSkies.ServerSide.Server
 
         private void SendGameStatsToClients()
         {
-            var gamesWaitingForPlayers = _games.Count(c => c.Value.AwaitingPlayers);
+            var gamesWaitingForPlayers = waittingLobby.Count();
             var totalGames = _games.Count();
             _hub.Clients.All.UpdatedGameStats(gamesWaitingForPlayers, totalGames);
         }
@@ -69,6 +72,13 @@ namespace NyxianSkies.ServerSide.Server
                 //For all games this connection is part of, send this action.
                 foreach (var a in _games.Values)
                     a.Enqueue((IAction)action);
+
+                lock (waittingLobby)
+                {
+                    waittingLobby.RemoveAll(
+                        c => c.PlayerAddress == ((ClientDisconnect)action).PlayerAddress
+                        );
+                }
             }
             else if (action is IGameAction && _games.ContainsKey(((IGameAction)action).GameId))
             {
@@ -79,25 +89,27 @@ namespace NyxianSkies.ServerSide.Server
 
         private void JoinMultiPlayerGame(JoinMultiPlayerGame managerActionJoin)
         {
-            lock (_games)
+            lock (waittingLobby)
             {
-                if (!_games.Any(c => c.Value.AwaitingPlayers))
+                if (waittingLobby.Count > 0)
                 {
-                    CreateGame(true);
+                    var game = CreateGame(true);
+                    var player1 = waittingLobby.First();
+                    game.Enqueue(player1);
+                    waittingLobby.Remove(player1);
+                    game.Enqueue(managerActionJoin);
                 }
-
-                var a = _games.FirstOrDefault(c => c.Value.AwaitingPlayers).Value;
-                a.Enqueue(managerActionJoin);
+                else
+                {
+                    waittingLobby.Add(managerActionJoin);
+                }
             }
         }
 
         private void JoinSinglePlayerGame(JoinSinglePlayerGame action)
         {
-            lock (_games)
-            {
-                var game = CreateGame(false);
-                game.Enqueue(action);
-            }
+            var game = CreateGame(false);
+            game.Enqueue(action);
         }
 
         private NyxianSkiesGameInstance CreateGame(Boolean isMultiPlayer)

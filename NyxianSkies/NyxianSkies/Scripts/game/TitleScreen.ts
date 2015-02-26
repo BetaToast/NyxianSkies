@@ -31,7 +31,8 @@ module NyxianSkies {
             shipTween.onComplete.add(this.allowClick, this);
 
             this.music = this.add.audio('styx', 1, true);
-            this.music.play();
+            
+            //this.music.play();
 
             this.ui = new BetaToast.UserInterface(this, "blue");
             this.btnOnePlayer = this.ui.addButton(348, 600, "1 Player", 48, 8);

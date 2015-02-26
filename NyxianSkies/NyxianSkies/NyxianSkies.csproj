@@ -186,6 +186,7 @@
     <TypeScriptCompile Include="Scripts\game\ShipSelect.ts" />
     <TypeScriptCompile Include="Scripts\game\StageSelect.ts" />
     <TypeScriptCompile Include="Scripts\game\TechSelect.ts" />
+    <TypeScriptCompile Include="Scripts\game\WaitingLobby.ts" />
     <TypeScriptCompile Include="Scripts\game\TitleScreen.ts" />
     <TypeScriptCompile Include="Scripts\main.ts" />
     <TypeScriptCompile Include="Scripts\typings\phaser\phaser.d.ts" />

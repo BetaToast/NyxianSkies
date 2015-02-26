@@ -13,6 +13,7 @@ module NyxianSkies {
         btnAccept: BetaToast.Button;
         shipIndex: number = 1;
 
+        
         create() {
             for (var y = -256; y < 976; y += 256) {
                 for (var x = 0; x < 1280; x += 256) {
@@ -42,6 +43,8 @@ module NyxianSkies {
 
             this.btnCancel = this.ui.addButton(64, 656, "Cancel", 48, 12);
             this.btnAccept = this.ui.addButton(1026, 656, "Start", 48, 12);
+            this.btnAccept.onClickAction = this.btnAcceptOnClick;
+
         }
 
         update() {
@@ -52,6 +55,11 @@ module NyxianSkies {
             }
 
             this.ui.update();
+        }
+
+        btnAcceptOnClick(button) {
+            var shipId = button.parent.ship.key;
+            button.parent.game.state.start('WaitingLobby', true, false);
         }
 
         btnSelectLeftClick(button) {
