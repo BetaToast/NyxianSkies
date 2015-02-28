@@ -268,7 +268,7 @@ namespace NSEdit.ViewModels
 
         private void LoadContent()
         {
-            GameObjectTypes = Enum.GetNames(typeof(GameObjectTypes)).ToList();
+            GameObjectTypes = Enum.GetNames(typeof(GameObjectType)).ToList();
             SelectedGameObjectType = GameObjectTypes.First();
 
             var files = Directory.GetFiles(".\\Content\\Backgrounds");

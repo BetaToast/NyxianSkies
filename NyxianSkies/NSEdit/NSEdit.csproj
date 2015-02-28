@@ -62,7 +62,6 @@
     </Compile>
     <Compile Include="Models\Background.cs" />
     <Compile Include="Models\GameObject.cs" />
-    <Compile Include="Models\GameObjectTypes.cs" />
     <Compile Include="Models\Map.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Page Include="Controls\MapViewer.xaml">
@@ -122,7 +121,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SomeOtherDll\SharedEnumerations.csproj">
+      <Project>{9721A177-5963-41FE-A2C8-F1DDF1A99DCE}</Project>
+      <Name>SharedEnumerations</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <None Include="Content\Backgrounds\black.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

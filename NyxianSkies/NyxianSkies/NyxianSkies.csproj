@@ -169,6 +169,7 @@
     <Compile Include="ServerSide\Server\HandlerManager.cs" />
     <Compile Include="ServerSide\Server\LoggedAction.cs" />
     <Compile Include="ServerSide\Server\MainHub.cs" />
+    <Compile Include="ServerSide\Server\Map.cs" />
     <Compile Include="ServerSide\Server\MessageBaseGame.cs" />
     <Compile Include="ServerSide\Server\MultiInstanceGameManager.cs" />
     <Compile Include="Startup.cs" />
@@ -198,7 +199,12 @@
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\signalr\signalr.d.ts" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SomeOtherDll\SharedEnumerations.csproj">
+      <Project>{9721A177-5963-41FE-A2C8-F1DDF1A99DCE}</Project>
+      <Name>SharedEnumerations</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
