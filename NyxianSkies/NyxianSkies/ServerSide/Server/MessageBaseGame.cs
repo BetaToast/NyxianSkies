@@ -2,14 +2,11 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
-using System.IO.MemoryMappedFiles;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNet.SignalR;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using NyxianSkies.ServerSide.GameInstance.Actions;
 
 
@@ -90,39 +87,12 @@ namespace NyxianSkies.ServerSide.Server
         protected void LoadMap()
         {
             var s = HttpContext.Current.Server.MapPath(@"~\assets\maps\Earth.json");
+            var mapfile = System.IO.File.ReadAllText(s);
 
-            string mapfile = System.IO.File.ReadAllText(s);
-            var map = JObject.Parse(mapfile);
+            var map = JsonConvert.DeserializeObject<Map>(mapfile);
+            maps.Add(map);
         }
     }
 
-    internal class Map
-    {
-        public string Name;
-        public Direction Direction;
-        public int Width;
-        public int Height;
-        public Color BackgroundColor;
-        public string BackgroundLayer1;
-        public string BackgroundLayer2;
-        public List<GameObject> GameObjects = new List<GameObject>();
-    }
-
-    internal class GameObject
-    {
-        public Enum Type;
-        public dPoint Location;
-    }
-
-    internal class dPoint
-    {
-        public decimal X;
-        public decimal Y;
-    }
-
-    internal enum Direction
-    {
-        Vertical,
-        Horizontal
-    }
+    
 }

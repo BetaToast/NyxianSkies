@@ -1,5 +1,4 @@
-﻿using System.Security.Permissions;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace NSEdit.Models
 {
@@ -14,7 +13,7 @@ namespace NSEdit.Models
 
         public override string ToString()
         {
-            return string.Format("[{0},{1}] {2}", X, Y, (GameObjectTypes) Type);
+            return string.Format("[{0},{1}] {2}", X, Y, (GameObjectType) Type);
         }
     }
 }

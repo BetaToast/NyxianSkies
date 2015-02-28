@@ -1,6 +1,6 @@
 ﻿namespace NSEdit.Models
 {
-    public enum GameObjectTypes
+    public enum GameObjectType
     {
         enemyBlack1,
         enemyBlack2,
