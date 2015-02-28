@@ -18,7 +18,9 @@
     <div id="content"></div>
     <div id="Latency"></div>
     <script>
-        var pingServer = function() {
+        var pingServer = function () {
+            if (!canExecute)
+                return;
             pingId = (new Date()).getTime();
             hub.server.sendAction(JSON.stringify(
                         {
