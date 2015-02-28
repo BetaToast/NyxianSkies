@@ -12,7 +12,7 @@ module NyxianSkies {
         btnCancel: BetaToast.Button;
         btnAccept: BetaToast.Button;
         shipIndex: number = 1;
-
+        
     
         create() {
             for (var y = -256; y < 976; y += 256) {
@@ -30,6 +30,8 @@ module NyxianSkies {
             this.add.tween(this.ship).to({ x: this.world.width - (this.world.width / 10), y: this.world.height -(this.world.height / 8 )}, 8000, Phaser.Easing.Elastic.InOut, true, 15000);
             this.add.tween(this.ship).to({ x: -100 , y: -100 }, 4000, Phaser.Easing.Elastic.InOut, true, 23000);
 
+            this.btnAccept = this.ui.addButton(1026, 656, "Start", 48, 12);
+            this.btnAccept.onClickAction = this.btnAcceptOnClick;
         }
 
         update() {
@@ -40,6 +42,10 @@ module NyxianSkies {
             }
 
             this.ui.update();
+        }
+
+        btnAcceptOnClick(button) {
+            button.parent.game.state.start('Gameplay', true, false);
         }
 
     }
