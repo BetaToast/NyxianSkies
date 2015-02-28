@@ -1,3 +1,3 @@
 ﻿window.onload = () => {
-    var game = new NyxianSkies.NyxianSkiesGame();
+    var game = new NyxianSkies.NyxianSkiesGame(this.hub);
 };

@@ -59,6 +59,7 @@ module NyxianSkies {
 
         btnAcceptOnClick(button) {
             var shipId = button.parent.ship.key;
+            var hub = button.parent.game.hub;
             button.parent.game.state.start('WaitingLobby', true, false);
         }
 

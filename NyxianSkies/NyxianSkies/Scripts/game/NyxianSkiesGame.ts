@@ -3,8 +3,12 @@
 
 module NyxianSkies {
     export class NyxianSkiesGame extends BetaToast.Game {
-        constructor() {
+        hub;
+
+        constructor(hub) {
             super();
+
+            this.hub = hub;
 
             // Add all of our screens here
             this.state.add('Boot', Boot, false);
