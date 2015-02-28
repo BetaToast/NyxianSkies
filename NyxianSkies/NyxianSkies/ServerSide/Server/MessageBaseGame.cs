@@ -2,9 +2,14 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
+using System.IO.MemoryMappedFiles;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.AspNet.SignalR;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NyxianSkies.ServerSide.GameInstance.Actions;
 
 
@@ -24,6 +29,7 @@ namespace NyxianSkies.ServerSide.Server
         private readonly List<LoggedAction> _allGameActions = new List<LoggedAction>();
         private ConcurrentQueue<IAction> ActionQueue = new ConcurrentQueue<IAction>();
         private Stopwatch GameTime = new Stopwatch();
+        private List<Map> maps = new List<Map>();
 
         protected MessageBaseGame(int numberOfPlayers)
         {
@@ -31,6 +37,7 @@ namespace NyxianSkies.ServerSide.Server
             //AwaitingPlayers = true;
             NumberOfPlayers = numberOfPlayers;
             Task.Run(() => GameLoop());
+            LoadMap();
         }
 
         private void GameLoop()
@@ -79,5 +86,43 @@ namespace NyxianSkies.ServerSide.Server
         {
             ActionQueue.Enqueue(action);
         }
+
+        protected void LoadMap()
+        {
+            var s = HttpContext.Current.Server.MapPath(@"~\assets\maps\Earth.json");
+
+            string mapfile = System.IO.File.ReadAllText(s);
+            var map = JObject.Parse(mapfile);
+        }
+    }
+
+    internal class Map
+    {
+        public string Name;
+        public Direction Direction;
+        public int Width;
+        public int Height;
+        public Color BackgroundColor;
+        public string BackgroundLayer1;
+        public string BackgroundLayer2;
+        public List<GameObject> GameObjects = new List<GameObject>();
+    }
+
+    internal class GameObject
+    {
+        public Enum Type;
+        public dPoint Location;
+    }
+
+    internal class dPoint
+    {
+        public decimal X;
+        public decimal Y;
+    }
+
+    internal enum Direction
+    {
+        Vertical,
+        Horizontal
     }
 }
