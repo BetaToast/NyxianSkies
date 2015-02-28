@@ -185,7 +185,7 @@
     <TypeScriptCompile Include="Scripts\game\NyxianSkiesGame.ts" />
     <TypeScriptCompile Include="Scripts\game\objects\GameObject.ts" />
     <TypeScriptCompile Include="Scripts\game\objects\GameObjects.ts" />
-    <TypeScriptCompile Include="Scripts\game\objects\map.ts" />
+    <TypeScriptCompile Include="Scripts\game\objects\Map.ts" />
     <TypeScriptCompile Include="Scripts\game\Preloader.ts" />
     <TypeScriptCompile Include="Scripts\game\ShipSelect.ts" />
     <TypeScriptCompile Include="Scripts\game\StageSelect.ts" />
