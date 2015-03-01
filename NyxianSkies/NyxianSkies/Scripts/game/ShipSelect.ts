@@ -58,6 +58,8 @@ module NyxianSkies {
         }
 
         btnAcceptOnClick(button) {
+            button.parent.game.state.start('WaitingLobby', true, false);
+
             var shipId = button.parent.ship.key;
             var hub = button.parent.game.hub;
             hub.server.sendAction(JSON.stringify(
@@ -66,8 +68,6 @@ module NyxianSkies {
                     Ship: 1,
                     PlayerId: 1
                 }));
-
-            button.parent.game.state.start('WaitingLobby', true, false);
         }
 
         btnSelectLeftClick(button) {

@@ -18,5 +18,11 @@ namespace NyxianSkies.ServerSide.GameInstance.Actions
         Int64 PlayerId { get; set; }
     }
 
+    public class IAmReady : IGameAction, IPlayerAction
+    {
+        public Guid GameId { get; set; }
+        public long PlayerId { get; set; }
+        public string Map { get; set; }
 
+    }
 }

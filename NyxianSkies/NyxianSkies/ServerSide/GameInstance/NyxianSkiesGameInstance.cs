@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Web;
+using Newtonsoft.Json;
 using NyxianSkies.ServerSide.GameInstance.Actions;
 using NyxianSkies.ServerSide.Server;
 
@@ -10,9 +13,11 @@ namespace NyxianSkies.ServerSide.GameInstance
     {
         private readonly ConcurrentDictionary<Int64, Player> _myPlayers = new ConcurrentDictionary<Int64, Player>();
 
+        private List<Map> maps = new List<Map>();
         public NyxianSkiesGameInstance(int numberOfPlayers)
             : base(numberOfPlayers)
         {
+            LoadMap();
         }
 
         public async Task HandleAction(IJoinGame joinGame)
@@ -28,6 +33,14 @@ namespace NyxianSkies.ServerSide.GameInstance
             //TODO:  What shall we do whena player disconnects
         }
 
-        
+        private void LoadMap()
+        {
+            var s = HttpContext.Current.Server.MapPath(@"~\assets\maps\Earth.json");
+            var mapfile = System.IO.File.ReadAllText(s);
+
+            var map = JsonConvert.DeserializeObject<Map>(mapfile);
+            maps.Add(map);
+        }
+
     }
 }
