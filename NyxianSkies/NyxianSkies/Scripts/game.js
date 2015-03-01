@@ -278,6 +278,7 @@ var NyxianSkies;
             this.load.image('preloadBar', 'assets/images/loader.png');
         };
         Boot.prototype.create = function () {
+            NyxianSkies.NyxianSkiesGame.currentState = this;
             this.input.maxPointers = 1;
             this.stage.disableVisibilityChange = true;
             this.game.state.start('Preloader', true, false);
@@ -295,6 +296,9 @@ var NyxianSkies;
         function GameOver() {
             _super.apply(this, arguments);
         }
+        GameOver.prototype.create = function () {
+            NyxianSkies.NyxianSkiesGame.currentState = this;
+        };
         return GameOver;
     })(Phaser.State);
     NyxianSkies.GameOver = GameOver;
@@ -303,45 +307,13 @@ var NyxianSkies;
 /// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
-    var Utils = BetaToast.Utils;
     var Gameplay = (function (_super) {
         __extends(Gameplay, _super);
         function Gameplay() {
             _super.apply(this, arguments);
-            this.bgLayer1Tiles = [];
-            this.bgLayer2Tiles = [];
-            this.gameObjects = [];
         }
         Gameplay.prototype.create = function () {
-            this.mapFilename = "assets//maps//earth.json";
-            this.jsonMap = Utils.readAllText(this.mapFilename);
-            this.map = new NyxianSkies.Map(this.jsonMap);
-            // BG Color
-            this.game.stage.setBackgroundColor(this.map.bgColor);
-            // BG Layer 1
-            if (this.map.bgLayer1 !== "None") {
-                for (var y = -256; y < 976; y += 256) {
-                    for (var x = 0; x < 1280; x += 256) {
-                        var index = this.bgLayer1Tiles.length;
-                        this.bgLayer1Tiles[index] = this.add.sprite(x, y, this.map.bgLayer1 + 'Background');
-                    }
-                }
-            }
-            // BG Layer 2
-            if (this.map.bgLayer2 !== "None") {
-                for (var y = -256; y < 976; y += 256) {
-                    for (var x = 0; x < 1280; x += 256) {
-                        var index = this.bgLayer2Tiles.length;
-                        this.bgLayer2Tiles[index] = this.add.sprite(x, y, this.map.bgLayer2 + 'Background');
-                    }
-                }
-            }
-            for (var i = 0; i < this.map.gameObjects.length; i++) {
-                var gameObject = this.map.gameObjects[i];
-                var keyName = NyxianSkies.GameObjects.getTextureAtlasKeyFromId(gameObject.objectType) + ".png";
-                var sprite = this.add.sprite(gameObject.x, gameObject.y, 'spritesheet', keyName);
-                this.gameObjects[this.gameObjects.length] = sprite;
-            }
+            NyxianSkies.NyxianSkiesGame.currentState = this;
         };
         Gameplay.prototype.update = function () {
         };
@@ -353,6 +325,7 @@ var NyxianSkies;
 /// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
+    var Utils = BetaToast.Utils;
     var NyxianSkiesGame = (function (_super) {
         __extends(NyxianSkiesGame, _super);
         function NyxianSkiesGame(hub) {
@@ -371,6 +344,75 @@ var NyxianSkies;
             // Start Boot screen
             this.state.start('Boot');
         }
+        NyxianSkiesGame.loadMap = function (mapKeyName) {
+            NyxianSkiesGame.map = null;
+            NyxianSkiesGame.mapFilename = "";
+            NyxianSkiesGame.jsonMap = "";
+            NyxianSkiesGame.bgLayer1Tiles = [];
+            NyxianSkiesGame.bgLayer2Tiles = [];
+            NyxianSkiesGame.gameObjects = [];
+            NyxianSkiesGame.mapFilename = "assets//maps//" + mapKeyName + ".json";
+            NyxianSkiesGame.jsonMap = Utils.readAllText(this.mapFilename);
+            NyxianSkiesGame.map = new NyxianSkies.Map(this.jsonMap);
+            var state = NyxianSkiesGame.currentState;
+            var map = NyxianSkiesGame.map;
+            var bgLayer1Tiles = NyxianSkiesGame.bgLayer1Tiles;
+            var bgLayer2Tiles = NyxianSkiesGame.bgLayer2Tiles;
+            var gameObjects = NyxianSkiesGame.gameObjects;
+            // BG Color
+            state.stage.setBackgroundColor(this.map.bgColor);
+            // BG Layer 1
+            if (map.bgLayer1 !== "None") {
+                for (var y = -256; y < 976; y += 256) {
+                    for (var x = 0; x < 1280; x += 256) {
+                        var index = bgLayer1Tiles.length;
+                        bgLayer1Tiles[index] = state.add.sprite(x, y, map.bgLayer1 + 'Background');
+                        bgLayer1Tiles[index].visible = false;
+                    }
+                }
+            }
+            // BG Layer 2
+            if (map.bgLayer2 !== "None") {
+                for (var y = -256; y < 976; y += 256) {
+                    for (var x = 0; x < 1280; x += 256) {
+                        var index = bgLayer2Tiles.length;
+                        bgLayer2Tiles[index] = state.add.sprite(x, y, map.bgLayer2 + 'Background');
+                        bgLayer2Tiles[index].visible = false;
+                    }
+                }
+            }
+            for (var i = 0; i < map.gameObjects.length; i++) {
+                var gameObject = map.gameObjects[i];
+                var gameObjectkeyName = NyxianSkies.GameObjects.getTextureAtlasKeyFromId(gameObject.objectType) + ".png";
+                var sprite = state.add.sprite(gameObject.x, gameObject.y, 'spritesheet', gameObjectkeyName);
+                var index = gameObjects.length;
+                gameObjects[index] = sprite;
+                gameObjects[index].visible = false;
+            }
+        };
+        NyxianSkiesGame.setMapVisibility = function (value) {
+            var bgLayer1Tiles = NyxianSkiesGame.bgLayer1Tiles;
+            var bgLayer2Tiles = NyxianSkiesGame.bgLayer2Tiles;
+            var gameObjects = NyxianSkiesGame.gameObjects;
+            for (var i = 0; i < bgLayer1Tiles.length; i++) {
+                bgLayer1Tiles[i].visible = value;
+            }
+            for (var i = 0; i < bgLayer2Tiles.length; i++) {
+                bgLayer2Tiles[i].visible = value;
+            }
+            for (var i = 0; i < gameObjects.length; i++) {
+                gameObjects[i].visible = value;
+            }
+        };
+        NyxianSkiesGame.showMap = function () {
+            NyxianSkiesGame.setMapVisibility(true);
+        };
+        NyxianSkiesGame.hideMap = function () {
+            NyxianSkiesGame.setMapVisibility(false);
+        };
+        NyxianSkiesGame.bgLayer1Tiles = [];
+        NyxianSkiesGame.bgLayer2Tiles = [];
+        NyxianSkiesGame.gameObjects = [];
         return NyxianSkiesGame;
     })(BetaToast.Game);
     NyxianSkies.NyxianSkiesGame = NyxianSkiesGame;
@@ -762,6 +804,7 @@ var NyxianSkies;
             this.load.audio('styx', 'assets/audio/styx.mp3');
         };
         Preloader.prototype.create = function () {
+            NyxianSkies.NyxianSkiesGame.currentState = this;
             var tween = this.add.tween(this.preloadBar).to({ alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
             tween.onComplete.add(this.startTitleScreen, this);
         };
@@ -784,6 +827,7 @@ var NyxianSkies;
             this.shipIndex = 1;
         }
         ShipSelect.prototype.create = function () {
+            NyxianSkies.NyxianSkiesGame.currentState = this;
             for (var y = -256; y < 976; y += 256) {
                 for (var x = 0; x < 1280; x += 256) {
                     var index = this.backgroundTiles.length;
@@ -853,6 +897,9 @@ var NyxianSkies;
         function StageSelect() {
             _super.apply(this, arguments);
         }
+        StageSelect.prototype.create = function () {
+            NyxianSkies.NyxianSkiesGame.currentState = this;
+        };
         return StageSelect;
     })(Phaser.State);
     NyxianSkies.StageSelect = StageSelect;
@@ -866,6 +913,9 @@ var NyxianSkies;
         function TechSelect() {
             _super.apply(this, arguments);
         }
+        TechSelect.prototype.create = function () {
+            NyxianSkies.NyxianSkiesGame.currentState = this;
+        };
         return TechSelect;
     })(Phaser.State);
     NyxianSkies.TechSelect = TechSelect;
@@ -881,6 +931,7 @@ var NyxianSkies;
             this.backgroundTiles = [];
         }
         TitleScreen.prototype.create = function () {
+            NyxianSkies.NyxianSkiesGame.currentState = this;
             for (var y = 0; y < 720; y += 256) {
                 for (var x = 0; x < 1536; x += 256) {
                     var index = this.backgroundTiles.length;
@@ -974,6 +1025,7 @@ var NyxianSkies;
             this.backgroundTiles = [];
         }
         WaitingLobby.prototype.create = function () {
+            NyxianSkies.NyxianSkiesGame.currentState = this;
             for (var y = -256; y < 976; y += 256) {
                 for (var x = 0; x < 1280; x += 256) {
                     var index = this.backgroundTiles.length;

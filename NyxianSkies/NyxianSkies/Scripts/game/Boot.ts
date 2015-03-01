@@ -8,6 +8,7 @@ module NyxianSkies {
         }
 
         create() {
+            NyxianSkiesGame.currentState = this;
             this.input.maxPointers = 1;
             this.stage.disableVisibilityChange = true;
             this.game.state.start('Preloader', true, false);

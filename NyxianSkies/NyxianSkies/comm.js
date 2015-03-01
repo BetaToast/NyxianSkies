@@ -26,10 +26,7 @@ $(function () {
     }
 
     hub.client.loadLevel = function (level) {
-        //TODO:  Put in level loading logic
-        //Load level with the name of level
-        //send response to server when level load is complete and player is ready to play
-        debugger;
+        NyxianSkies.NyxianSkiesGame.loadMap(level);
         hub.server.sendAction(JSON.stringify(
                        {
                            action: 'MapLoadedAndReady',

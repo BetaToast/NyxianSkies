@@ -9,6 +9,7 @@ module NyxianSkies {
 
 
         create() {
+            NyxianSkiesGame.currentState = this;
             for (var y = -256; y < 976; y += 256) {
                 for (var x = 0; x < 1280; x += 256) {
                     var index = this.backgroundTiles.length;

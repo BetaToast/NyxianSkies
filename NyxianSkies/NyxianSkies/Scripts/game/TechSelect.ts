@@ -3,6 +3,8 @@
 
 module NyxianSkies {
     export class TechSelect extends Phaser.State {
-
+        create() {
+            NyxianSkiesGame.currentState = this;
+        }
     }
 }  

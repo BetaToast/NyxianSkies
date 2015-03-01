@@ -12,6 +12,7 @@ module NyxianSkies {
         btnTwoPlayer: BetaToast.Button;
 
         create() {
+            NyxianSkiesGame.currentState = this;
             for (var y = 0; y < 720; y += 256) {
                 for (var x = 0; x < 1536; x += 256) {
                     var index = this.backgroundTiles.length;

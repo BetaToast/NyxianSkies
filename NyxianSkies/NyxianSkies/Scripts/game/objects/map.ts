@@ -8,6 +8,8 @@
         bgLayer1: string;
         bgLayer2: string;
         gameObjects: Array<GameObject> = [];
+        startX: number;
+        startY: number;
 
         constructor(json: string = "") {
             if (json === "") return;
