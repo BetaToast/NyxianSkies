@@ -19,29 +19,54 @@ module NyxianSkies {
                 }
             }
 
-            this.ship = this.add.sprite(-256, 512, 'playerShip1');
+            this.ship = this.add.sprite(-256, 462, 'playerShip1');
             this.ship.anchor.setTo(0.5, 0.5);
             this.ship.rotation = 90 * (Math.PI / 180);
 
             this.title = this.add.sprite(this.world.centerX, -300, 'title');
             this.title.anchor.setTo(0.5, 0.5);
 
-            this.add.tween(this.title).to({ y: 220 }, 2000, Phaser.Easing.Elastic.Out, true, 0);
-            var shipTween = this.add.tween(this.ship).to({ x: this.world.centerX }, 2000, Phaser.Easing.Elastic.InOut, true, 100);
-            shipTween.onComplete.add(this.allowClick, this);
-
             this.music = this.add.audio('styx', 1, true);
             
             //this.music.play();
 
             this.ui = new BetaToast.UserInterface(this, "blue");
-            this.btnOnePlayer = this.ui.addButton(348, 600, "1 Player", 48, 8);
+            this.btnOnePlayer = this.ui.addButton(-1000, 600, "1 Player", 48, 8);
             this.btnOnePlayer.onClickAction = this.btnOnePlayerClick;
             this.btnOnePlayer.enabled = false;
-            
-            this.btnTwoPlayer = this.ui.addButton(728, 600, "2 Player", 48, 8);
+
+            this.btnTwoPlayer = this.ui.addButton(2200, 600, "2 Player", 48, 8);
             this.btnTwoPlayer.onClickAction = this.btnTwoPlayerClick;
             this.btnTwoPlayer.enabled = false;
+
+
+            this.add.tween(this.title)
+                .to({ y: 220 }, 3000, Phaser.Easing.Elastic.InOut, true, 250);
+            this.add.tween(this.ship)
+                .to({ x: this.world.centerX }, 3000, Phaser.Easing.Elastic.InOut, true, 1250)
+                .onComplete.add(this.allowClick, this);
+            this.add.tween(this.btnOnePlayer.normalSprite)
+                .to({ x: 348 }, 3000, Phaser.Easing.Elastic.InOut, true, 2250);
+            this.add.tween(this.btnOnePlayer.hoverSprite)
+                .to({ x: 348 }, 3000, Phaser.Easing.Elastic.InOut, true, 2250);
+            this.add.tween(this.btnOnePlayer.clickSprite)
+                .to({ x: 348 }, 3000, Phaser.Easing.Elastic.InOut, true, 2250);
+            this.add.tween(this.btnOnePlayer.textSprite)
+                .to({ x: 348 }, 3000, Phaser.Easing.Elastic.InOut, true, 2250);
+            this.add.tween(this.btnOnePlayer.textSpriteShadow)
+                .to({ x: 348 }, 3000, Phaser.Easing.Elastic.InOut, true, 2250);
+
+            this.add.tween(this.btnTwoPlayer.normalSprite)
+                .to({ x: 728 }, 3000, Phaser.Easing.Elastic.InOut, true, 2250);
+            this.add.tween(this.btnTwoPlayer.hoverSprite)
+                .to({ x: 728 }, 3000, Phaser.Easing.Elastic.InOut, true, 2250);
+            this.add.tween(this.btnTwoPlayer.clickSprite)
+                .to({ x: 728 }, 3000, Phaser.Easing.Elastic.InOut, true, 2250);
+            this.add.tween(this.btnTwoPlayer.textSprite)
+                .to({ x: 728 }, 3000, Phaser.Easing.Elastic.InOut, true, 2250);
+            this.add.tween(this.btnTwoPlayer.textSpriteShadow)
+                .to({ x: 728 }, 3000, Phaser.Easing.Elastic.InOut, true, 2250);
+
         }
 
         update() {
