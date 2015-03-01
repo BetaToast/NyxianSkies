@@ -65,8 +65,7 @@ module NyxianSkies {
             hub.server.sendAction(JSON.stringify(
                 {
                     action: 'JoinSinglePlayerGame',
-                    Ship: 1,
-                    PlayerId: 1
+                    ship: 1
                 }));
         }
 

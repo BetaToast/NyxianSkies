@@ -15,13 +15,13 @@ namespace NyxianSkies.ServerSide.GameInstance.Actions
     //Actions that are specific to a player not related to a game
     public interface IPlayerAction : IAction
     {
-        Int64 PlayerId { get; set; }
+        Guid PlayerId { get; set; }
     }
 
     public class IAmReady : IGameAction, IPlayerAction
     {
         public Guid GameId { get; set; }
-        public long PlayerId { get; set; }
+        public Guid PlayerId { get; set; }
         public string Map { get; set; }
 
     }

@@ -76,7 +76,7 @@ namespace NyxianSkies.ServerSide.Server
                 lock (waittingLobby)
                 {
                     waittingLobby.RemoveAll(
-                        c => c.PlayerAddress == ((ClientDisconnect)action).PlayerAddress
+                        c => c.PlayerId == Guid.Parse(((ClientDisconnect)action).PlayerAddress)
                         );
                 }
             }

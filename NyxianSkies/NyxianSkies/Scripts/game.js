@@ -823,8 +823,7 @@ var NyxianSkies;
             var hub = button.parent.game.hub;
             hub.server.sendAction(JSON.stringify({
                 action: 'JoinSinglePlayerGame',
-                Ship: 1,
-                PlayerId: 1
+                ship: 1
             }));
         };
         ShipSelect.prototype.btnSelectLeftClick = function (button) {

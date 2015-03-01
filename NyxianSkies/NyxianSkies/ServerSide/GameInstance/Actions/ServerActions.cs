@@ -19,4 +19,9 @@ namespace NyxianSkies.ServerSide.GameInstance.Actions
         public String PlayerAddress { get; set; }
     }
 
+    public class MapLoadedAndReady : IGameAction, IPlayerAction
+    {
+        public Guid GameId { get; set; }
+        public Guid PlayerId { get; set; }
+    }
 }

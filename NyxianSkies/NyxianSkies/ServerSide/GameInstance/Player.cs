@@ -4,7 +4,7 @@ namespace NyxianSkies.ServerSide.GameInstance
 {
     public class Player
     {
-        public Int64 PlayerId { get; private set; }
+        public Guid PlayerId { get; private set; }
         public String PlayerName { get; set; }
         public Boolean Ready { get; set; }
 
@@ -12,12 +12,10 @@ namespace NyxianSkies.ServerSide.GameInstance
         public decimal Health { get; private set; }
         public decimal HullShield { get; private set; }
 
-
-        private String PlayerAddress { get; set; }
-        public Player(long playerId, String playerAddress)
+        public string LoadingLevel { get; set; }
+        public Player(Guid playerId)
         {
             PlayerId = playerId;
-            PlayerAddress = playerAddress;
         }
     }
 }

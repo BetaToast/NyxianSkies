@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
+using NyxianSkies.ServerSide.GameInstance;
 using NyxianSkies.ServerSide.GameInstance.Actions;
 
 
@@ -20,7 +21,8 @@ namespace NyxianSkies.ServerSide.Server
         protected long CurrentGameTime { get { return GameTime.ElapsedMilliseconds; } }
         protected readonly IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<MainHub>();
 
-        private readonly int NumberOfPlayers;
+        protected readonly int NumberOfPlayers;
+        protected readonly ConcurrentDictionary<Guid, Player> _myPlayers = new ConcurrentDictionary<Guid, Player>();
         private readonly List<LoggedAction> _allGameActions = new List<LoggedAction>();
         private ConcurrentQueue<IAction> ActionQueue = new ConcurrentQueue<IAction>();
         private Stopwatch GameTime = new Stopwatch();
@@ -82,5 +84,5 @@ namespace NyxianSkies.ServerSide.Server
 
     }
 
-    
+
 }

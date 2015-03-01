@@ -75,7 +75,7 @@ namespace NyxianSkies.ServerSide.Server
             if (rawObject is IJoinGame)
             {
                 var player = (IJoinGame)rawObject;
-                player.PlayerAddress = Context.ConnectionId;
+                player.PlayerId = Guid.Parse(Context.ConnectionId);
             }
         }
 
