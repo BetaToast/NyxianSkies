@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -34,11 +36,19 @@ namespace NyxianSkies.ServerSide.Server
 
         public void SendAction(string jsonActionBatch)
         {
+            WriteToConsole(jsonActionBatch, Context.ConnectionId, DateTime.Now);
             //Take jsonActionBatch and break it into its different actions
             var jsonActionCollection = JObject.Parse(jsonActionBatch);
             var rawObject = ConvertJsonToActions(jsonActionCollection);
 
             SendAction(rawObject);
+        }
+
+        private void WriteToConsole(string jsonActionBatch, string connectionId, DateTime now)
+        {
+            if (jsonActionBatch.Contains("Ping"))
+                return;
+            Debug.WriteLine("{1,10}-{0,10}:{2,10} {3}", "Message Received", now, connectionId, jsonActionBatch);
         }
 
         private void SendAction(object rawObject)
