@@ -7,5 +7,6 @@ namespace NyxianSkies.ServerSide.GameInstance.Actions
     public class StartLevel : IAction
     {
         public string Level { get; set; }
+        public Guid GameId { get; set; }
     }
 }

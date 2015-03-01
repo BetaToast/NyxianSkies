@@ -28,18 +28,29 @@ $(function () {
     hub.client.loadLevel = function (level) {
         NyxianSkies.NyxianSkiesGame.loadMap(level);
         hub.server.sendAction(JSON.stringify(
-                       {
-                           action: 'MapLoadedAndReady',
-                           playerId: PlayerId,
-                           gameId: GameId
-                       }));
+        {
+            action: 'MapLoadedAndReady',
+            playerId: PlayerId,
+            gameId: GameId
+        }));
     }
 
     hub.client.startLevel = function (level) {
-        //TODO:  Start the ships on the level
-
-
+        if (level !== undefined) {
+            var a = 0;
+        }
+        hub.server.sendAction(JSON.stringify(
+        {
+            action: 'StartLevel',
+            playerId: PlayerId,
+            gameId: GameId
+        }));
     }
+
+    //hub.client.startLevel = function() {
+    //    var a = 0;
+    //}
+
     //Start the hub and wire up server call functions after it is started
     $.connection.hub.logging = true; //debugging
     $.connection.hub.start();

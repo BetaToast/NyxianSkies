@@ -163,6 +163,18 @@
 
             return ret;
         }
+
+        addConsole(x: number, y: number): BetaToast.Console {
+            var ret = new BetaToast.Console();
+
+            ret.parent = this.parent;
+            ret.x = x;
+            ret.y = y;
+
+            this.controls[this.controls.length] = ret;
+
+            return ret;
+        }
     }
 
     ///////////////////////////////////////

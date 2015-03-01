@@ -28,6 +28,12 @@ module NyxianSkies {
             }
 
             this.ui.update();
+
+            if (NyxianSkies.NyxianSkiesGame.map !== null) {
+                var game = <NyxianSkiesGame> this.game;
+                //game.hub.client.startLevel();
+                this.game.state.start('Gameplay', true, false);
+            }
         }
 
     }

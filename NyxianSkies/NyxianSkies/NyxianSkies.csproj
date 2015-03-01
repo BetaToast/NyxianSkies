@@ -180,6 +180,7 @@
     <TypeScriptCompile Include="Scripts\fx\core\Game.ts" />
     <TypeScriptCompile Include="Scripts\fx\core\Utilities.ts" />
     <TypeScriptCompile Include="Scripts\fx\ui\Button.ts" />
+    <TypeScriptCompile Include="Scripts\fx\ui\Console.ts" />
     <TypeScriptCompile Include="Scripts\fx\ui\UI.ts" />
     <TypeScriptCompile Include="Scripts\game\Boot.ts" />
     <TypeScriptCompile Include="Scripts\game\GameOver.ts" />

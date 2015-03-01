@@ -67,6 +67,10 @@ namespace NyxianSkies.ServerSide.Server
             {
                 JoinSinglePlayerGame((JoinSinglePlayerGame)action);
             }
+            else if (action is StartLevel)
+            {
+                StartLevel((StartLevel)action);
+            }
             else if (action is ClientDisconnect)
             {
                 //For all games this connection is part of, send this action.
@@ -118,6 +122,12 @@ namespace NyxianSkies.ServerSide.Server
             _games.GetOrAdd(i.GameId, i);
             SendGameStatsToClients();
             return i;
+        }
+
+        private void StartLevel(StartLevel action)
+        {
+            var game = _games[action.GameId];
+            game.Enqueue(action);
         }
     }
 }
