@@ -906,7 +906,8 @@ var NyxianSkies;
             this.add.tween(this.ship).to({ x: this.world.centerX }, length, Phaser.Easing.Elastic.InOut, true, start);
             start += 750;
             length = 3000;
-            this.add.tween(this.title).to({ x: this.world.centerX, y: 220 }, length, Phaser.Easing.Elastic.InOut, true, start);
+            this.add.tween(this.title).to({ x: this.world.centerX, y: 220 }, length, Phaser.Easing.Elastic.InOut, true, start).onComplete.add(this.allowClick, this);
+            ;
             start += 250;
             this.add.tween(this.btnTwoPlayer.normalSprite).to({ x: 728, y: 600 }, length, Phaser.Easing.Elastic.InOut, true, start);
             this.add.tween(this.btnTwoPlayer.hoverSprite).to({ x: 728, y: 600 }, length, Phaser.Easing.Elastic.InOut, true, start);
@@ -919,7 +920,7 @@ var NyxianSkies;
             this.add.tween(this.btnOnePlayer.clickSprite).to({ x: 348, y: 600 }, length, Phaser.Easing.Elastic.InOut, true, start);
             this.add.tween(this.btnOnePlayer.textSprite).to({ x: 348, y: 600 }, length, Phaser.Easing.Elastic.InOut, true, start);
             this.add.tween(this.btnOnePlayer.textSpriteShadow).to({ x: 348, y: 600 }, length, Phaser.Easing.Elastic.InOut, true, start);
-            //.onComplete.add(this.allowClick, this);
+            //
         };
         TitleScreen.prototype.update = function () {
             for (var i = 0; i < this.backgroundTiles.length; i++) {
