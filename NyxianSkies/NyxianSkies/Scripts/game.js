@@ -363,6 +363,7 @@ var NyxianSkies;
             this.bgLayer1Tiles = [];
             this.bgLayer2Tiles = [];
             this.gameObjects = [];
+            this.shipSpeed = 8;
         }
         Gameplay.prototype.create = function () {
             NyxianSkies.NyxianSkiesGame.currentState = this;
@@ -371,14 +372,18 @@ var NyxianSkies;
             this.console.addLine("Hello World");
             this.loadMap("Earth");
             var shipKey = NyxianSkies.NyxianSkiesGame.getPlayerShipAtlasKey(NyxianSkies.NyxianSkiesGame.shipType);
-            this.player1Ship = this.add.sprite(this.world.centerX, 800, 'spritesheet', shipKey);
+            this.player1Ship = this.add.sprite(this.world.centerX, this.world.height - (this.world.centerY / 2), 'spritesheet', shipKey);
             this.player1Ship.anchor.setTo(0.5, 0.5);
+            this.upKey = this.game.input.keyboard.addKey(Phaser.Keyboard.W);
+            this.downKey = this.game.input.keyboard.addKey(Phaser.Keyboard.S);
+            this.leftKey = this.game.input.keyboard.addKey(Phaser.Keyboard.A);
+            this.rightKey = this.game.input.keyboard.addKey(Phaser.Keyboard.D);
         };
         Gameplay.prototype.update = function () {
             var bgLayer1Tiles = this.bgLayer1Tiles;
             for (var i = 0; i < bgLayer1Tiles.length; i++) {
                 var tile = bgLayer1Tiles[i];
-                tile.y++;
+                tile.y += 2;
                 //if (tile.y <= -256) tile.y = 976;
                 if (tile.y >= 976)
                     tile.y = -256;
@@ -388,9 +393,21 @@ var NyxianSkies;
                 var gameObject = gameObjects[i];
                 gameObject.y++;
             }
-            var obj = gameObjects[0];
-            this.console.changeLine(0, "Game Object [0]: [" + obj.x + ", " + obj.y + "]");
+            //var obj = gameObjects[0];
+            //this.console.changeLine(0, "Game Object [0]: [" + obj.x + ", " + obj.y + "]");
             this.ui.update();
+            if (this.upKey.isDown) {
+                this.player1Ship.y -= this.shipSpeed;
+            }
+            else if (this.downKey.isDown) {
+                this.player1Ship.y += this.shipSpeed;
+            }
+            if (this.leftKey.isDown) {
+                this.player1Ship.x -= this.shipSpeed;
+            }
+            else if (this.rightKey.isDown) {
+                this.player1Ship.x += this.shipSpeed;
+            }
         };
         Gameplay.prototype.loadMap = function (mapKeyName) {
             this.map = null;
