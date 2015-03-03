@@ -1,4 +1,6 @@
-﻿var GameId;
+﻿/// <reference path="scripts/typings/jquery/jquery.d.ts" />
+/// <reference path="scripts/typings/signalr/signalr.d.ts" />
+var GameId;
 var PlayerId;
 
 var hub;
@@ -25,8 +27,7 @@ $(function () {
     }
 
     hub.client.loadLevel = function (level) {
-        debugger;
-        NyxianSkies.NyxianSkiesGame.game.state.start('Gameplay', true, false);
+        //NyxianSkies.NyxianSkiesGame. game.state.start('Gameplay', true, false);
     }
 
     hub.client.startLevel = function (level) {
@@ -34,18 +35,16 @@ $(function () {
             var a = 0;
         }
         hub.server.sendAction(JSON.stringify(
-        {
-            action: 'StartLevel',
-            playerId: PlayerId,
-            gameId: GameId
-        }));
+            {
+                action: 'StartLevel',
+                playerId: PlayerId,
+                gameId: GameId
+            }));
     }
 
-    //hub.client.startLevel = function() {
-    //    var a = 0;
-    //}
 
     //Start the hub and wire up server call functions after it is started
     $.connection.hub.logging = true; //debugging
     $.connection.hub.start();
 });
+

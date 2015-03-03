@@ -9,7 +9,7 @@ using NyxianSkies.ServerSide.GameInstance.Actions;
 
 namespace NyxianSkies.ServerSide.Server
 {
-    public class MainHub : Hub
+    public class MainHub : Hub<IMainHubClient>
     {
         //put generic  SignalR specific stuff in here
         private readonly static ConnectionMapping<string> _connections = new ConnectionMapping<string>();

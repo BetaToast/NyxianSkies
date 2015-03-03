@@ -114,6 +114,10 @@
     <Content Include="Scripts\jquery-2.1.3.js" />
     <Content Include="Scripts\jquery-2.1.3.min.js" />
     <Content Include="Scripts\jquery-2.1.3.min.map" />
+    <Content Include="Scripts\typings\hubs.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>hubs.d.ts</LastGenOutput>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -143,7 +147,6 @@
     <Content Include="assets\ui\redSheet.xml" />
     <Content Include="assets\ui\yellowSheet.png" />
     <Content Include="assets\ui\yellowSheet.xml" />
-    <Content Include="comm.js" />
     <Content Include="index.html" />
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\Website.pubxml" />
@@ -168,6 +171,7 @@
     <Compile Include="ServerSide\GameInstance\Player.cs" />
     <Compile Include="ServerSide\Server\ConnectionMapping.cs" />
     <Compile Include="ServerSide\Server\HandlerManager.cs" />
+    <Compile Include="ServerSide\Server\IMainHubClient.cs" />
     <Compile Include="ServerSide\Server\LoggedAction.cs" />
     <Compile Include="ServerSide\Server\MainHub.cs" />
     <Compile Include="ServerSide\Server\Map.cs" />
@@ -176,6 +180,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="MyHub.ts" />
     <TypeScriptCompile Include="Scripts\fx\core\Core.ts" />
     <TypeScriptCompile Include="Scripts\fx\core\Game.ts" />
     <TypeScriptCompile Include="Scripts\fx\core\Utilities.ts" />
@@ -201,12 +206,20 @@
     <TypeScriptCompile Include="Scripts\typings\phaser\pixi.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\signalr\signalr.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\hubs.d.ts">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>hubs.tt</DependentUpon>
+    </TypeScriptCompile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SomeOtherDll\SharedEnumerations.csproj">
       <Project>{9721A177-5963-41FE-A2C8-F1DDF1A99DCE}</Project>
       <Name>SharedEnumerations</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
