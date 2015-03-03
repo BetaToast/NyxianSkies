@@ -109,6 +109,15 @@ module NyxianSkies {
                 }
                 gameObjects[index] = sprite;
             }
+
+            var hub = (<any>this.game).hub;
+            hub.server.sendAction(JSON.stringify(
+                {
+                    action: 'MapLoadedAndReady',
+                    playerId: (<any>this).PlayerId,
+                    gameId: (<any>this).GameId
+                }));
+
         }
     }
 }  

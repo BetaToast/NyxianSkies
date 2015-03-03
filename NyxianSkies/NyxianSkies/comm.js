@@ -25,13 +25,8 @@ $(function () {
     }
 
     hub.client.loadLevel = function (level) {
-        //NyxianSkies.NyxianSkiesGame.loadMap(level);
-        hub.server.sendAction(JSON.stringify(
-        {
-            action: 'MapLoadedAndReady',
-            playerId: PlayerId,
-            gameId: GameId
-        }));
+        debugger;
+        NyxianSkies.NyxianSkiesGame.game.state.start('Gameplay', true, false);
     }
 
     hub.client.startLevel = function (level) {
