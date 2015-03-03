@@ -15,7 +15,7 @@ module NyxianSkies {
             super();
 
             this.hub = hub;
-
+            
             // Add all of our screens here
             this.state.add('Boot', Boot, false);
             this.state.add('GameOver', GameOver, false);

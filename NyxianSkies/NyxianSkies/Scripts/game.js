@@ -370,15 +370,15 @@ var NyxianSkies;
             this.console = this.ui.addConsole(0, 0);
             this.console.addLine("Hello World");
             this.loadMap("Earth");
-            var shipKey = NyxianSkies.NyxianSkiesGame.getPlayerShipAtlasKey(NyxianSkies.NyxianSkiesGame.shipType);
-            this.player1Ship = this.add.sprite(this.world.centerX, 800, 'spritesheet', shipKey);
-            this.player1Ship.anchor.setTo(0.5, 0.5);
+            var px = this.world.centerX;
+            var py = this.world.height - (this.world.centerY / 2);
+            this.player1 = new NyxianSkies.Player(this.game, px, py, NyxianSkies.NyxianSkiesGame.shipType);
         };
         Gameplay.prototype.update = function () {
             var bgLayer1Tiles = this.bgLayer1Tiles;
             for (var i = 0; i < bgLayer1Tiles.length; i++) {
                 var tile = bgLayer1Tiles[i];
-                tile.y++;
+                tile.y += 2;
                 //if (tile.y <= -256) tile.y = 976;
                 if (tile.y >= 976)
                     tile.y = -256;
@@ -388,9 +388,10 @@ var NyxianSkies;
                 var gameObject = gameObjects[i];
                 gameObject.y++;
             }
-            var obj = gameObjects[0];
-            this.console.changeLine(0, "Game Object [0]: [" + obj.x + ", " + obj.y + "]");
+            //var obj = gameObjects[0];
+            //this.console.changeLine(0, "Game Object [0]: [" + obj.x + ", " + obj.y + "]");
             this.ui.update();
+            this.player1.update();
         };
         Gameplay.prototype.loadMap = function (mapKeyName) {
             this.map = null;
@@ -841,6 +842,73 @@ var NyxianSkies;
         return Map;
     })();
     NyxianSkies.Map = Map;
+})(NyxianSkies || (NyxianSkies = {}));
+var NyxianSkies;
+(function (NyxianSkies) {
+    var Player = (function () {
+        function Player(game, x, y, shipType) {
+            /////////////////////////////
+            // Variables
+            /////////////////////////////
+            this.x = 0;
+            this.y = 0;
+            this.shipType = 0;
+            this.speed = 8;
+            this.shield = 0;
+            this.hull = 100;
+            this.game = game;
+            this.x = x;
+            this.y = y;
+            this.shipType = shipType;
+            this.registerInput(Phaser.Keyboard.W, Phaser.Keyboard.S, Phaser.Keyboard.A, Phaser.Keyboard.D, Phaser.Keyboard.SPACEBAR);
+            this.shipKey = NyxianSkies.NyxianSkiesGame.getPlayerShipAtlasKey(this.shipType);
+            this.sprite = this.game.add.sprite(this.x, this.y, 'spritesheet', this.shipKey);
+            this.sprite.anchor.setTo(0.5, 0.5);
+        }
+        Player.prototype.registerInput = function (upKey, downKey, leftKey, rightKey, specialKey) {
+            this.upKey = this.game.input.keyboard.addKey(upKey);
+            this.downKey = this.game.input.keyboard.addKey(downKey);
+            this.leftKey = this.game.input.keyboard.addKey(leftKey);
+            this.rightKey = this.game.input.keyboard.addKey(rightKey);
+            this.specialKey = this.game.input.keyboard.addKey(specialKey);
+        };
+        Player.prototype.update = function () {
+            if (this.game.input.onHold) {
+                this.fireNormal();
+            }
+            if (this.specialKey.isDown) {
+                this.fireSpecial();
+            }
+            if (this.upKey.isDown) {
+                this.move(0, -this.speed);
+            }
+            else if (this.downKey.isDown) {
+                this.move(0, this.speed);
+            }
+            if (this.leftKey.isDown) {
+                this.move(-this.speed, 0);
+            }
+            else if (this.rightKey.isDown) {
+                this.move(+this.speed, 0);
+            }
+        };
+        Player.prototype.fireNormal = function () {
+        };
+        Player.prototype.fireSpecial = function () {
+        };
+        Player.prototype.move = function (x, y) {
+            this.sprite.x += x;
+            this.sprite.y += y;
+        };
+        Player.prototype.takeShieldDamage = function (value) {
+            this.shield -= value;
+        };
+        Player.prototype.takeHullDamage = function (value) {
+            this.hull -= value;
+        };
+        return Player;
+    })();
+    NyxianSkies.Player = Player;
 })(NyxianSkies || (NyxianSkies = {}));
 /// <reference path="../typings/phaser/phaser.d.ts" />
 /// <reference path="../typings/phaser/pixi.d.ts" />

@@ -17,7 +17,7 @@ module NyxianSkies {
         bgLayer2Tiles: Array<Phaser.Sprite> = [];
         gameObjects: Array<Phaser.Sprite> = [];
 
-        player1Ship: Phaser.Sprite;
+        player1: Player;
         
         create() {
             NyxianSkiesGame.currentState = this;
@@ -28,16 +28,16 @@ module NyxianSkies {
 
             this.loadMap("Earth");
 
-            var shipKey = NyxianSkiesGame.getPlayerShipAtlasKey(NyxianSkiesGame.shipType);
-            this.player1Ship = this.add.sprite(this.world.centerX, 800, 'spritesheet', shipKey);
-            this.player1Ship.anchor.setTo(0.5, 0.5);
+            var px = this.world.centerX;
+            var py = this.world.height - (this.world.centerY / 2);
+            this.player1 = new Player(this.game, px, py, NyxianSkiesGame.shipType);
         }
 
         update() {
             var bgLayer1Tiles = this.bgLayer1Tiles;
             for (var i = 0; i < bgLayer1Tiles.length; i++) {
                 var tile = bgLayer1Tiles[i];
-                tile.y++;
+                tile.y += 2;
                 //if (tile.y <= -256) tile.y = 976;
                 if (tile.y >= 976) tile.y = -256;
             }
@@ -49,10 +49,12 @@ module NyxianSkies {
                 //if (tile.y >= 720) tile.y = -256;
             }
 
-            var obj = gameObjects[0];
-            this.console.changeLine(0, "Game Object [0]: [" + obj.x + ", " + obj.y + "]");
+            //var obj = gameObjects[0];
+            //this.console.changeLine(0, "Game Object [0]: [" + obj.x + ", " + obj.y + "]");
             
             this.ui.update();
+
+            this.player1.update();
         }
 
         loadMap(mapKeyName) {
