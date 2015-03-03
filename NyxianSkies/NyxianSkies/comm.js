@@ -21,8 +21,7 @@ $(function () {
         }
     }
     hub.client.joinedGame = function (gameId) {
-
-
+        GameId = gameId;
     }
 
     hub.client.loadLevel = function (level) {

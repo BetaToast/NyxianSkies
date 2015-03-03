@@ -945,11 +945,11 @@ var NyxianSkies;
         };
         ShipSelect.prototype.btnAcceptOnClick = function (button) {
             button.parent.game.state.start('WaitingLobby', true, false);
-            var shipId = button.parent.ship.key;
+            var shipId = button.parent.shipIndex;
             var hub = button.parent.game.hub;
             hub.server.sendAction(JSON.stringify({
                 action: 'JoinSinglePlayerGame',
-                ship: 1
+                ship: shipId
             }));
         };
         ShipSelect.prototype.btnSelectLeftClick = function (button) {
