@@ -18,14 +18,6 @@ module NyxianSkies {
         gameObjects: Array<Phaser.Sprite> = [];
 
         player1: Player;
-
-        //player1Ship: Phaser.Sprite;
-
-        //upKey: Phaser.Key;
-        //downKey: Phaser.Key;
-        //leftKey: Phaser.Key;
-        //rightKey: Phaser.Key;
-        //shipSpeed: number = 8;
         
         create() {
             NyxianSkiesGame.currentState = this;
@@ -39,15 +31,6 @@ module NyxianSkies {
             var px = this.world.centerX;
             var py = this.world.height - (this.world.centerY / 2);
             this.player1 = new Player(this.game, px, py, NyxianSkiesGame.shipType);
-
-            //var shipKey = NyxianSkiesGame.getPlayerShipAtlasKey(NyxianSkiesGame.shipType);
-            //this.player1Ship = this.add.sprite(this.world.centerX, this.world.height - (this.world.centerY / 2), 'spritesheet', shipKey);
-            //this.player1Ship.anchor.setTo(0.5, 0.5);
-
-            //this.upKey = this.game.input.keyboard.addKey(Phaser.Keyboard.W);
-            //this.downKey = this.game.input.keyboard.addKey(Phaser.Keyboard.S);
-            //this.leftKey = this.game.input.keyboard.addKey(Phaser.Keyboard.A);
-            //this.rightKey = this.game.input.keyboard.addKey(Phaser.Keyboard.D);
         }
 
         update() {
@@ -72,20 +55,6 @@ module NyxianSkies {
             this.ui.update();
 
             this.player1.update();
-
-            //if (this.upKey.isDown) {
-            //    this.player1Ship.y -= this.shipSpeed;
-            //}
-            //else if (this.downKey.isDown) {
-            //    this.player1Ship.y += this.shipSpeed;
-            //}
-
-            //if (this.leftKey.isDown) {
-            //    this.player1Ship.x -= this.shipSpeed;
-            //}
-            //else if (this.rightKey.isDown) {
-            //    this.player1Ship.x += this.shipSpeed;
-            //}
         }
 
         loadMap(mapKeyName) {
