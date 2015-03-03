@@ -114,6 +114,14 @@ var BetaToast;
             this.controls[this.controls.length] = ret;
             return ret;
         };
+        UserInterface.prototype.addConsole = function (x, y) {
+            var ret = new BetaToast.Console();
+            ret.parent = this.parent;
+            ret.x = x;
+            ret.y = y;
+            this.controls[this.controls.length] = ret;
+            return ret;
+        };
         return UserInterface;
     })();
     BetaToast.UserInterface = UserInterface;

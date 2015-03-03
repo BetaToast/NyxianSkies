@@ -26,7 +26,7 @@ $(function () {
     }
 
     hub.client.loadLevel = function (level) {
-        NyxianSkies.NyxianSkiesGame.loadMap(level);
+        //NyxianSkies.NyxianSkiesGame.loadMap(level);
         hub.server.sendAction(JSON.stringify(
         {
             action: 'MapLoadedAndReady',

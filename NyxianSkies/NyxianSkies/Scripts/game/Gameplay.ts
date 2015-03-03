@@ -16,6 +16,8 @@ module NyxianSkies {
         bgLayer1Tiles: Array<Phaser.Sprite> = [];
         bgLayer2Tiles: Array<Phaser.Sprite> = [];
         gameObjects: Array<Phaser.Sprite> = [];
+
+        player1Ship: Phaser.Sprite;
         
         create() {
             NyxianSkiesGame.currentState = this;
@@ -25,15 +27,19 @@ module NyxianSkies {
             this.console.addLine("Hello World");
 
             this.loadMap("Earth");
-            //NyxianSkiesGame.showMap();
+
+            var shipKey = NyxianSkiesGame.getPlayerShipAtlasKey(NyxianSkiesGame.shipType);
+            this.player1Ship = this.add.sprite(this.world.centerX, 800, 'spritesheet', shipKey);
+            this.player1Ship.anchor.setTo(0.5, 0.5);
         }
 
         update() {
             var bgLayer1Tiles = this.bgLayer1Tiles;
             for (var i = 0; i < bgLayer1Tiles.length; i++) {
                 var tile = bgLayer1Tiles[i];
-                tile.y--;
-                if (tile.y <= -256) tile.y = 976;
+                tile.y++;
+                //if (tile.y <= -256) tile.y = 976;
+                if (tile.y >= 976) tile.y = -256;
             }
 
             var gameObjects = this.gameObjects;
@@ -43,9 +49,9 @@ module NyxianSkies {
                 //if (tile.y >= 720) tile.y = -256;
             }
 
-            //var tile = NyxianSkiesGame.bgLayer1Tiles[0];
-            //this.console.changeLine(0, "Tile [0]: [" + tile.x + ", " + tile.y + "]");
-
+            var obj = gameObjects[0];
+            this.console.changeLine(0, "Game Object [0]: [" + obj.x + ", " + obj.y + "]");
+            
             this.ui.update();
         }
 
@@ -75,7 +81,6 @@ module NyxianSkies {
                     for (var x = 0; x < 1280; x += 256) {
                         var index = bgLayer1Tiles.length;
                         bgLayer1Tiles[index] = this.add.sprite(x, y, map.bgLayer1 + 'Background');
-                        //bgLayer1Tiles[index].visible = false;
                     }
                 }
             }
@@ -86,7 +91,6 @@ module NyxianSkies {
                     for (var x = 0; x < 1280; x += 256) {
                         var index = bgLayer2Tiles.length;
                         bgLayer2Tiles[index] = this.add.sprite(x, y, map.bgLayer2 + 'Background');
-                        //bgLayer2Tiles[index].visible = false;
                     }
                 }
             }
@@ -97,8 +101,13 @@ module NyxianSkies {
                 var gameObjectkeyName = GameObjects.getTextureAtlasKeyFromId(gameObject.objectType) + ".png";
                 var sprite = this.add.sprite(gameObject.x, gameObject.y, 'spritesheet', gameObjectkeyName);
                 var index = gameObjects.length;
+                if (map.direction === "Vertical") {
+                    sprite.y = sprite.y - map.height;
+                }
+                else if (map.direction === "Horizontal") {
+                    sprite.x = sprite.x + map.width;
+                }
                 gameObjects[index] = sprite;
-                //gameObjects[index].visible = false;
             }
         }
     }

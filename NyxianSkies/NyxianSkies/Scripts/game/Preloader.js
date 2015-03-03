@@ -48,6 +48,7 @@ var NyxianSkies;
             this.load.audio('styx', 'assets/audio/styx.mp3');
         };
         Preloader.prototype.create = function () {
+            NyxianSkies.NyxianSkiesGame.currentState = this;
             var tween = this.add.tween(this.preloadBar).to({ alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
             tween.onComplete.add(this.startTitleScreen, this);
         };
