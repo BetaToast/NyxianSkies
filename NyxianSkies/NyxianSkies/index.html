@@ -22,7 +22,7 @@
             if (!canExecute)
                 return;
             pingId = (new Date()).getTime();
-            Hub.server.sendAction(JSON.stringify(
+            hub.server.sendAction(JSON.stringify(
                         {
                             action: 'PingServer',
                             ID: pingId
