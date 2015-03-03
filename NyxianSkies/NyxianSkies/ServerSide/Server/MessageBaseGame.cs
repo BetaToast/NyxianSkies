@@ -25,7 +25,9 @@ namespace NyxianSkies.ServerSide.Server
         protected readonly ConcurrentDictionary<Guid, Player> _myPlayers = new ConcurrentDictionary<Guid, Player>();
         private readonly List<LoggedAction> _allGameActions = new List<LoggedAction>();
         private ConcurrentQueue<IAction> ActionQueue = new ConcurrentQueue<IAction>();
-        private Stopwatch GameTime = new Stopwatch();
+        protected Stopwatch GameTime = new Stopwatch();
+
+        private Int64 previousMilliseconds = 0;
 
         protected MessageBaseGame(int numberOfPlayers)
         {
@@ -35,13 +37,12 @@ namespace NyxianSkies.ServerSide.Server
             Task.Run(() => GameLoop());
         }
 
+
         private void GameLoop()
         {
             while (true)
             {
-                GameTime.Stop();
-
-                //Do game actions
+                //Get Inputs
                 IAction ga;
                 if (ActionQueue.TryDequeue(out ga))
                 {
@@ -50,20 +51,25 @@ namespace NyxianSkies.ServerSide.Server
                     _processAction(ga);
 
                     //Then start loop over
-                    GameTime.Start();
                     Thread.Sleep(0);
                     GameTime.Stop();
                     continue;
                 }
-                //Then start loop over
 
-                //if nothing was done, just sleep.
-                GameTime.Start();
+                var elapsedTime = CurrentGameTime - previousMilliseconds;
+                previousMilliseconds = CurrentGameTime;
+
+                //Update Game
+                UpdateGame(elapsedTime);
+
+
                 if (GameTime.Elapsed.TotalMinutes >= 10 || GameOver)
                     return;
-                Thread.Sleep(0);
+                Thread.Sleep(10);
             }
         }
+
+        protected abstract void UpdateGame(long elapsedTime);
 
         private void _processAction(IAction action)
         {

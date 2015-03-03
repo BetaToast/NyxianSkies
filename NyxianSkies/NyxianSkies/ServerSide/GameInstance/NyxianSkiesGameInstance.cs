@@ -53,6 +53,8 @@ namespace NyxianSkies.ServerSide.GameInstance
 
         public async Task HandleAction(StartLevel startLevel)
         {
+            GameTime.Start();
+
             //TODO:  Ok, great..  We have started a level...
             //  lets figure out how to actually do something.
             //  You can do this Xeno.  Everything is ready to go.
@@ -92,5 +94,10 @@ namespace NyxianSkies.ServerSide.GameInstance
             maps.Add(map);
         }
 
+        protected override void UpdateGame(long elapsedTime)
+        {
+
+
+        }
     }
 }
