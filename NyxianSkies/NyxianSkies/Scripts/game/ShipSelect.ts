@@ -62,7 +62,7 @@ module NyxianSkies {
             button.parent.game.state.start('WaitingLobby', true, false);
 
             var shipId = button.parent.shipIndex;
-            var hub = button.parent.game.hub;
+            
             hub.server.sendAction(JSON.stringify(
                 {
                     action: 'JoinSinglePlayerGame',

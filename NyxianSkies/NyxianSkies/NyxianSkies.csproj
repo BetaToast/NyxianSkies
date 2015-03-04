@@ -180,7 +180,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="MyHub.ts" />
+    <TypeScriptCompile Include="Scripts\game\MyHub.ts" />
     <TypeScriptCompile Include="Scripts\fx\core\Core.ts" />
     <TypeScriptCompile Include="Scripts\fx\core\Game.ts" />
     <TypeScriptCompile Include="Scripts\fx\core\Utilities.ts" />
