@@ -1,36 +1,36 @@
-﻿/// <reference path="scripts/typings/jquery/jquery.d.ts" />
-/// <reference path="scripts/typings/signalr/signalr.d.ts" />
-var GameId;
-var PlayerId;
+﻿/// <reference path="../typings/jquery/jquery.d.ts" />
+/// <reference path="../typings/signalr/signalr.d.ts" />
 
-var hub;
+declare var hub: MainHub;
+declare var GameId: Guid;
+declare var PlayerId: Guid;
 var canExecute = false;
 var pingId;
 
 $(function () {
     hub = $.connection.mainHub;
 
-
-    hub.client.yourPlayerId = function (playerId) {
+    hub.client.yourPlayerId = playerId => {
         PlayerId = playerId;
         canExecute = true;
     }
 
-    hub.client.pong = function (id) {
+    hub.client.pong = id => {
         if (pingId == id) {
             var laspe = (new Date()).getTime() - pingId;
             $("#Latency").html(laspe + "ms");
         }
     }
-    hub.client.joinedGame = function (gameId) {
+    hub.client.joinedGame = gameId => {
         GameId = gameId;
     }
 
-    hub.client.loadLevel = function (level) {
+    hub.client.loadLevel = level => {
         //NyxianSkies.NyxianSkiesGame. game.state.start('Gameplay', true, false);
+        //NyxianSkies.N.game.start('Gameplay', true, false);
     }
 
-    hub.client.startLevel = function (level) {
+    hub.client.startLevel = level => {
         if (level !== undefined) {
             var a = 0;
         }
@@ -42,9 +42,9 @@ $(function () {
             }));
     }
 
-
     //Start the hub and wire up server call functions after it is started
     $.connection.hub.logging = true; //debugging
     $.connection.hub.start();
+
 });
 

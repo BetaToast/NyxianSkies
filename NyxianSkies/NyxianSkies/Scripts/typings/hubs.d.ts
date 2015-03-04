@@ -51,6 +51,14 @@ interface MainHubClient
 {
  
     /**
+      * Set this function with a "function(id : number){}" to receive the "pong" message from the MainHub hub.
+      * Contract Documentation: ---
+      * @param id {number} 
+      * @return {void}
+      */
+    pong : (id : number) => void;
+ 
+    /**
       * Set this function with a "function(connectionId : string){}" to receive the "yourPlayerId" message from the MainHub hub.
       * Contract Documentation: ---
       * @param connectionId {string} 
@@ -59,12 +67,28 @@ interface MainHubClient
     yourPlayerId : (connectionId : string) => void;
  
     /**
-      * Set this function with a "function(id : number){}" to receive the "pong" message from the MainHub hub.
+      * Set this function with a "function(LevelName : string){}" to receive the "loadLevel" message from the MainHub hub.
       * Contract Documentation: ---
-      * @param id {number} 
+      * @param LevelName {string} 
       * @return {void}
       */
-    pong : (id : number) => void;
+    loadLevel : (LevelName : string) => void;
+ 
+    /**
+      * Set this function with a "function(GameId : Guid){}" to receive the "joinedGame" message from the MainHub hub.
+      * Contract Documentation: ---
+      * @param GameId {Guid} 
+      * @return {void}
+      */
+    joinedGame : (GameId : Guid) => void;
+ 
+    /**
+      * Set this function with a "function(LevelName : string){}" to receive the "startLevel" message from the MainHub hub.
+      * Contract Documentation: ---
+      * @param LevelName {string} 
+      * @return {void}
+      */
+    startLevel : (LevelName : string) => void;
 }
  
 //#endregion MainHub hub
@@ -77,6 +101,13 @@ interface MainHubClient
 // Data Contracts //
 ////////////////////
 //#region data contracts
+ 
+ 
+/**
+  * Data contract for System.Guid
+  */
+interface Guid {
+}
  
 //#endregion data contracts
  

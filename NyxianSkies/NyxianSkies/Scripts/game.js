@@ -1,8 +1,5 @@
-/// <reference path="scripts/typings/jquery/jquery.d.ts" />
-/// <reference path="scripts/typings/signalr/signalr.d.ts" />
-var GameId;
-var PlayerId;
-var hub;
+/// <reference path="../typings/jquery/jquery.d.ts" />
+/// <reference path="../typings/signalr/signalr.d.ts" />
 var canExecute = false;
 var pingId;
 $(function () {
@@ -22,6 +19,7 @@ $(function () {
     };
     hub.client.loadLevel = function (level) {
         //NyxianSkies.NyxianSkiesGame. game.state.start('Gameplay', true, false);
+        //NyxianSkies.N.game.start('Gameplay', true, false);
     };
     hub.client.startLevel = function (level) {
         if (level !== undefined) {
@@ -1059,7 +1057,6 @@ var NyxianSkies;
         ShipSelect.prototype.btnAcceptOnClick = function (button) {
             button.parent.game.state.start('WaitingLobby', true, false);
             var shipId = button.parent.shipIndex;
-            var hub = button.parent.game.hub;
             hub.server.sendAction(JSON.stringify({
                 action: 'JoinSinglePlayerGame',
                 ship: shipId

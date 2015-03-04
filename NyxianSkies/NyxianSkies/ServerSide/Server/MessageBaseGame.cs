@@ -19,7 +19,8 @@ namespace NyxianSkies.ServerSide.Server
         //public Boolean AwaitingPlayers { get; protected set; }
 
         protected long CurrentGameTime { get { return GameTime.ElapsedMilliseconds; } }
-        protected readonly IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<MainHub>();
+
+        protected readonly IHubContext hub =GlobalHost.ConnectionManager.GetHubContext<MainHub>();
 
         protected readonly int NumberOfPlayers;
         protected readonly ConcurrentDictionary<Guid, Player> _myPlayers = new ConcurrentDictionary<Guid, Player>();
