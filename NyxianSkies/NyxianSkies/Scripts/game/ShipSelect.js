@@ -52,11 +52,11 @@ var NyxianSkies;
         };
         ShipSelect.prototype.btnAcceptOnClick = function (button) {
             button.parent.game.state.start('WaitingLobby', true, false);
-            var shipId = button.parent.ship.key;
+            var shipId = button.parent.shipIndex;
             var hub = button.parent.game.hub;
             hub.server.sendAction(JSON.stringify({
                 action: 'JoinSinglePlayerGame',
-                ship: 1
+                ship: shipId
             }));
         };
         ShipSelect.prototype.btnSelectLeftClick = function (button) {
@@ -65,6 +65,7 @@ var NyxianSkies;
                 button.parent.shipIndex = 12;
             button.parent.ship.key = 'playerShip' + button.parent.shipIndex;
             button.parent.ship.setTexture(PIXI.TextureCache[button.parent.ship.key]);
+            NyxianSkies.NyxianSkiesGame.shipType = button.parent.shipIndex;
         };
         ShipSelect.prototype.btnSelectRightClick = function (button) {
             button.parent.shipIndex++;
@@ -72,6 +73,7 @@ var NyxianSkies;
                 button.parent.shipIndex = 1;
             button.parent.ship.key = 'playerShip' + button.parent.shipIndex;
             button.parent.ship.setTexture(PIXI.TextureCache[button.parent.ship.key]);
+            NyxianSkies.NyxianSkiesGame.shipType = button.parent.shipIndex;
         };
         return ShipSelect;
     })(Phaser.State);

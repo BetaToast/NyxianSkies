@@ -32,11 +32,11 @@ var NyxianSkies;
                     tile.y = -256;
             }
             this.ui.update();
-            if (NyxianSkies.NyxianSkiesGame.map !== null) {
-                var game = this.game;
-                //game.hub.client.startLevel();
-                this.game.state.start('Gameplay', true, false);
-            }
+            //if (NyxianSkies.NyxianSkiesGame.map !== null) {
+            //    var game = <NyxianSkiesGame> this.game;
+            //game.hub.client.startLevel();
+            this.game.state.start('Gameplay', true, false);
+            //}
         };
         return WaitingLobby;
     })(Phaser.State);
