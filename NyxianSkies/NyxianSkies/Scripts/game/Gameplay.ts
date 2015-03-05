@@ -16,8 +16,6 @@ module NyxianSkies {
         bgLayer1Tiles: Array<Phaser.Sprite> = [];
         bgLayer2Tiles: Array<Phaser.Sprite> = [];
         gameObjects: Array<Phaser.Sprite> = [];
-
-        player1: Player;
         
         create() {
             NyxianSkiesGame.currentState = this;
@@ -30,7 +28,7 @@ module NyxianSkies {
 
             var px = this.world.centerX;
             var py = this.world.height - (this.world.centerY / 2);
-            this.player1 = new Player(this.game, px, py, NyxianSkiesGame.shipType);
+            NyxianSkiesGame.player1 = new Player(this.game, px, py, NyxianSkiesGame.shipType);
         }
 
         update() {
@@ -54,7 +52,7 @@ module NyxianSkies {
             
             this.ui.update();
 
-            this.player1.update();
+            NyxianSkiesGame.player1.update();
         }
 
         loadMap(mapKeyName) {

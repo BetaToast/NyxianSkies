@@ -8,6 +8,8 @@ module NyxianSkies {
 
         static currentState;
         static shipType;
+        static player1: NyxianSkies.Player;
+        static player2: NyxianSkies.Player;
 
         hub;
 
@@ -26,7 +28,7 @@ module NyxianSkies {
             this.state.add('TechSelect', TechSelect, false);
             this.state.add('TitleScreen', TitleScreen, false);
             this.state.add('WaitingLobby', WaitingLobby, false);
-
+            
             // Start Boot screen
             this.state.start('Boot');
         }
