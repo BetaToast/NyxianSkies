@@ -89,20 +89,20 @@
 
              if (this.upKey.isUp) {
                  this.upKeyIsDown = false;
-                 // MoveStop
+                 this.moveStop();
              }
              if (this.downKey.isUp) {
                  this.downKeyIsDown = false;
-                 // MoveStop
+                 this.moveStop();
              }
 
              if (this.leftKey.isUp) {
                  this.leftKeyIsDown = false;
-                 // MoveStop
+                 this.moveStop();
              }
              if (this.rightKey.isUp) {
                  this.rightKeyIsDown = false;
-                 // MoveStop
+                 this.moveStop();
              }
              
              // Update Down States
@@ -114,23 +114,23 @@
              if (this.upKey.isDown) {
                  this.move(0, -this.speed);
                  this.upKeyIsDown = true;
-                 // MoveStart(0, -speed)
+                 this.moveStart(0, -this.speed);
              }
              else if (this.downKey.isDown) {
                  this.move(0, this.speed);
                  this.downKeyIsDown = true;
-                 // MoveStart(0, speed)
+                 this.moveStart(0, this.speed);
              }
 
              if (this.leftKey.isDown) {
                  this.move(-this.speed, 0);
                  this.leftKeyIsDown = true;
-                 // MoveStart(-speed, 0)
+                 this.moveStart(-this.speed, 0);
              }
              else if (this.rightKey.isDown) {
                  this.move(+this.speed, 0);
                  this.rightKeyIsDown = true;
-                 // MoveStart(speed, 0)
+                 this.moveStart(this.speed, 0);
              }
          }
 
@@ -153,6 +153,23 @@
 
          takeHullDamage(value: number) {
              this.hull -= value;
+         }
+
+         moveStart(x: number, y: number) {
+             hub.server.sendAction(JSON.stringify(
+             {
+                 action: 'MoveStart',
+                 playerId: PlayerId,
+                 direction: { X: x, Y: y }
+             }));
+         }
+
+         moveStop() {
+            hub.server.sendAction(JSON.stringify(
+            {
+                action: 'MoveStop',
+                playerId: PlayerId
+            }));
          }
      }
  }
