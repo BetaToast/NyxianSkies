@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -12,6 +13,8 @@ namespace NyxianSkies.ServerSide.GameInstance
     {
 
         private List<Map> maps = new List<Map>();
+
+
         public NyxianSkiesGameInstance(int numberOfPlayers)
             : base(numberOfPlayers)
         {
@@ -55,11 +58,12 @@ namespace NyxianSkies.ServerSide.GameInstance
         {
             GameTime.Start();
 
-            //TODO:  Ok, great..  We have started a level...
-            //  lets figure out how to actually do something.
-            //  You can do this Xeno.  Everything is ready to go.
-            //  Perhaps send a message to the clients letting them know where there ships are?
-            //     --Past Xeno
+            foreach (var p in _myPlayers.Values)
+            {
+                p.Position = new Point(1280 / 3, 700);
+                p.Velocity = new Point(0, 0);
+                hub.Clients.Client(p.PlayerId.ToString()).ShipPostionUpdate(p.PlayerId, p.Position, p.Velocity);
+            }
         }
 
         public async Task HandleAction(MapLoadedAndReady playerReady)
@@ -96,8 +100,11 @@ namespace NyxianSkies.ServerSide.GameInstance
 
         protected override void UpdateGame(long elapsedTime)
         {
-
-
+            //TODO:  Ok, great..  We have started a level...
+            //  lets figure out how to actually do something.
+            //  You can do this Xeno.  Everything is ready to go.
+            //  Perhaps send a message to the clients letting them know where there ships are?
+            //     --Past Xeno
         }
     }
 }

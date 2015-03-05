@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace NyxianSkies.ServerSide.GameInstance
 {
@@ -13,6 +14,9 @@ namespace NyxianSkies.ServerSide.GameInstance
         public decimal HullShield { get; private set; }
 
         public string LoadingLevel { get; set; }
+        public Point Position { get; set; }
+        public Point Velocity { get; set; }
+
         public Player(Guid playerId)
         {
             PlayerId = playerId;

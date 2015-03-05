@@ -53,7 +53,6 @@ namespace NyxianSkies.ServerSide.Server
 
                     //Then start loop over
                     Thread.Sleep(0);
-                    GameTime.Stop();
                     continue;
                 }
 
