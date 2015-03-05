@@ -26,14 +26,14 @@ $(function () {
     }
 
     hub.client.loadLevel = level => {
-        //NyxianSkies.NyxianSkiesGame. game.state.start('Gameplay', true, false);
-        //NyxianSkies.N.game.start('Gameplay', true, false);
+        NyxianSkies.NyxianSkiesGame.currentState.state.start('Gameplay', true, false);
     }
 
     hub.client.startLevel = level => {
         if (level !== undefined) {
             var a = 0;
         }
+
         hub.server.sendAction(JSON.stringify(
             {
                 action: 'StartLevel',
@@ -43,7 +43,7 @@ $(function () {
     }
 
     //Start the hub and wire up server call functions after it is started
-    $.connection.hub.logging = true; //debugging
+    //$.connection.hub.logging = true; //debugging
     $.connection.hub.start();
 
 });

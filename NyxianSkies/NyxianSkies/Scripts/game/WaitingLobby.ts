@@ -32,7 +32,6 @@ module NyxianSkies {
             //if (NyxianSkies.NyxianSkiesGame.map !== null) {
             //    var game = <NyxianSkiesGame> this.game;
                 //game.hub.client.startLevel();
-                this.game.state.start('Gameplay', true, false);
             //}
         }
 
