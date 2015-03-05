@@ -89,6 +89,16 @@ interface MainHubClient
       * @return {void}
       */
     startLevel : (LevelName : string) => void;
+ 
+    /**
+      * Set this function with a "function(PlayerId : Guid, Postion : Point, velocity : Point){}" to receive the "shipPostionUpdate" message from the MainHub hub.
+      * Contract Documentation: ---
+      * @param PlayerId {Guid} 
+      * @param Postion {Point} 
+      * @param velocity {Point} 
+      * @return {void}
+      */
+    shipPostionUpdate : (PlayerId : Guid, Postion : Point, velocity : Point) => void;
 }
  
 //#endregion MainHub hub
@@ -101,6 +111,16 @@ interface MainHubClient
 // Data Contracts //
 ////////////////////
 //#region data contracts
+ 
+ 
+/**
+  * Data contract for System.Drawing.Point
+  */
+interface Point {
+    IsEmpty : boolean;
+    X : number;
+    Y : number;
+}
  
  
 /**
