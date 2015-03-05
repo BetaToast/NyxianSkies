@@ -21,11 +21,13 @@ $(function () {
             $("#Latency").html(laspe + "ms");
         }
     }
+
     hub.client.joinedGame = gameId => {
         GameId = gameId;
     }
 
     hub.client.loadLevel = level => {
+        //NyxianSkies.NyxianSkiesGame.currentState.state.start('Gameplay', true, false);
         //NyxianSkies.NyxianSkiesGame. game.state.start('Gameplay', true, false);
         //NyxianSkies.N.game.start('Gameplay', true, false);
     }

@@ -1,40 +1,3 @@
-/// <reference path="../typings/jquery/jquery.d.ts" />
-/// <reference path="../typings/signalr/signalr.d.ts" />
-var canExecute = false;
-var pingId;
-$(function () {
-    hub = $.connection.mainHub;
-    hub.client.yourPlayerId = function (playerId) {
-        PlayerId = playerId;
-        canExecute = true;
-    };
-    hub.client.pong = function (id) {
-        if (pingId == id) {
-            var laspe = (new Date()).getTime() - pingId;
-            $("#Latency").html(laspe + "ms");
-        }
-    };
-    hub.client.joinedGame = function (gameId) {
-        GameId = gameId;
-    };
-    hub.client.loadLevel = function (level) {
-        //NyxianSkies.NyxianSkiesGame. game.state.start('Gameplay', true, false);
-        //NyxianSkies.N.game.start('Gameplay', true, false);
-    };
-    hub.client.startLevel = function (level) {
-        if (level !== undefined) {
-            var a = 0;
-        }
-        hub.server.sendAction(JSON.stringify({
-            action: 'StartLevel',
-            playerId: PlayerId,
-            gameId: GameId
-        }));
-    };
-    //Start the hub and wire up server call functions after it is started
-    $.connection.hub.logging = true; //debugging
-    $.connection.hub.start();
-});
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -409,7 +372,7 @@ var NyxianSkies;
             this.loadMap("Earth");
             var px = this.world.centerX;
             var py = this.world.height - (this.world.centerY / 2);
-            this.player1 = new NyxianSkies.Player(this.game, px, py, NyxianSkies.NyxianSkiesGame.shipType);
+            NyxianSkies.NyxianSkiesGame.player1 = new NyxianSkies.Player(this.game, px, py, NyxianSkies.NyxianSkiesGame.shipType);
         };
         Gameplay.prototype.update = function () {
             var bgLayer1Tiles = this.bgLayer1Tiles;
@@ -428,7 +391,7 @@ var NyxianSkies;
             //var obj = gameObjects[0];
             //this.console.changeLine(0, "Game Object [0]: [" + obj.x + ", " + obj.y + "]");
             this.ui.update();
-            this.player1.update();
+            NyxianSkies.NyxianSkiesGame.player1.update();
         };
         Gameplay.prototype.loadMap = function (mapKeyName) {
             this.map = null;
@@ -488,6 +451,44 @@ var NyxianSkies;
     })(Phaser.State);
     NyxianSkies.Gameplay = Gameplay;
 })(NyxianSkies || (NyxianSkies = {}));
+/// <reference path="../typings/jquery/jquery.d.ts" />
+/// <reference path="../typings/signalr/signalr.d.ts" />
+var canExecute = false;
+var pingId;
+$(function () {
+    hub = $.connection.mainHub;
+    hub.client.yourPlayerId = function (playerId) {
+        PlayerId = playerId;
+        canExecute = true;
+    };
+    hub.client.pong = function (id) {
+        if (pingId == id) {
+            var laspe = (new Date()).getTime() - pingId;
+            $("#Latency").html(laspe + "ms");
+        }
+    };
+    hub.client.joinedGame = function (gameId) {
+        GameId = gameId;
+    };
+    hub.client.loadLevel = function (level) {
+        //NyxianSkies.NyxianSkiesGame.currentState.state.start('Gameplay', true, false);
+        //NyxianSkies.NyxianSkiesGame. game.state.start('Gameplay', true, false);
+        //NyxianSkies.N.game.start('Gameplay', true, false);
+    };
+    hub.client.startLevel = function (level) {
+        if (level !== undefined) {
+            var a = 0;
+        }
+        hub.server.sendAction(JSON.stringify({
+            action: 'StartLevel',
+            playerId: PlayerId,
+            gameId: GameId
+        }));
+    };
+    //Start the hub and wire up server call functions after it is started
+    $.connection.hub.logging = true; //debugging
+    $.connection.hub.start();
+});
 /// <reference path="../typings/phaser/phaser.d.ts" />
 /// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
@@ -903,10 +904,22 @@ var NyxianSkies;
             this.x = x;
             this.y = y;
             this.shipType = shipType;
-            this.registerInput(Phaser.Keyboard.W, Phaser.Keyboard.S, Phaser.Keyboard.A, Phaser.Keyboard.D, Phaser.Keyboard.SPACEBAR);
+            this.leftEngineEmitter = this.game.add.emitter(this.x - 25, this.y + 23, 400);
+            this.leftEngineEmitter.makeParticles(['explosion00', 'explosion01', 'explosion02', 'explosion03', 'explosion04', 'explosion05', 'explosion06', 'explosion07', 'explosion08']);
+            this.leftEngineEmitter.gravity = 9999;
+            this.leftEngineEmitter.setAlpha(1, 0, 3000);
+            this.leftEngineEmitter.setScale(0.8, 0, 0.8, 0, 3000);
+            this.leftEngineEmitter.start(false, 100, 5);
+            this.rightEngineEmitter = this.game.add.emitter(this.x + 25, this.y + 23, 400);
+            this.rightEngineEmitter.makeParticles(['explosion00', 'explosion01', 'explosion02', 'explosion03', 'explosion04', 'explosion05', 'explosion06', 'explosion07', 'explosion08']);
+            this.rightEngineEmitter.gravity = 9999;
+            this.rightEngineEmitter.setAlpha(1, 0, 3000);
+            this.rightEngineEmitter.setScale(0.8, 0, 0.8, 0, 3000);
+            this.rightEngineEmitter.start(false, 100, 5);
             this.shipKey = NyxianSkies.NyxianSkiesGame.getPlayerShipAtlasKey(this.shipType);
             this.sprite = this.game.add.sprite(this.x, this.y, 'spritesheet', this.shipKey);
             this.sprite.anchor.setTo(0.5, 0.5);
+            this.registerInput(Phaser.Keyboard.W, Phaser.Keyboard.S, Phaser.Keyboard.A, Phaser.Keyboard.D, Phaser.Keyboard.SPACEBAR);
         }
         Player.prototype.registerInput = function (upKey, downKey, leftKey, rightKey, specialKey) {
             this.upKey = this.game.input.keyboard.addKey(upKey);
@@ -916,23 +929,49 @@ var NyxianSkies;
             this.specialKey = this.game.input.keyboard.addKey(specialKey);
         };
         Player.prototype.update = function () {
+            this.leftEngineEmitter.emitX = this.sprite.x - 25;
+            this.leftEngineEmitter.emitY = this.sprite.y + 30;
+            this.rightEngineEmitter.emitX = this.sprite.x + 25;
+            this.rightEngineEmitter.emitY = this.sprite.y + 30;
             if (this.game.input.onHold) {
                 this.fireNormal();
             }
+            // Update Up States
+            if (this.specialKey.isUp) {
+                this.specialKeyIsDown = false;
+            }
+            if (this.upKey.isUp) {
+                this.upKeyIsDown = false;
+            }
+            if (this.downKey.isUp) {
+                this.downKeyIsDown = false;
+            }
+            if (this.leftKey.isUp) {
+                this.leftKeyIsDown = false;
+            }
+            if (this.rightKey.isUp) {
+                this.rightKeyIsDown = false;
+            }
+            // Update Down States
             if (this.specialKey.isDown) {
                 this.fireSpecial();
+                this.specialKeyIsDown = true;
             }
             if (this.upKey.isDown) {
                 this.move(0, -this.speed);
+                this.upKeyIsDown = true;
             }
             else if (this.downKey.isDown) {
                 this.move(0, this.speed);
+                this.downKeyIsDown = true;
             }
             if (this.leftKey.isDown) {
                 this.move(-this.speed, 0);
+                this.leftKeyIsDown = true;
             }
             else if (this.rightKey.isDown) {
                 this.move(+this.speed, 0);
+                this.rightKeyIsDown = true;
             }
         };
         Player.prototype.fireNormal = function () {
@@ -979,6 +1018,16 @@ var NyxianSkies;
             this.load.image('darkPurpleBackground', 'assets/images/darkPurple.png');
             this.load.image('purpleBackground', 'assets/images/purple.png');
             this.load.image('selectShipText', 'assets/images/selectship.png');
+            this.load.image('fire03', 'assets/images/fire03.png');
+            this.load.image('explosion00', 'assets/images/explosion00.png');
+            this.load.image('explosion01', 'assets/images/explosion01.png');
+            this.load.image('explosion02', 'assets/images/explosion02.png');
+            this.load.image('explosion03', 'assets/images/explosion03.png');
+            this.load.image('explosion04', 'assets/images/explosion04.png');
+            this.load.image('explosion05', 'assets/images/explosion05.png');
+            this.load.image('explosion06', 'assets/images/explosion06.png');
+            this.load.image('explosion07', 'assets/images/explosion07.png');
+            this.load.image('explosion08', 'assets/images/explosion08.png');
             this.load.image('playerShip1', 'assets/images/playerShip1_red.png');
             this.load.image('playerShip2', 'assets/images/playerShip1_blue.png');
             this.load.image('playerShip3', 'assets/images/playerShip1_green.png');
@@ -1118,44 +1167,6 @@ var NyxianSkies;
 /// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
-    var WaitingLobby = (function (_super) {
-        __extends(WaitingLobby, _super);
-        function WaitingLobby() {
-            _super.apply(this, arguments);
-            this.backgroundTiles = [];
-        }
-        WaitingLobby.prototype.create = function () {
-            NyxianSkies.NyxianSkiesGame.currentState = this;
-            for (var y = -256; y < 976; y += 256) {
-                for (var x = 0; x < 1280; x += 256) {
-                    var index = this.backgroundTiles.length;
-                    this.backgroundTiles[index] = this.add.sprite(x, y, 'blackBackground');
-                }
-            }
-            this.ui = new BetaToast.UserInterface(this, "blue");
-        };
-        WaitingLobby.prototype.update = function () {
-            for (var i = 0; i < this.backgroundTiles.length; i++) {
-                var tile = this.backgroundTiles[i];
-                tile.y++;
-                if (tile.y >= 720)
-                    tile.y = -256;
-            }
-            this.ui.update();
-            //if (NyxianSkies.NyxianSkiesGame.map !== null) {
-            //    var game = <NyxianSkiesGame> this.game;
-            //game.hub.client.startLevel();
-            this.game.state.start('Gameplay', true, false);
-            //}
-        };
-        return WaitingLobby;
-    })(Phaser.State);
-    NyxianSkies.WaitingLobby = WaitingLobby;
-})(NyxianSkies || (NyxianSkies = {}));
-/// <reference path="../typings/phaser/phaser.d.ts" />
-/// <reference path="../typings/phaser/pixi.d.ts" />
-var NyxianSkies;
-(function (NyxianSkies) {
     var TitleScreen = (function (_super) {
         __extends(TitleScreen, _super);
         function TitleScreen() {
@@ -1245,6 +1256,44 @@ var NyxianSkies;
         return TitleScreen;
     })(Phaser.State);
     NyxianSkies.TitleScreen = TitleScreen;
+})(NyxianSkies || (NyxianSkies = {}));
+/// <reference path="../typings/phaser/phaser.d.ts" />
+/// <reference path="../typings/phaser/pixi.d.ts" />
+var NyxianSkies;
+(function (NyxianSkies) {
+    var WaitingLobby = (function (_super) {
+        __extends(WaitingLobby, _super);
+        function WaitingLobby() {
+            _super.apply(this, arguments);
+            this.backgroundTiles = [];
+        }
+        WaitingLobby.prototype.create = function () {
+            NyxianSkies.NyxianSkiesGame.currentState = this;
+            for (var y = -256; y < 976; y += 256) {
+                for (var x = 0; x < 1280; x += 256) {
+                    var index = this.backgroundTiles.length;
+                    this.backgroundTiles[index] = this.add.sprite(x, y, 'blackBackground');
+                }
+            }
+            this.ui = new BetaToast.UserInterface(this, "blue");
+        };
+        WaitingLobby.prototype.update = function () {
+            for (var i = 0; i < this.backgroundTiles.length; i++) {
+                var tile = this.backgroundTiles[i];
+                tile.y++;
+                if (tile.y >= 720)
+                    tile.y = -256;
+            }
+            this.ui.update();
+            //if (NyxianSkies.NyxianSkiesGame.map !== null) {
+            //    var game = <NyxianSkiesGame> this.game;
+            //game.hub.client.startLevel();
+            this.game.state.start('Gameplay', true, false);
+            //}
+        };
+        return WaitingLobby;
+    })(Phaser.State);
+    NyxianSkies.WaitingLobby = WaitingLobby;
 })(NyxianSkies || (NyxianSkies = {}));
 var _this = this;
 window.onload = function () {

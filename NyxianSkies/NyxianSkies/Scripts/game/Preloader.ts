@@ -24,6 +24,16 @@ module NyxianSkies {
             this.load.image('darkPurpleBackground', 'assets/images/darkPurple.png');
             this.load.image('purpleBackground', 'assets/images/purple.png');
             this.load.image('selectShipText', 'assets/images/selectship.png');
+            this.load.image('fire03', 'assets/images/fire03.png');
+            this.load.image('explosion00', 'assets/images/explosion00.png');
+            this.load.image('explosion01', 'assets/images/explosion01.png');
+            this.load.image('explosion02', 'assets/images/explosion02.png');
+            this.load.image('explosion03', 'assets/images/explosion03.png');
+            this.load.image('explosion04', 'assets/images/explosion04.png');
+            this.load.image('explosion05', 'assets/images/explosion05.png');
+            this.load.image('explosion06', 'assets/images/explosion06.png');
+            this.load.image('explosion07', 'assets/images/explosion07.png');
+            this.load.image('explosion08', 'assets/images/explosion08.png');
 
             this.load.image('playerShip1', 'assets/images/playerShip1_red.png');
             this.load.image('playerShip2', 'assets/images/playerShip1_blue.png');
