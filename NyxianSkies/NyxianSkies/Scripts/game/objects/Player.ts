@@ -66,19 +66,19 @@
                 this.move(+this.speed, 0);
             }
 
-            hub.server.sendAction(JSON.stringify(
-                {
-                    action: 'MoveStart',
-                    playerId: PlayerId,
-                    direction: { x: 5, y: 5 }
-                }
-                ));
-            hub.server.sendAction(JSON.stringify(
-                {
-                    action: 'MoveStop',
-                    playerId: PlayerId,
-                }
-                ));
+            //hub.server.sendAction(JSON.stringify(
+            //    {
+            //        action: 'MoveStart',
+            //        playerId: PlayerId,
+            //        direction: { x: 5, y: 5 }
+            //    }
+            //    ));
+            //hub.server.sendAction(JSON.stringify(
+            //    {
+            //        action: 'MoveStop',
+            //        playerId: PlayerId,
+            //    }
+            //    ));
 
         }
 
