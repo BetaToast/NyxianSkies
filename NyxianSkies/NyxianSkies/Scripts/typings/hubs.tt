@@ -227,7 +227,7 @@ interface <#= GenericSpecificName(type) #> {
             case "double":
                 return "number";
             case "boolean":
-                return "bool";
+                return "boolean";
             case "void":
             case "string":
                 return type.Name.ToLowerInvariant();
