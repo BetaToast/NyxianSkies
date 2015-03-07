@@ -77,6 +77,11 @@ namespace NyxianSkies.ServerSide.Server
                 var player = (IJoinGame)rawObject;
                 player.PlayerId = Guid.Parse(Context.ConnectionId);
             }
+            if (rawObject is IPlayerAction)
+            {
+                var player = (IPlayerAction)rawObject;
+                player.PlayerId = Guid.Parse(Context.ConnectionId);
+            }
         }
 
         private object ConvertJsonToActions(JToken arg)

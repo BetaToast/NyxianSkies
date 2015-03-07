@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using NyxianSkies.ServerSide.GameInstance;
 
 namespace NyxianSkies.ServerSide.Server
 {
@@ -11,6 +12,6 @@ namespace NyxianSkies.ServerSide.Server
         void JoinedGame(Guid GameId);
         void StartLevel(string LevelName);
 
-        void ShipPostionUpdate(Guid PlayerId, Point Postion, Point velocity);
+        void ShipPostionUpdate(Guid PlayerId, Vector2 Postion, Point velocity);
     }
 }
