@@ -41,7 +41,7 @@
             this.shipType = shipType;
 
             this.registerInput(Phaser.Keyboard.W, Phaser.Keyboard.S, Phaser.Keyboard.A, Phaser.Keyboard.D, Phaser.Keyboard.SPACEBAR);
-            
+
             this.leftEngineEmitter = this.game.add.emitter(this.x - 25, this.y + 23, 400);
             this.leftEngineEmitter.makeParticles(['explosion00', 'explosion01', 'explosion02', 'explosion03', 'explosion04', 'explosion05', 'explosion06', 'explosion07', 'explosion08'])
             this.leftEngineEmitter.gravity = 9999;
@@ -145,19 +145,19 @@
 
         moveStart(x: number, y: number) {
             hub.server.sendAction(JSON.stringify(
-            {
-                action: 'MoveStart',
-                playerId: PlayerId,
-                direction: { X: x, Y: y }
-            }));
+                {
+                    action: 'MoveStart',
+                    playerId: PlayerId,
+                    direction: x + ", " + y,
+                }));
         }
 
         moveStop() {
             hub.server.sendAction(JSON.stringify(
-            {
-                action: 'MoveStop',
-                playerId: PlayerId
-            }));
+                {
+                    action: 'MoveStop',
+                    playerId: PlayerId
+                }));
         }
     }
 }
