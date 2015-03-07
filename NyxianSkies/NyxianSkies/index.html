@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Nyxian Skies</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/main.css" type="text/css" />
+
+    <!-- Scripts -->
+    <script  src="Scripts/jquery-2.1.3.min.js"></script>
+    <script  src="Scripts/jquery.signalR-2.2.0.js"></script>
+    <script  src="signalr/hubs"></script>
+    <script  src="Scripts/phaser/phaser.js"></script>
+    
+    <script  src="scripts/game.js"></script>
+</head>
+<body>
+    <div id="content"></div>
+    <div id="Latency"></div>
+    <script>
+        var pingServer = function () {
+            if (!canExecute)
+                return;
+            pingId = (new Date()).getTime();
+            hub.server.sendAction(JSON.stringify(
+                        {
+                            action: 'PingServer',
+                            ID: pingId
+                        }));
+        }
+        setInterval(pingServer, 1000);
+    </script>
+</body>
+</html>
