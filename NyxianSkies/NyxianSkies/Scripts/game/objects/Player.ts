@@ -78,31 +78,31 @@
 
 
             var keyChange = false;
-            if (this.upKey.isDown !== this.upKeyIsDown) {
-                this.upKeyIsDown = this.upKey.isDown;
+            if (this.upKey.isUp != this.upKeyIsDown) {
+                this.upKeyIsDown = this.upKey.isUp;
                 keyChange = true;
             }
-            if (this.downKey.isDown !== this.downKeyIsDown) {
-                this.downKeyIsDown = this.downKey.isDown;
+            if (this.downKey.isUp != this.downKeyIsDown) {
+                this.downKeyIsDown = this.downKey.isUp;
                 keyChange = true;
             }
-            if (this.leftKey.isDown !== this.leftKeyIsDown) {
-                this.leftKeyIsDown = this.leftKey.isDown;
+            if (this.leftKey.isUp != this.leftKeyIsDown) {
+                this.leftKeyIsDown = this.leftKey.isUp;
                 keyChange = true;
             }
-            if (this.rightKey.isDown !== this.rightKeyIsDown) {
-                this.rightKeyIsDown = this.rightKey.isDown;
+            if (this.rightKey.isUp != this.rightKeyIsDown) {
+                this.rightKeyIsDown = this.rightKey.isUp;
                 keyChange = true;
             }
 
-            if (keyChange) {
+            if (keyChange == true) {
                 if (this.leftKeyIsDown && this.rightKeyIsDown && this.upKeyIsDown && this.downKeyIsDown) {
                     this.moveStop();
                 } else {
                     var x = 0;
+                    var y = 0;
                     x += this.leftKeyIsDown ? -1 : 0;
                     x += this.rightKeyIsDown ? 1 : 0;
-                    var y = 0;
                     y += this.upKeyIsDown ? -1 : 0;
                     y += this.downKeyIsDown ? 1 : 0;
                     this.moveStart(x, y);
@@ -127,8 +127,8 @@
         }
 
         move(x: number, y: number) {
-            this.sprite.x += (x * this.speed);
-            this.sprite.y += (y * this.speed);
+            this.sprite.x += x;
+            this.sprite.y += y;
         }
 
         takeShieldDamage(value: number) {
@@ -141,20 +141,19 @@
 
         moveStart(x: number, y: number) {
             hub.server.sendAction(JSON.stringify(
-            {
-                action: 'MoveStart',
-                playerId: PlayerId,
-                direction: x + ", " + y,
-            }));
-            this.move(x, y);
+                {
+                    action: 'MoveStart',
+                    gameId: GameId,
+                    direction: x + ", " + y,
+                }));
         }
 
         moveStop() {
             hub.server.sendAction(JSON.stringify(
-            {
-                action: 'MoveStop',
-                playerId: PlayerId
-            }));
+                {
+                    action: 'MoveStop',
+                    gameId: GameId,
+                }));
         }
     }
 }

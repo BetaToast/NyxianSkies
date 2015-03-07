@@ -81,6 +81,20 @@ namespace NyxianSkies.ServerSide.GameInstance
             }
         }
 
+        public async Task HandleAction(MoveStop stopPlayer)
+        {
+            if (_myPlayers.ContainsKey(stopPlayer.PlayerId))
+                _myPlayers[stopPlayer.PlayerId].Velocity = new Point(0, 0);
+        }
+
+        public async Task HandleAction(MoveStart startPlayer)
+        {
+            if (_myPlayers.ContainsKey(startPlayer.PlayerId))
+            {
+                _myPlayers[startPlayer.PlayerId].Velocity = startPlayer.Direction;
+            }
+
+        }
         private void StartGameCheck()
         {
             if (_myPlayers.Count == NumberOfPlayers)
