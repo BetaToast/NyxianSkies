@@ -362,14 +362,15 @@ var NyxianSkies;
             this.i = 0;
             this.bgLayer1Tiles = [];
             this.bgLayer2Tiles = [];
+            this.bgDetails = [];
             this.gameObjects = [];
         }
         Gameplay.prototype.create = function () {
             NyxianSkies.NyxianSkiesGame.currentState = this;
             this.ui = new BetaToast.UserInterface(this, "blue");
             this.console = this.ui.addConsole(0, 0);
-            this.console.addLine("Hello World");
-            this.loadMap("Earth");
+            this.console.addLine(NyxianSkies.NyxianSkiesGame.currentMapName);
+            this.loadMap(NyxianSkies.NyxianSkiesGame.currentMapName);
             var px = this.world.centerX;
             var py = this.world.height - (this.world.centerY / 2);
             NyxianSkies.NyxianSkiesGame.player1 = new NyxianSkies.Player(this.game, px, py, NyxianSkies.NyxianSkiesGame.shipType);
@@ -378,15 +379,20 @@ var NyxianSkies;
             var bgLayer1Tiles = this.bgLayer1Tiles;
             for (var i = 0; i < bgLayer1Tiles.length; i++) {
                 var tile = bgLayer1Tiles[i];
-                tile.y += 2;
+                tile.y += NyxianSkies.NyxianSkiesGame.mapSpeed;
                 //if (tile.y <= -256) tile.y = 976;
                 if (tile.y >= 976)
                     tile.y = -256;
             }
+            var details = this.bgDetails;
+            for (var i = 0; i < details.length; i++) {
+                var detail = details[i];
+                detail.y += NyxianSkies.NyxianSkiesGame.mapSpeed;
+            }
             var gameObjects = this.gameObjects;
             for (var i = 0; i < gameObjects.length; i++) {
                 var gameObject = gameObjects[i];
-                gameObject.y++;
+                gameObject.y += NyxianSkies.NyxianSkiesGame.mapSpeed;
             }
             //var obj = gameObjects[0];
             //this.console.changeLine(0, "Game Object [0]: [" + obj.x + ", " + obj.y + "]");
@@ -399,6 +405,7 @@ var NyxianSkies;
             this.jsonMap = "";
             this.bgLayer1Tiles = [];
             this.bgLayer2Tiles = [];
+            this.bgDetails = [];
             this.gameObjects = [];
             this.mapFilename = "assets//maps//" + mapKeyName + ".json";
             this.jsonMap = Utils.readAllText(this.mapFilename);
@@ -406,6 +413,7 @@ var NyxianSkies;
             var map = this.map;
             var bgLayer1Tiles = this.bgLayer1Tiles;
             var bgLayer2Tiles = this.bgLayer2Tiles;
+            var details = this.bgDetails;
             var gameObjects = this.gameObjects;
             // BG Color
             this.stage.setBackgroundColor(this.map.bgColor);
@@ -426,6 +434,18 @@ var NyxianSkies;
                         bgLayer2Tiles[index] = this.add.sprite(x, y, map.bgLayer2 + 'Background');
                     }
                 }
+            }
+            for (var i = 0; i < map.bgDetails.length; i++) {
+                var detail = map.bgDetails[i];
+                var sprite = this.add.sprite(detail.x, detail.y, detail.asset);
+                var index = details.length;
+                if (map.direction === "Vertical") {
+                    sprite.y = sprite.y - map.height;
+                }
+                else if (map.direction === "Horizontal") {
+                    sprite.x = sprite.x + map.width;
+                }
+                details[index] = sprite;
             }
             for (var i = 0; i < map.gameObjects.length; i++) {
                 var gameObject = map.gameObjects[i];
@@ -538,9 +558,27 @@ var NyxianSkies;
             }
             return "playerShip1_red.png";
         };
+        NyxianSkiesGame.mapSpeed = 8;
+        NyxianSkiesGame.currentMapName = "Earth";
         return NyxianSkiesGame;
     })(BetaToast.Game);
     NyxianSkies.NyxianSkiesGame = NyxianSkiesGame;
+})(NyxianSkies || (NyxianSkies = {}));
+var NyxianSkies;
+(function (NyxianSkies) {
+    var BGDetail = (function () {
+        function BGDetail() {
+        }
+        BGDetail.prototype.clone = function (deDetail) {
+            var ret = new BGDetail();
+            ret.x = deDetail.X;
+            ret.y = deDetail.Y;
+            ret.asset = deDetail.Asset;
+            return ret;
+        };
+        return BGDetail;
+    })();
+    NyxianSkies.BGDetail = BGDetail;
 })(NyxianSkies || (NyxianSkies = {}));
 var NyxianSkies;
 (function (NyxianSkies) {
@@ -863,6 +901,7 @@ var NyxianSkies;
     var Map = (function () {
         function Map(json) {
             if (json === void 0) { json = ""; }
+            this.bgDetails = [];
             this.gameObjects = [];
             if (json === "")
                 return;
@@ -875,6 +914,11 @@ var NyxianSkies;
             this.bgColor = deMap.BGColor;
             this.bgLayer1 = deMap.BGLayer1;
             this.bgLayer2 = deMap.BGLayer2;
+            for (var i = 0; i < deMap.BGDetails.length; i++) {
+                var deDetail = deMap.BGDetails[i];
+                var detail = new NyxianSkies.BGDetail().clone(deDetail);
+                this.bgDetails[this.bgDetails.length] = detail;
+            }
             for (var i = 0; i < deMap.GameObjects.length; i++) {
                 var deGameObject = deMap.GameObjects[i];
                 var gameObject = NyxianSkies.GameObjects.findObjectById(deGameObject.Type).clone(deGameObject);
@@ -1036,6 +1080,15 @@ var NyxianSkies;
             this.load.image('explosion06', 'assets/images/explosion06.png');
             this.load.image('explosion07', 'assets/images/explosion07.png');
             this.load.image('explosion08', 'assets/images/explosion08.png');
+            this.load.image('water001', 'assets/images/water001.png');
+            this.load.image('water002', 'assets/images/water002.png');
+            this.load.image('water003', 'assets/images/water003.png');
+            this.load.image('water004', 'assets/images/water004.png');
+            this.load.image('cloud001', 'assets/images/cloud001.png');
+            this.load.image('cloud002', 'assets/images/cloud002.png');
+            this.load.image('cloud003', 'assets/images/cloud003.png');
+            this.load.image('cloud004', 'assets/images/cloud004.png');
+            this.load.image('atmosphere001', 'assets/images/atmosphere001.png');
             this.load.image('playerShip1', 'assets/images/playerShip1_red.png');
             this.load.image('playerShip2', 'assets/images/playerShip1_blue.png');
             this.load.image('playerShip3', 'assets/images/playerShip1_green.png');
@@ -1195,7 +1248,7 @@ var NyxianSkies;
             this.title = this.add.sprite(-400, 462, 'title');
             this.title.anchor.setTo(0.5, 0.5);
             this.music = this.add.audio('styx', 1, true);
-            //this.music.play();
+            this.music.play();
             this.ui = new BetaToast.UserInterface(this, "blue");
             this.btnOnePlayer = this.ui.addButton(-400, 462, "1 Player", 48, 8);
             this.btnOnePlayer.onClickAction = this.btnOnePlayerClick;

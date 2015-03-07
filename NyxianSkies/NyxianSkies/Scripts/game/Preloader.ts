@@ -35,6 +35,18 @@ module NyxianSkies {
             this.load.image('explosion07', 'assets/images/explosion07.png');
             this.load.image('explosion08', 'assets/images/explosion08.png');
 
+            this.load.image('water001', 'assets/images/water001.png');
+            this.load.image('water002', 'assets/images/water002.png');
+            this.load.image('water003', 'assets/images/water003.png');
+            this.load.image('water004', 'assets/images/water004.png');
+
+            this.load.image('cloud001', 'assets/images/cloud001.png');
+            this.load.image('cloud002', 'assets/images/cloud002.png');
+            this.load.image('cloud003', 'assets/images/cloud003.png');
+            this.load.image('cloud004', 'assets/images/cloud004.png');
+
+            this.load.image('atmosphere001', 'assets/images/atmosphere001.png');
+
             this.load.image('playerShip1', 'assets/images/playerShip1_red.png');
             this.load.image('playerShip2', 'assets/images/playerShip1_blue.png');
             this.load.image('playerShip3', 'assets/images/playerShip1_green.png');

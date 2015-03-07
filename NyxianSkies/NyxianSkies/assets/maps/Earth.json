@@ -1,11 +1,186 @@
 {
-  "Name": "Earth",
-  "Direction": "Vertical",
-  "Width": 1280,
-  "Height": 72000,
-  "BGColor": "#000000",
-  "BGLayer1": "black",
-  "BGLayer2": "None",
+    "Name": "Earth",
+    "Direction": "Vertical",
+    "Width": 1280,
+    "Height": 72000,
+    "BGColor": "#000000",
+    "BGLayer1": "black",
+    "BGLayer2": "None",
+    "BGDetails": [
+        {
+            "X": 0,
+            "Y": 72000,
+            "Asset": "water001" 
+        },
+        {
+            "X": 0,
+            "Y": 71280,
+            "Asset": "water001"
+        },
+        {
+            "X": 0,
+            "Y": 70560,
+            "Asset": "water001"
+        },
+        {
+            "X": 0,
+            "Y": 69840,
+            "Asset": "water001"
+        },
+
+        {
+            "X": 0,
+            "Y": 69120,
+            "Asset": "water002" 
+        },
+        {
+            "X": 0,
+            "Y": 68400,
+            "Asset": "water002"
+        },
+        {
+            "X": 0,
+            "Y": 67680,
+            "Asset": "water002"
+        },
+        {
+            "X": 0,
+            "Y": 66960,
+            "Asset": "water002"
+        },
+
+        {
+            "X": 0,
+            "Y": 66240,
+            "Asset": "water003" 
+        },
+        {
+            "X": 0,
+            "Y": 65520,
+            "Asset": "water003"
+        },
+        {
+            "X": 0,
+            "Y": 64800,
+            "Asset": "water003"
+        },
+        {
+            "X": 0,
+            "Y": 64080,
+            "Asset": "water003"
+        },
+
+        {
+            "X": 0,
+            "Y": 63360,
+            "Asset": "water004" 
+        },
+        {
+            "X": 0,
+            "Y": 62640,
+            "Asset": "water004"
+        },
+        {
+            "X": 0,
+            "Y": 61920,
+            "Asset": "water004"
+        },
+        {
+            "X": 0,
+            "Y": 61200,
+            "Asset": "water004"
+        },
+
+        {
+            "X": 0,
+            "Y": 60480,
+            "Asset": "cloud001" 
+        },
+        {
+            "X": 0,
+            "Y": 59760,
+            "Asset": "cloud001"
+        },
+        {
+            "X": 0,
+            "Y": 59040,
+            "Asset": "cloud001"
+        },
+        {
+            "X": 0,
+            "Y": 58320,
+            "Asset": "cloud001"
+        },
+
+        {
+            "X": 0,
+            "Y": 57600,
+            "Asset": "cloud002" 
+        },
+        {
+            "X": 0,
+            "Y": 56880,
+            "Asset": "cloud002"
+        },
+        {
+            "X": 0,
+            "Y": 56160,
+            "Asset": "cloud002"
+        },
+        {
+            "X": 0,
+            "Y": 55440,
+            "Asset": "cloud002"
+        },
+
+        {
+            "X": 0,
+            "Y": 54720,
+            "Asset": "cloud003" 
+        },
+        {
+            "X": 0,
+            "Y": 54000,
+            "Asset": "cloud003"
+        },        
+        {
+            "X": 0,
+            "Y": 53280,
+            "Asset": "cloud003"
+        },
+        {
+            "X": 0,
+            "Y": 52560,
+            "Asset": "cloud003"
+        },
+
+        {
+            "X": 0,
+            "Y": 51840,
+            "Asset": "cloud004" 
+        },
+        {
+            "X": 0,
+            "Y": 51120,
+            "Asset": "cloud004"
+        },
+        {
+            "X": 0,
+            "Y": 50400,
+            "Asset": "cloud004"
+        },
+        {
+            "X": 0,
+            "Y": 49680,
+            "Asset": "cloud004"
+        },
+
+        {
+            "X": 0,
+            "Y": 48960,
+            "Asset": "atmosphere001"
+        },
+    ],
   "GameObjects": [
     {
       "Type": 0,

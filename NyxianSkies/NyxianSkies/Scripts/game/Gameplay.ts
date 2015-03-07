@@ -8,13 +8,14 @@ module NyxianSkies {
         ui: BetaToast.UserInterface;
         console: BetaToast.Console;
         i: number = 0;
-
+        
 
         map: Map;
         mapFilename: string;
         jsonMap: string;
         bgLayer1Tiles: Array<Phaser.Sprite> = [];
         bgLayer2Tiles: Array<Phaser.Sprite> = [];
+        bgDetails: Array<Phaser.Sprite> = [];
         gameObjects: Array<Phaser.Sprite> = [];
         
         create() {
@@ -22,9 +23,9 @@ module NyxianSkies {
             this.ui = new BetaToast.UserInterface(this, "blue");
 
             this.console = this.ui.addConsole(0, 0);
-            this.console.addLine("Hello World");
+            this.console.addLine(NyxianSkiesGame.currentMapName);
 
-            this.loadMap("Earth");
+            this.loadMap(NyxianSkiesGame.currentMapName);
 
             var px = this.world.centerX;
             var py = this.world.height - (this.world.centerY / 2);
@@ -35,15 +36,21 @@ module NyxianSkies {
             var bgLayer1Tiles = this.bgLayer1Tiles;
             for (var i = 0; i < bgLayer1Tiles.length; i++) {
                 var tile = bgLayer1Tiles[i];
-                tile.y += 2;
+                tile.y += NyxianSkiesGame.mapSpeed;
                 //if (tile.y <= -256) tile.y = 976;
                 if (tile.y >= 976) tile.y = -256;
+            }
+
+            var details = this.bgDetails;
+            for (var i = 0; i < details.length; i++) {
+                var detail = details[i];
+                detail.y += NyxianSkiesGame.mapSpeed;
             }
 
             var gameObjects = this.gameObjects;
             for (var i = 0; i < gameObjects.length; i++) {
                 var gameObject = gameObjects[i];
-                gameObject.y++;
+                gameObject.y += NyxianSkiesGame.mapSpeed;
                 //if (tile.y >= 720) tile.y = -256;
             }
 
@@ -61,6 +68,7 @@ module NyxianSkies {
             this.jsonMap = "";
             this.bgLayer1Tiles = [];
             this.bgLayer2Tiles = [];
+            this.bgDetails = [];
             this.gameObjects = [];
 
             this.mapFilename = "assets//maps//" + mapKeyName + ".json";
@@ -70,6 +78,7 @@ module NyxianSkies {
             var map = this.map;
             var bgLayer1Tiles = this.bgLayer1Tiles;
             var bgLayer2Tiles = this.bgLayer2Tiles;
+            var details = this.bgDetails;
             var gameObjects = this.gameObjects;
 
             // BG Color
@@ -93,6 +102,20 @@ module NyxianSkies {
                         bgLayer2Tiles[index] = this.add.sprite(x, y, map.bgLayer2 + 'Background');
                     }
                 }
+            }
+
+            // Background Details
+            for (var i = 0; i < map.bgDetails.length; i++) {
+                var detail = map.bgDetails[i];
+                var sprite = this.add.sprite(detail.x, detail.y, detail.asset);
+                var index = details.length;
+                if (map.direction === "Vertical") {
+                    sprite.y = sprite.y - map.height;
+                }
+                else if (map.direction === "Horizontal") {
+                    sprite.x = sprite.x + map.width;
+                }
+                details[index] = sprite;
             }
 
             // Game Objects

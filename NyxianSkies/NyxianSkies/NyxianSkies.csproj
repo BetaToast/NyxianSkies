@@ -92,6 +92,11 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\images\Atmosphere001.png" />
+    <Content Include="assets\images\Cloud001.png" />
+    <Content Include="assets\images\Cloud002.png" />
+    <Content Include="assets\images\Cloud003.png" />
+    <Content Include="assets\images\Cloud004.png" />
     <Content Include="assets\images\explosion00.png" />
     <Content Include="assets\images\explosion01.png" />
     <Content Include="assets\images\explosion02.png" />
@@ -115,6 +120,10 @@
     <Content Include="assets\images\playerShip3_orange.png" />
     <Content Include="assets\images\playerShip3_red.png" />
     <Content Include="assets\images\SelectShip.png" />
+    <Content Include="assets\images\Water001.png" />
+    <Content Include="assets\images\Water002.png" />
+    <Content Include="assets\images\Water003.png" />
+    <Content Include="assets\images\Water004.png" />
     <Content Include="Scripts\game.js.map" />
     <Content Include="assets\images\nyxianskies-hash.json" />
     <Content Include="assets\maps\Earth.json" />
@@ -201,6 +210,7 @@
     <TypeScriptCompile Include="Scripts\game\GameOver.ts" />
     <TypeScriptCompile Include="Scripts\game\Gameplay.ts" />
     <TypeScriptCompile Include="Scripts\game\NyxianSkiesGame.ts" />
+    <TypeScriptCompile Include="Scripts\game\objects\BGDetail.ts" />
     <TypeScriptCompile Include="Scripts\game\objects\GameObject.ts" />
     <TypeScriptCompile Include="Scripts\game\objects\GameObjects.ts" />
     <TypeScriptCompile Include="Scripts\game\objects\Map.ts" />
@@ -231,6 +241,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

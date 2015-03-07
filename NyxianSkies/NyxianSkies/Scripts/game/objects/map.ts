@@ -7,6 +7,7 @@
         bgColor: string;
         bgLayer1: string;
         bgLayer2: string;
+        bgDetails: Array<BGDetail> = [];
         gameObjects: Array<GameObject> = [];
         startX: number;
         startY: number;
@@ -23,6 +24,12 @@
             this.bgColor = deMap.BGColor;
             this.bgLayer1 = deMap.BGLayer1;
             this.bgLayer2 = deMap.BGLayer2;
+
+            for (var i = 0; i < deMap.BGDetails.length; i++) {
+                var deDetail = deMap.BGDetails[i];
+                var detail = new BGDetail().clone(deDetail);
+                this.bgDetails[this.bgDetails.length] = detail;
+            }
 
             for (var i = 0; i < deMap.GameObjects.length; i++) {
                 var deGameObject = deMap.GameObjects[i];

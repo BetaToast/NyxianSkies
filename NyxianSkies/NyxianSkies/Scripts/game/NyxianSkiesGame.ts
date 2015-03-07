@@ -10,6 +10,8 @@ module NyxianSkies {
         static shipType;
         static player1: NyxianSkies.Player;
         static player2: NyxianSkies.Player;
+        static mapSpeed: number = 8;
+        static currentMapName: string = "Earth";
 
         hub;
 
