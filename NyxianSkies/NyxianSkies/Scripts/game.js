@@ -957,11 +957,11 @@ var NyxianSkies;
                 }
                 else {
                     var x = 0;
-                    x += this.leftKeyIsDown ? -1 : 0;
-                    x += this.rightKeyIsDown ? 1 : 0;
                     var y = 0;
-                    y += this.upKeyIsDown ? -1 : 0;
-                    y += this.downKeyIsDown ? 1 : 0;
+                    x += this.leftKeyIsDown ? 1 : 0;
+                    x += this.rightKeyIsDown ? -1 : 0;
+                    y += this.upKeyIsDown ? 1 : 0;
+                    y += this.downKeyIsDown ? -1 : 0;
                     this.moveStart(x, y);
                 }
             }
@@ -989,14 +989,14 @@ var NyxianSkies;
         Player.prototype.moveStart = function (x, y) {
             hub.server.sendAction(JSON.stringify({
                 action: 'MoveStart',
-                playerId: PlayerId,
+                gameId: GameId,
                 direction: x + ", " + y,
             }));
         };
         Player.prototype.moveStop = function () {
             hub.server.sendAction(JSON.stringify({
                 action: 'MoveStop',
-                playerId: PlayerId
+                gameId: GameId,
             }));
         };
         return Player;
