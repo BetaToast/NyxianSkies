@@ -14,12 +14,24 @@ namespace NyxianSkies.ServerSide.GameInstance
         public decimal HullShield { get; private set; }
 
         public string LoadingLevel { get; set; }
-        public Point Position { get; set; }
+        public Vector2 Position { get; set; }
         public Point Velocity { get; set; }
 
         public Player(Guid playerId)
         {
             PlayerId = playerId;
         }
+    }
+
+    public class Vector2
+    {
+        public Vector2(float x, float y)
+        {
+            X = x;
+            Y = y;
+        }
+
+        public float X { get; set; }
+        public float Y { get; set; }
     }
 }

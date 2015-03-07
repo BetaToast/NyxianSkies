@@ -472,11 +472,6 @@ $(function () {
     };
     hub.client.loadLevel = function (level) {
         NyxianSkies.NyxianSkiesGame.currentState.state.start('Gameplay', true, false);
-    };
-    hub.client.startLevel = function (level) {
-        if (level !== undefined) {
-            var a = 0;
-        }
         hub.server.sendAction(JSON.stringify({
             action: 'StartLevel',
             playerId: PlayerId,
@@ -484,9 +479,7 @@ $(function () {
         }));
     };
     hub.client.shipPostionUpdate = function (playerId, position, velocity) {
-        var player = NyxianSkies.NyxianSkiesGame.player1;
-        player.sprite.x = position.X;
-        player.sprite.y = position.Y;
+        debugger;
     };
     //Start the hub and wire up server call functions after it is started
     //$.connection.hub.logging = true; //debugging
@@ -937,23 +930,23 @@ var NyxianSkies;
             this.rightEngineEmitter.emitX = this.sprite.x + 25;
             this.rightEngineEmitter.emitY = this.sprite.y + 30;
             var keyChange = false;
-            if (this.upKey.isUp !== this.upKeyIsDown) {
+            if (this.upKey.isUp != this.upKeyIsDown) {
                 this.upKeyIsDown = this.upKey.isUp;
                 keyChange = true;
             }
-            if (this.downKey.isUp !== this.downKeyIsDown) {
+            if (this.downKey.isUp != this.downKeyIsDown) {
                 this.downKeyIsDown = this.downKey.isUp;
                 keyChange = true;
             }
-            if (this.leftKey.isUp !== this.leftKeyIsDown) {
+            if (this.leftKey.isUp != this.leftKeyIsDown) {
                 this.leftKeyIsDown = this.leftKey.isUp;
                 keyChange = true;
             }
-            if (this.rightKey.isUp !== this.rightKeyIsDown) {
+            if (this.rightKey.isUp != this.rightKeyIsDown) {
                 this.rightKeyIsDown = this.rightKey.isUp;
                 keyChange = true;
             }
-            if (keyChange === true) {
+            if (keyChange == true) {
                 if (this.leftKeyIsDown && this.rightKeyIsDown && this.upKeyIsDown && this.downKeyIsDown) {
                     this.moveStop();
                 }

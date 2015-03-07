@@ -60,7 +60,7 @@ namespace NyxianSkies.ServerSide.GameInstance
 
             foreach (var p in _myPlayers.Values)
             {
-                p.Position = new Point(1280 / 3, 700);
+                p.Position = new Vector2(1280 / 3, 700);
                 p.Velocity = new Point(0, 0);
                 hub.Clients.Client(p.PlayerId.ToString()).ShipPostionUpdate(p.PlayerId, p.Position, p.Velocity);
             }
@@ -119,6 +119,20 @@ namespace NyxianSkies.ServerSide.GameInstance
             //  You can do this Xeno.  Everything is ready to go.
             //  Perhaps send a message to the clients letting them know where there ships are?
             //     --Past Xeno
+            //Pixels/second
+            //15/second
+
+            
+            float speed = (15 / 1000f) * elapsedTime;
+            foreach (var player in _myPlayers.Values.Where(player => player.Velocity.X != 0 || player.Velocity.Y != 0))
+            {
+                player.Position = new Vector2(
+                    player.Position.X + player.Velocity.X * speed
+                    , player.Position.Y + player.Velocity.Y * speed
+                );
+                hub.Clients.Client(player.PlayerId.ToString())
+                    .ShipPostionUpdate(player.PlayerId, player.Position, player.Velocity);
+            }
         }
     }
 }

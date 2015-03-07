@@ -83,22 +83,14 @@ interface MainHubClient
     joinedGame : (GameId : Guid) => void;
  
     /**
-      * Set this function with a "function(LevelName : string){}" to receive the "startLevel" message from the MainHub hub.
-      * Contract Documentation: ---
-      * @param LevelName {string} 
-      * @return {void}
-      */
-    startLevel : (LevelName : string) => void;
- 
-    /**
-      * Set this function with a "function(PlayerId : Guid, Postion : Point, velocity : Point){}" to receive the "shipPostionUpdate" message from the MainHub hub.
+      * Set this function with a "function(PlayerId : Guid, Postion : Vector2, velocity : Point){}" to receive the "shipPostionUpdate" message from the MainHub hub.
       * Contract Documentation: ---
       * @param PlayerId {Guid} 
-      * @param Postion {Point} 
+      * @param Postion {Vector2} 
       * @param velocity {Point} 
       * @return {void}
       */
-    shipPostionUpdate : (PlayerId : Guid, Postion : Point, velocity : Point) => void;
+    shipPostionUpdate : (PlayerId : Guid, Postion : Vector2, velocity : Point) => void;
 }
  
 //#endregion MainHub hub
@@ -118,6 +110,15 @@ interface MainHubClient
   */
 interface Point {
     IsEmpty : boolean;
+    X : number;
+    Y : number;
+}
+ 
+ 
+/**
+  * Data contract for NyxianSkies.ServerSide.GameInstance.Vector2
+  */
+interface Vector2 {
     X : number;
     Y : number;
 }

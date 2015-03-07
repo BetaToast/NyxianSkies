@@ -27,25 +27,18 @@ $(() => {
 
     hub.client.loadLevel = level => {
         NyxianSkies.NyxianSkiesGame.currentState.state.start('Gameplay', true, false);
-    }
-
-    hub.client.startLevel = level => {
-        if (level !== undefined) {
-            var a = 0;
-        }
-
         hub.server.sendAction(JSON.stringify(
-        {
-            action: 'StartLevel',
-            playerId: PlayerId,
-            gameId: GameId
-        }));
+            {
+                action: 'StartLevel',
+                playerId: PlayerId,
+                gameId: GameId
+            }));
     }
+
 
     hub.client.shipPostionUpdate = (playerId, position, velocity) => {
-        var player = NyxianSkies.NyxianSkiesGame.player1;
-        player.sprite.x = position.X;
-        player.sprite.y = position.Y;
+        //NyxianSkies.NyxianSkiesGame.currentState.state.Gameplay.player1
+        debugger;
     }
 
     //Start the hub and wire up server call functions after it is started
