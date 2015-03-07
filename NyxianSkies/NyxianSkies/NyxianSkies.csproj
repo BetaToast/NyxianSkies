@@ -127,8 +127,7 @@
     <Content Include="Scripts\game.js.map" />
     <Content Include="assets\images\nyxianskies-hash.json" />
     <Content Include="assets\maps\Earth.json" />
-    <None Include="Properties\PublishProfiles\betatoasttest - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\betatoasttest - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\BetaToastNyxianSkies.pubxml" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />
     <Content Include="Scripts\jquery-2.1.3.min.js" />
