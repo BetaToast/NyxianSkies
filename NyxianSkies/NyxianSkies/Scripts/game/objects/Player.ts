@@ -78,20 +78,20 @@
 
 
             var keyChange = false;
-            if (this.upKey.isUp !== this.upKeyIsDown) {
-                this.upKeyIsDown = this.upKey.isUp;
+            if (this.upKey.isDown !== this.upKeyIsDown) {
+                this.upKeyIsDown = this.upKey.isDown;
                 keyChange = true;
             }
-            if (this.downKey.isUp !== this.downKeyIsDown) {
-                this.downKeyIsDown = this.downKey.isUp;
+            if (this.downKey.isDown !== this.downKeyIsDown) {
+                this.downKeyIsDown = this.downKey.isDown;
                 keyChange = true;
             }
-            if (this.leftKey.isUp !== this.leftKeyIsDown) {
-                this.leftKeyIsDown = this.leftKey.isUp;
+            if (this.leftKey.isDown !== this.leftKeyIsDown) {
+                this.leftKeyIsDown = this.leftKey.isDown;
                 keyChange = true;
             }
-            if (this.rightKey.isUp !== this.rightKeyIsDown) {
-                this.rightKeyIsDown = this.rightKey.isUp;
+            if (this.rightKey.isDown !== this.rightKeyIsDown) {
+                this.rightKeyIsDown = this.rightKey.isDown;
                 keyChange = true;
             }
 
