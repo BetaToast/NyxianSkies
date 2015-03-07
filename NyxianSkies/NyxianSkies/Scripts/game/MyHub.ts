@@ -7,7 +7,7 @@ declare var PlayerId: Guid;
 var canExecute = false;
 var pingId;
 
-$(function () {
+$(() => {
     hub = $.connection.mainHub;
 
     hub.client.yourPlayerId = playerId => {
@@ -35,11 +35,11 @@ $(function () {
         }
 
         hub.server.sendAction(JSON.stringify(
-            {
-                action: 'StartLevel',
-                playerId: PlayerId,
-                gameId: GameId
-            }));
+        {
+            action: 'StartLevel',
+            playerId: PlayerId,
+            gameId: GameId
+        }));
     }
 
     hub.client.shipPostionUpdate = (playerId, position, velocity) => {
