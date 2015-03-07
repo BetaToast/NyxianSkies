@@ -76,24 +76,37 @@
             this.rightEngineEmitter.emitX = this.sprite.x + 25;
             this.rightEngineEmitter.emitY = this.sprite.y + 30;
 
-            if (this.upKey.isUp) {
-                this.upKeyIsDown = false;
-                this.moveStop();
+
+            var keyChange = false;
+            if (this.upKey.isUp != this.upKeyIsDown) {
+                this.upKeyIsDown = this.upKey.isUp;
+                keyChange = true;
+            }
+            if (this.downKey.isUp != this.downKeyIsDown) {
+                this.downKeyIsDown = this.downKey.isUp;
+                keyChange = true;
+            }
+            if (this.leftKey.isUp != this.leftKeyIsDown) {
+                this.leftKeyIsDown = this.leftKey.isUp;
+                keyChange = true;
+            }
+            if (this.rightKey.isUp != this.rightKeyIsDown) {
+                this.rightKeyIsDown = this.rightKey.isUp;
+                keyChange = true;
             }
 
-            if (this.downKey.isUp) {
-                this.downKeyIsDown = false;
-                this.moveStop();
-            }
-
-            if (this.leftKey.isUp) {
-                this.leftKeyIsDown = false;
-                this.moveStop();
-            }
-
-            if (this.rightKey.isUp) {
-                this.rightKeyIsDown = false;
-                this.moveStop();
+            if (keyChange == true) {
+                if (this.leftKeyIsDown && this.rightKeyIsDown && this.upKeyIsDown && this.downKeyIsDown) {
+                    this.moveStop();
+                } else {
+                    var x = 0;
+                    x += this.leftKeyIsDown ? -1 : 0;
+                    x += this.rightKeyIsDown ? 1 : 0;
+                    var y = 0;
+                    y += this.upKeyIsDown ? -1 : 0;
+                    y += this.downKeyIsDown ? 1 : 0;
+                    this.moveStart(x, y);
+                }
             }
 
             if (this.game.input.onHold) {
@@ -103,23 +116,6 @@
                 this.fireSpecial();
             }
 
-            if (this.upKey.isDown) {
-                this.upKeyIsDown = true;
-                this.moveStart(0, -this.speed);
-            }
-            else if (this.downKey.isDown) {
-                this.downKeyIsDown = true;
-                this.moveStart(0, this.speed);
-            }
-
-            if (this.leftKey.isDown) {
-                this.leftKeyIsDown = true;
-                this.moveStart(-this.speed, 0);
-            }
-            else if (this.rightKey.isDown) {
-                this.rightKeyIsDown = true;
-                this.moveStart(+this.speed, 0);
-            }
         }
 
         fireNormal() {
