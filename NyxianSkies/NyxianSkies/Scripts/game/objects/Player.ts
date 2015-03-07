@@ -43,14 +43,14 @@
             this.registerInput(Phaser.Keyboard.W, Phaser.Keyboard.S, Phaser.Keyboard.A, Phaser.Keyboard.D, Phaser.Keyboard.SPACEBAR);
 
             this.leftEngineEmitter = this.game.add.emitter(this.x - 25, this.y + 23, 400);
-            this.leftEngineEmitter.makeParticles(['explosion00', 'explosion01', 'explosion02', 'explosion03', 'explosion04', 'explosion05', 'explosion06', 'explosion07', 'explosion08'])
+            this.leftEngineEmitter.makeParticles(['explosion00', 'explosion01', 'explosion02', 'explosion03', 'explosion04', 'explosion05', 'explosion06', 'explosion07', 'explosion08']);
             this.leftEngineEmitter.gravity = 9999;
             this.leftEngineEmitter.setAlpha(1, 0, 3000);
             this.leftEngineEmitter.setScale(0.8, 0, 0.8, 0, 3000);
             this.leftEngineEmitter.start(false, 100, 5);
 
             this.rightEngineEmitter = this.game.add.emitter(this.x + 25, this.y + 23, 400);
-            this.rightEngineEmitter.makeParticles(['explosion00', 'explosion01', 'explosion02', 'explosion03', 'explosion04', 'explosion05', 'explosion06', 'explosion07', 'explosion08'])
+            this.rightEngineEmitter.makeParticles(['explosion00', 'explosion01', 'explosion02', 'explosion03', 'explosion04', 'explosion05', 'explosion06', 'explosion07', 'explosion08']);
             this.rightEngineEmitter.gravity = 9999;
             this.rightEngineEmitter.setAlpha(1, 0, 3000);
             this.rightEngineEmitter.setScale(0.8, 0, 0.8, 0, 3000);
@@ -145,19 +145,19 @@
 
         moveStart(x: number, y: number) {
             hub.server.sendAction(JSON.stringify(
-                {
-                    action: 'MoveStart',
-                    playerId: PlayerId,
-                    direction: x + ", " + y,
-                }));
+            {
+                action: 'MoveStart',
+                playerId: PlayerId,
+                direction: x + ", " + y,
+            }));
         }
 
         moveStop() {
             hub.server.sendAction(JSON.stringify(
-                {
-                    action: 'MoveStop',
-                    playerId: PlayerId
-                }));
+            {
+                action: 'MoveStop',
+                playerId: PlayerId
+            }));
         }
     }
 }
