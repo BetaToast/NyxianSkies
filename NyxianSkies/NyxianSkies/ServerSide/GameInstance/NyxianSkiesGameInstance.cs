@@ -122,7 +122,8 @@ namespace NyxianSkies.ServerSide.GameInstance
             //Pixels/second
             //15/second
 
-            float speed = (15 / 1000) * elapsedTime;
+            
+            float speed = (15 / 1000f) * elapsedTime;
             foreach (var player in _myPlayers.Values.Where(player => player.Velocity.X != 0 || player.Velocity.Y != 0))
             {
                 player.Position = new Vector2(

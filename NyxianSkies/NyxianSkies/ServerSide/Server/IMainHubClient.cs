@@ -10,7 +10,6 @@ namespace NyxianSkies.ServerSide.Server
         void YourPlayerId(string connectionId);
         void LoadLevel(string LevelName);
         void JoinedGame(Guid GameId);
-        void StartLevel(string LevelName);
 
         void ShipPostionUpdate(Guid PlayerId, Vector2 Postion, Point velocity);
     }
