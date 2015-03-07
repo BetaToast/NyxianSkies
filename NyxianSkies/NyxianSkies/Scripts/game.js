@@ -484,7 +484,9 @@ $(function () {
         }));
     };
     hub.client.shipPostionUpdate = function (playerId, position, velocity) {
-        //NyxianSkies.NyxianSkiesGame.currentState.state.Gameplay.player1
+        var player = NyxianSkies.NyxianSkiesGame.player1;
+        player.sprite.x = position.X;
+        player.sprite.y = position.Y;
     };
     //Start the hub and wire up server call functions after it is started
     //$.connection.hub.logging = true; //debugging
@@ -935,23 +937,23 @@ var NyxianSkies;
             this.rightEngineEmitter.emitX = this.sprite.x + 25;
             this.rightEngineEmitter.emitY = this.sprite.y + 30;
             var keyChange = false;
-            if (this.upKey.isDown !== this.upKeyIsDown) {
-                this.upKeyIsDown = this.upKey.isDown;
+            if (this.upKey.isUp !== this.upKeyIsDown) {
+                this.upKeyIsDown = this.upKey.isUp;
                 keyChange = true;
             }
-            if (this.downKey.isDown !== this.downKeyIsDown) {
-                this.downKeyIsDown = this.downKey.isDown;
+            if (this.downKey.isUp !== this.downKeyIsDown) {
+                this.downKeyIsDown = this.downKey.isUp;
                 keyChange = true;
             }
-            if (this.leftKey.isDown !== this.leftKeyIsDown) {
-                this.leftKeyIsDown = this.leftKey.isDown;
+            if (this.leftKey.isUp !== this.leftKeyIsDown) {
+                this.leftKeyIsDown = this.leftKey.isUp;
                 keyChange = true;
             }
-            if (this.rightKey.isDown !== this.rightKeyIsDown) {
-                this.rightKeyIsDown = this.rightKey.isDown;
+            if (this.rightKey.isUp !== this.rightKeyIsDown) {
+                this.rightKeyIsDown = this.rightKey.isUp;
                 keyChange = true;
             }
-            if (keyChange) {
+            if (keyChange === true) {
                 if (this.leftKeyIsDown && this.rightKeyIsDown && this.upKeyIsDown && this.downKeyIsDown) {
                     this.moveStop();
                 }
@@ -977,8 +979,8 @@ var NyxianSkies;
         Player.prototype.fireSpecial = function () {
         };
         Player.prototype.move = function (x, y) {
-            this.sprite.x += (x * this.speed);
-            this.sprite.y += (y * this.speed);
+            this.sprite.x += x;
+            this.sprite.y += y;
         };
         Player.prototype.takeShieldDamage = function (value) {
             this.shield -= value;
@@ -992,7 +994,6 @@ var NyxianSkies;
                 gameId: GameId,
                 direction: x + ", " + y,
             }));
-            this.move(x, y);
         };
         Player.prototype.moveStop = function () {
             hub.server.sendAction(JSON.stringify({

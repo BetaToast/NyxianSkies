@@ -43,7 +43,9 @@ $(() => {
     }
 
     hub.client.shipPostionUpdate = (playerId, position, velocity) => {
-        //NyxianSkies.NyxianSkiesGame.currentState.state.Gameplay.player1
+        var player = NyxianSkies.NyxianSkiesGame.player1;
+        player.sprite.x = position.X;
+        player.sprite.y = position.Y;
     }
 
     //Start the hub and wire up server call functions after it is started

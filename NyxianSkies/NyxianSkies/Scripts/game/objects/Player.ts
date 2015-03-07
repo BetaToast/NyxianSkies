@@ -78,24 +78,24 @@
 
 
             var keyChange = false;
-            if (this.upKey.isUp != this.upKeyIsDown) {
+            if (this.upKey.isUp !== this.upKeyIsDown) {
                 this.upKeyIsDown = this.upKey.isUp;
                 keyChange = true;
             }
-            if (this.downKey.isUp != this.downKeyIsDown) {
+            if (this.downKey.isUp !== this.downKeyIsDown) {
                 this.downKeyIsDown = this.downKey.isUp;
                 keyChange = true;
             }
-            if (this.leftKey.isUp != this.leftKeyIsDown) {
+            if (this.leftKey.isUp !== this.leftKeyIsDown) {
                 this.leftKeyIsDown = this.leftKey.isUp;
                 keyChange = true;
             }
-            if (this.rightKey.isUp != this.rightKeyIsDown) {
+            if (this.rightKey.isUp !== this.rightKeyIsDown) {
                 this.rightKeyIsDown = this.rightKey.isUp;
                 keyChange = true;
             }
 
-            if (keyChange == true) {
+            if (keyChange === true) {
                 if (this.leftKeyIsDown && this.rightKeyIsDown && this.upKeyIsDown && this.downKeyIsDown) {
                     this.moveStop();
                 } else {
@@ -141,19 +141,19 @@
 
         moveStart(x: number, y: number) {
             hub.server.sendAction(JSON.stringify(
-                {
-                    action: 'MoveStart',
-                    gameId: GameId,
-                    direction: x + ", " + y,
-                }));
+            {
+                action: 'MoveStart',
+                gameId: GameId,
+                direction: x + ", " + y,
+            }));
         }
 
         moveStop() {
             hub.server.sendAction(JSON.stringify(
-                {
-                    action: 'MoveStop',
-                    gameId: GameId,
-                }));
+            {
+                action: 'MoveStop',
+                gameId: GameId,
+            }));
         }
     }
 }
