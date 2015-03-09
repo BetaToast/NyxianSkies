@@ -20,7 +20,7 @@ namespace NyxianSkies.ServerSide.Server
 
         protected long CurrentGameTime { get { return GameTime.ElapsedMilliseconds; } }
 
-        protected readonly IHubContext hub =GlobalHost.ConnectionManager.GetHubContext<MainHub>();
+        protected readonly IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<MainHub>();
 
         protected readonly int NumberOfPlayers;
         protected readonly ConcurrentDictionary<Guid, Player> _myPlayers = new ConcurrentDictionary<Guid, Player>();
@@ -29,6 +29,7 @@ namespace NyxianSkies.ServerSide.Server
         protected Stopwatch GameTime = new Stopwatch();
 
         private Int64 previousMilliseconds = 0;
+        private Int64 previousClientUpdateMilliseconds = 0;
 
         protected MessageBaseGame(int numberOfPlayers)
         {
@@ -62,12 +63,24 @@ namespace NyxianSkies.ServerSide.Server
                 //Update Game
                 UpdateGame(elapsedTime);
 
+#if(DEBUG)
+                const int minimumUpdateTime = 150;
+#else
+                const int minimumUpdateTime = 35;
+#endif
+                if (CurrentGameTime - previousClientUpdateMilliseconds > minimumUpdateTime)
+                {
+                    UpdateClients();
+                    previousClientUpdateMilliseconds = CurrentGameTime;
+                }
 
                 if (GameTime.Elapsed.TotalMinutes >= 10 || GameOver)
                     return;
-                Thread.Sleep(10);
+                Thread.Sleep(1);
             }
         }
+
+        protected abstract void UpdateClients();
 
         protected abstract void UpdateGame(long elapsedTime);
 

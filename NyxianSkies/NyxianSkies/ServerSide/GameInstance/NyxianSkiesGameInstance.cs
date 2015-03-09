@@ -128,8 +128,14 @@ namespace NyxianSkies.ServerSide.GameInstance
                     player.Position.X + player.Velocity.X * speed
                     , player.Position.Y + player.Velocity.Y * speed
                 );
-                hub.Clients.Client(player.PlayerId.ToString())
-                    .ShipPostionUpdate(player.PlayerId, player.Position, player.Velocity);
+            }
+        }
+
+        protected override void UpdateClients()
+        {
+            foreach (var player in _myPlayers.Values)
+            {
+                hub.Clients.Group(GameId.ToString()).ShipPostionUpdate(player.PlayerId, player.Position, player.Velocity);
             }
         }
     }

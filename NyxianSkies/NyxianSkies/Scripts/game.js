@@ -31,7 +31,7 @@ $(function () {
         NyxianSkies.NyxianSkiesGame.player1.sprite.y = position.Y;
     };
     //Start the hub and wire up server call functions after it is started
-    //$.connection.hub.logging = true; //debugging
+    $.connection.hub.logging = true; //debugging
     $.connection.hub.start();
 });
 var __extends = this.__extends || function (d, b) {
