@@ -9,7 +9,7 @@ namespace NyxianSkies.ServerSide.Server
         void Pong(long id);
         void YourPlayerId(string connectionId);
         void LoadLevel(string LevelName);
-        void JoinedGame(Guid GameId);
+        void JoinedGame(Guid GameId, Guid PlayerId);
 
         void ShipPostionUpdate(Guid PlayerId, Vector2 Postion, Point velocity);
     }

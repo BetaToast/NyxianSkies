@@ -21,8 +21,12 @@ $(() => {
             $("#Latency").html(laspe + "ms");
         }
     }
-    hub.client.joinedGame = gameId => {
+    hub.client.joinedGame = (gameId, playerId) => {
         GameId = gameId;
+        if (!NyxianSkies.NyxianSkiesGame.player1)
+            NyxianSkies.NyxianSkiesGame.player1 = new NyxianSkies.Player(this.game, 0, 0, NyxianSkies.NyxianSkiesGame.shipType, playerId);
+        else if (!NyxianSkies.NyxianSkiesGame.player2)
+            NyxianSkies.NyxianSkiesGame.player2 = new NyxianSkies.Player(this.game, 0, 0, NyxianSkies.NyxianSkiesGame.shipType, playerId);
     }
 
     hub.client.loadLevel = level => {
@@ -38,8 +42,14 @@ $(() => {
 
     hub.client.shipPostionUpdate = (playerId, position, velocity) => {
         //NyxianSkies.NyxianSkiesGame.currentState.state.Gameplay.player1
-        NyxianSkies.NyxianSkiesGame.player1.sprite.x = position.X;
-        NyxianSkies.NyxianSkiesGame.player1.sprite.y = position.Y;
+        if (NyxianSkies.NyxianSkiesGame.player1.playerId === playerId) {
+            NyxianSkies.NyxianSkiesGame.player1.sprite.x = position.X;
+            NyxianSkies.NyxianSkiesGame.player1.sprite.y = position.Y;
+        } else
+            if (NyxianSkies.NyxianSkiesGame.player2.playerId === playerId) {
+                NyxianSkies.NyxianSkiesGame.player2.sprite.x = position.X;
+                NyxianSkies.NyxianSkiesGame.player2.sprite.y = position.Y;
+            }
     }
 
     //Start the hub and wire up server call functions after it is started

@@ -12,6 +12,7 @@
         shield: number = 0;
         hull: number = 100;
         shipKey: string;
+        playerId: Guid;
 
         /////////////////////////////
         // Variables
@@ -34,11 +35,12 @@
         rightKeyIsDown: boolean;
 
 
-        constructor(game: Phaser.Game, x: number, y: number, shipType: number) {
+        constructor(game: Phaser.Game, x: number, y: number, shipType: number, playerId: Guid) {
             this.game = game;
             this.x = x;
             this.y = y;
             this.shipType = shipType;
+            this.playerId = playerId;
 
             this.registerInput(Phaser.Keyboard.W, Phaser.Keyboard.S, Phaser.Keyboard.A, Phaser.Keyboard.D, Phaser.Keyboard.SPACEBAR);
 

@@ -29,7 +29,7 @@ namespace NyxianSkies.ServerSide.GameInstance
                 var player = new Player(joinGame.PlayerId);
                 _myPlayers.TryAdd(player.PlayerId, player);
                 await hub.Groups.Add(joinGame.PlayerId.ToString(), GameId.ToString());
-                hub.Clients.Client(joinGame.PlayerId.ToString()).JoinedGame(GameId);
+                hub.Clients.Group(GameId.ToString()).JoinedGame(GameId, joinGame.PlayerId);
             }
 
             StartGameCheck();

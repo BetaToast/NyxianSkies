@@ -75,12 +75,13 @@ interface MainHubClient
     loadLevel : (LevelName : string) => void;
  
     /**
-      * Set this function with a "function(GameId : Guid){}" to receive the "joinedGame" message from the MainHub hub.
+      * Set this function with a "function(GameId : Guid, PlayerId : Guid){}" to receive the "joinedGame" message from the MainHub hub.
       * Contract Documentation: ---
       * @param GameId {Guid} 
+      * @param PlayerId {Guid} 
       * @return {void}
       */
-    joinedGame : (GameId : Guid) => void;
+    joinedGame : (GameId : Guid, PlayerId : Guid) => void;
  
     /**
       * Set this function with a "function(PlayerId : Guid, Postion : Vector2, velocity : Point){}" to receive the "shipPostionUpdate" message from the MainHub hub.

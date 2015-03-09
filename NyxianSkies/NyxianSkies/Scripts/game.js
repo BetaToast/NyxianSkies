@@ -1,5 +1,6 @@
 /// <reference path="../typings/jquery/jquery.d.ts" />
 /// <reference path="../typings/signalr/signalr.d.ts" />
+var _this = this;
 var canExecute = false;
 var pingId;
 $(function () {
@@ -14,8 +15,12 @@ $(function () {
             $("#Latency").html(laspe + "ms");
         }
     };
-    hub.client.joinedGame = function (gameId) {
+    hub.client.joinedGame = function (gameId, playerId) {
         GameId = gameId;
+        if (!NyxianSkies.NyxianSkiesGame.player1)
+            NyxianSkies.NyxianSkiesGame.player1 = new NyxianSkies.Player(_this.game, 0, 0, NyxianSkies.NyxianSkiesGame.shipType, playerId);
+        else if (!NyxianSkies.NyxianSkiesGame.player2)
+            NyxianSkies.NyxianSkiesGame.player2 = new NyxianSkies.Player(_this.game, 0, 0, NyxianSkies.NyxianSkiesGame.shipType, playerId);
     };
     hub.client.loadLevel = function (level) {
         NyxianSkies.NyxianSkiesGame.currentState.state.start('Gameplay', true, false);
@@ -27,8 +32,14 @@ $(function () {
     };
     hub.client.shipPostionUpdate = function (playerId, position, velocity) {
         //NyxianSkies.NyxianSkiesGame.currentState.state.Gameplay.player1
-        NyxianSkies.NyxianSkiesGame.player1.sprite.x = position.X;
-        NyxianSkies.NyxianSkiesGame.player1.sprite.y = position.Y;
+        if (NyxianSkies.NyxianSkiesGame.player1.playerId === playerId) {
+            NyxianSkies.NyxianSkiesGame.player1.sprite.x = position.X;
+            NyxianSkies.NyxianSkiesGame.player1.sprite.y = position.Y;
+        }
+        else if (NyxianSkies.NyxianSkiesGame.player2.playerId === playerId) {
+            NyxianSkies.NyxianSkiesGame.player2.sprite.x = position.X;
+            NyxianSkies.NyxianSkiesGame.player2.sprite.y = position.Y;
+        }
     };
     //Start the hub and wire up server call functions after it is started
     $.connection.hub.logging = true; //debugging
@@ -409,7 +420,7 @@ var NyxianSkies;
             this.loadMap(NyxianSkies.NyxianSkiesGame.currentMapName);
             var px = this.world.centerX;
             var py = this.world.height - (this.world.centerY / 2);
-            NyxianSkies.NyxianSkiesGame.player1 = new NyxianSkies.Player(this.game, px, py, NyxianSkies.NyxianSkiesGame.shipType);
+            //NyxianSkiesGame.player1 = new Player(this.game, px, py, NyxianSkiesGame.shipType);
         };
         Gameplay.prototype.update = function () {
             var bgLayer1Tiles = this.bgLayer1Tiles;
@@ -433,7 +444,10 @@ var NyxianSkies;
             //var obj = gameObjects[0];
             //this.console.changeLine(0, "Game Object [0]: [" + obj.x + ", " + obj.y + "]");
             this.ui.update();
-            NyxianSkies.NyxianSkiesGame.player1.update();
+            if (NyxianSkies.NyxianSkiesGame.player1)
+                NyxianSkies.NyxianSkiesGame.player1.update();
+            if (NyxianSkies.NyxianSkiesGame.player2)
+                NyxianSkies.NyxianSkiesGame.player2.update();
         };
         Gameplay.prototype.loadMap = function (mapKeyName) {
             this.map = null;
@@ -932,7 +946,7 @@ var NyxianSkies;
 var NyxianSkies;
 (function (NyxianSkies) {
     var Player = (function () {
-        function Player(game, x, y, shipType) {
+        function Player(game, x, y, shipType, playerId) {
             /////////////////////////////
             // Variables
             /////////////////////////////
@@ -946,6 +960,7 @@ var NyxianSkies;
             this.x = x;
             this.y = y;
             this.shipType = shipType;
+            this.playerId = playerId;
             this.registerInput(Phaser.Keyboard.W, Phaser.Keyboard.S, Phaser.Keyboard.A, Phaser.Keyboard.D, Phaser.Keyboard.SPACEBAR);
             this.leftEngineEmitter = this.game.add.emitter(this.x - 25, this.y + 23, 400);
             this.leftEngineEmitter.makeParticles(['explosion00', 'explosion01', 'explosion02', 'explosion03', 'explosion04', 'explosion05', 'explosion06', 'explosion07', 'explosion08']);

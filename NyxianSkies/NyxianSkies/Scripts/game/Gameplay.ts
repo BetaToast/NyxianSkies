@@ -3,12 +3,12 @@
 
 module NyxianSkies {
     import Utils = BetaToast.Utils;
-    
+
     export class Gameplay extends Phaser.State {
         ui: BetaToast.UserInterface;
         console: BetaToast.Console;
         i: number = 0;
-        
+
 
         map: Map;
         mapFilename: string;
@@ -17,7 +17,7 @@ module NyxianSkies {
         bgLayer2Tiles: Array<Phaser.Sprite> = [];
         bgDetails: Array<Phaser.Sprite> = [];
         gameObjects: Array<Phaser.Sprite> = [];
-        
+
         create() {
             NyxianSkiesGame.currentState = this;
             this.ui = new BetaToast.UserInterface(this, "blue");
@@ -29,7 +29,7 @@ module NyxianSkies {
 
             var px = this.world.centerX;
             var py = this.world.height - (this.world.centerY / 2);
-            NyxianSkiesGame.player1 = new Player(this.game, px, py, NyxianSkiesGame.shipType);
+            //NyxianSkiesGame.player1 = new Player(this.game, px, py, NyxianSkiesGame.shipType);
         }
 
         update() {
@@ -58,8 +58,10 @@ module NyxianSkies {
             //this.console.changeLine(0, "Game Object [0]: [" + obj.x + ", " + obj.y + "]");
             
             this.ui.update();
-
-            NyxianSkiesGame.player1.update();
+            if (NyxianSkiesGame.player1)
+                NyxianSkiesGame.player1.update();
+            if (NyxianSkiesGame.player2)
+                NyxianSkiesGame.player2.update();
         }
 
         loadMap(mapKeyName) {
