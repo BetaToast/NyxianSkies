@@ -66,6 +66,8 @@ module NyxianSkies {
 
             //var obj = gameObjects[0];
             //this.console.changeLine(0, "Game Object [0]: [" + obj.x + ", " + obj.y + "]");
+            this.console.changeLine(0, "Player 1: " + NyxianSkiesGame.player1.playerId);
+            if(NyxianSkiesGame.player2 != null) this.console.changeLine(1, "Player 2: " + NyxianSkiesGame.player2.playerId);
             
             this.ui.update();
             if (NyxianSkiesGame.player1)
