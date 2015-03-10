@@ -382,7 +382,7 @@ var NyxianSkies;
                 NyxianSkies.NyxianSkiesGame.player1.createGraphics(this.game, px1, py1);
                 var px2 = this.world.centerX + (this.world.centerX / 2);
                 var py2 = this.world.height - (this.world.centerY / 2);
-                NyxianSkies.NyxianSkiesGame.player1.createGraphics(this.game, px2, py2);
+                NyxianSkies.NyxianSkiesGame.player2.createGraphics(this.game, px2, py2);
             }
         };
         Gameplay.prototype.update = function () {

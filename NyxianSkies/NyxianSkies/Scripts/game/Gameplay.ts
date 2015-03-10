@@ -38,7 +38,7 @@ module NyxianSkies {
 
                 var px2 = this.world.centerX + (this.world.centerX / 2);
                 var py2 = this.world.height - (this.world.centerY / 2);
-                NyxianSkiesGame.player1.createGraphics(this.game, px2, py2);
+                NyxianSkiesGame.player2.createGraphics(this.game, px2, py2);
             }
         }
 
