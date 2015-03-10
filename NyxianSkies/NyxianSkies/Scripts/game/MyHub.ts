@@ -24,9 +24,9 @@ $(() => {
     hub.client.joinedGame = (gameId, playerId) => {
         GameId = gameId;
         if (!NyxianSkies.NyxianSkiesGame.player1)
-            NyxianSkies.NyxianSkiesGame.player1 = new NyxianSkies.Player(this.game, 0, 0, NyxianSkies.NyxianSkiesGame.shipType, playerId);
+            NyxianSkies.NyxianSkiesGame.player1 = new NyxianSkies.Player(NyxianSkies.NyxianSkiesGame.shipType, playerId);
         else if (!NyxianSkies.NyxianSkiesGame.player2)
-            NyxianSkies.NyxianSkiesGame.player2 = new NyxianSkies.Player(this.game, 0, 0, NyxianSkies.NyxianSkiesGame.shipType, playerId);
+            NyxianSkies.NyxianSkiesGame.player2 = new NyxianSkies.Player(NyxianSkies.NyxianSkiesGame.shipType, playerId);
     }
 
     hub.client.loadLevel = level => {
@@ -57,4 +57,3 @@ $(() => {
     $.connection.hub.start();
 
 });
-

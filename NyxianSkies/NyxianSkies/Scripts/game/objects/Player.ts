@@ -35,13 +35,13 @@
         rightKeyIsDown: boolean;
 
 
-        constructor(game: Phaser.Game, x: number, y: number, shipType: number, playerId: Guid) {
-            this.game = game;
-            this.x = x;
-            this.y = y;
+        constructor(shipType: number, playerId: Guid) {
             this.shipType = shipType;
             this.playerId = playerId;
+        }
 
+        createGraphics(game: Phaser.Game, x: number, y: number) {
+            this.game = game;
             this.registerInput(Phaser.Keyboard.W, Phaser.Keyboard.S, Phaser.Keyboard.A, Phaser.Keyboard.D, Phaser.Keyboard.SPACEBAR);
 
             this.leftEngineEmitter = this.game.add.emitter(this.x - 25, this.y + 23, 400);

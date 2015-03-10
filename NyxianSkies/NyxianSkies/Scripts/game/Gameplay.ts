@@ -27,9 +27,19 @@ module NyxianSkies {
 
             this.loadMap(NyxianSkiesGame.currentMapName);
 
-            var px = this.world.centerX;
-            var py = this.world.height - (this.world.centerY / 2);
-            //NyxianSkiesGame.player1 = new Player(this.game, px, py, NyxianSkiesGame.shipType);
+            if (NyxianSkiesGame.player2 == null) {
+                var px = this.world.centerX;
+                var py = this.world.height - (this.world.centerY / 2);
+                NyxianSkiesGame.player1.createGraphics(this.game, px, py);
+            } else {
+                var px1 = this.world.centerX - (this.world.centerX / 2);
+                var py1 = this.world.height - (this.world.centerY / 2);
+                NyxianSkiesGame.player1.createGraphics(this.game, px1, py1);
+
+                var px2 = this.world.centerX + (this.world.centerX / 2);
+                var py2 = this.world.height - (this.world.centerY / 2);
+                NyxianSkiesGame.player1.createGraphics(this.game, px2, py2);
+            }
         }
 
         update() {
@@ -107,18 +117,18 @@ module NyxianSkies {
             }
 
             // Background Details
-            for (var i = 0; i < map.bgDetails.length; i++) {
-                var detail = map.bgDetails[i];
-                var sprite = this.add.sprite(detail.x, detail.y, detail.asset);
-                var index = details.length;
-                if (map.direction === "Vertical") {
-                    sprite.y = sprite.y - map.height;
-                }
-                else if (map.direction === "Horizontal") {
-                    sprite.x = sprite.x + map.width;
-                }
-                details[index] = sprite;
-            }
+            //for (var i = 0; i < map.bgDetails.length; i++) {
+            //    var detail = map.bgDetails[i];
+            //    var sprite = this.add.sprite(detail.x, detail.y, detail.asset);
+            //    var index = details.length;
+            //    if (map.direction === "Vertical") {
+            //        sprite.y = sprite.y - map.height;
+            //    }
+            //    else if (map.direction === "Horizontal") {
+            //        sprite.x = sprite.x + map.width;
+            //    }
+            //    details[index] = sprite;
+            //}
 
             // Game Objects
             for (var i = 0; i < map.gameObjects.length; i++) {
@@ -137,12 +147,11 @@ module NyxianSkies {
 
             var hub = (<any>this.game).hub;
             hub.server.sendAction(JSON.stringify(
-                {
-                    action: 'MapLoadedAndReady',
-                    playerId: (<any>this).PlayerId,
-                    gameId: (<any>this).GameId
-                }));
-
+            {
+                action: 'MapLoadedAndReady',
+                playerId: (<any>this).PlayerId,
+                gameId: (<any>this).GameId
+            }));
         }
     }
 }  
