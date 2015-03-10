@@ -119,18 +119,18 @@ module NyxianSkies {
             }
 
             // Background Details
-            //for (var i = 0; i < map.bgDetails.length; i++) {
-            //    var detail = map.bgDetails[i];
-            //    var sprite = this.add.sprite(detail.x, detail.y, detail.asset);
-            //    var index = details.length;
-            //    if (map.direction === "Vertical") {
-            //        sprite.y = sprite.y - map.height;
-            //    }
-            //    else if (map.direction === "Horizontal") {
-            //        sprite.x = sprite.x + map.width;
-            //    }
-            //    details[index] = sprite;
-            //}
+            for (var i = 0; i < map.bgDetails.length; i++) {
+                var detail = map.bgDetails[i];
+                var sprite = this.add.sprite(detail.x, detail.y, detail.asset);
+                var index = details.length;
+                if (map.direction === "Vertical") {
+                    sprite.y = sprite.y - map.height;
+                }
+                else if (map.direction === "Horizontal") {
+                    sprite.x = sprite.x + map.width;
+                }
+                details[index] = sprite;
+            }
 
             // Game Objects
             for (var i = 0; i < map.gameObjects.length; i++) {
