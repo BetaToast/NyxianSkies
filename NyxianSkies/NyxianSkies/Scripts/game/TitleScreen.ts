@@ -100,10 +100,12 @@ module NyxianSkies {
         }
 
         btnOnePlayerClick(button) {
+            NyxianSkiesGame.gameTypeSelected = 1;
             button.parent.fadeOut();
         }
 
         btnTwoPlayerClick(button) {
+            NyxianSkiesGame.gameTypeSelected = 2;
             button.parent.fadeOut();
         }
 

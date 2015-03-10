@@ -13,7 +13,7 @@ module NyxianSkies {
         btnAccept: BetaToast.Button;
         shipIndex: number = 1;
 
-        
+
         create() {
             NyxianSkiesGame.currentState = this;
             for (var y = -256; y < 976; y += 256) {
@@ -62,12 +62,20 @@ module NyxianSkies {
             button.parent.game.state.start('WaitingLobby', true, false);
 
             var shipId = button.parent.shipIndex;
-            
-            hub.server.sendAction(JSON.stringify(
-                {
-                    action: 'JoinSinglePlayerGame',
-                    ship: shipId
-                }));
+
+            if (NyxianSkiesGame.gameTypeSelected === 1)
+                hub.server.sendAction(JSON.stringify(
+                    {
+                        action: 'JoinSinglePlayerGame',
+                        ship: shipId
+                    }));
+            else {
+                hub.server.sendAction(JSON.stringify(
+                    {
+                        action: 'JoinMultiPlayerGame',
+                        ship: shipId
+                    }));
+            }
         }
 
         btnSelectLeftClick(button) {

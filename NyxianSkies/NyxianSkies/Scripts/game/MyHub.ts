@@ -41,12 +41,14 @@ $(() => {
 
 
     hub.client.shipPostionUpdate = (playerId, position, velocity) => {
-        //NyxianSkies.NyxianSkiesGame.currentState.state.Gameplay.player1
-        if (NyxianSkies.NyxianSkiesGame.player1.playerId === playerId) {
+    
+        if (NyxianSkies.NyxianSkiesGame.player1 && NyxianSkies.NyxianSkiesGame.player1.sprite &&
+            NyxianSkies.NyxianSkiesGame.player1.playerId === playerId) {
             NyxianSkies.NyxianSkiesGame.player1.sprite.x = position.X;
             NyxianSkies.NyxianSkiesGame.player1.sprite.y = position.Y;
         } else
-            if (NyxianSkies.NyxianSkiesGame.player2.playerId === playerId) {
+            if (NyxianSkies.NyxianSkiesGame.player2 && NyxianSkies.NyxianSkiesGame.player2.sprite &&
+                NyxianSkies.NyxianSkiesGame.player2.playerId === playerId) {
                 NyxianSkies.NyxianSkiesGame.player2.sprite.x = position.X;
                 NyxianSkies.NyxianSkiesGame.player2.sprite.y = position.Y;
             }

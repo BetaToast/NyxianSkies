@@ -72,6 +72,8 @@
         }
 
         update() {
+            if (!this.sprite)
+                return;
             this.leftEngineEmitter.emitX = this.sprite.x - 25;
             this.leftEngineEmitter.emitY = this.sprite.y + 30;
 
@@ -143,19 +145,19 @@
 
         moveStart(x: number, y: number) {
             hub.server.sendAction(JSON.stringify(
-            {
-                action: 'MoveStart',
-                gameId: GameId,
-                direction: x + ", " + y,
-            }));
+                {
+                    action: 'MoveStart',
+                    gameId: GameId,
+                    direction: x + ", " + y,
+                }));
         }
 
         moveStop() {
             hub.server.sendAction(JSON.stringify(
-            {
-                action: 'MoveStop',
-                gameId: GameId,
-            }));
+                {
+                    action: 'MoveStop',
+                    gameId: GameId,
+                }));
         }
     }
 }
