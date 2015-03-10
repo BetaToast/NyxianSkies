@@ -118,14 +118,7 @@ namespace NyxianSkies.ServerSide.GameInstance
 
         protected override void UpdateGame(long elapsedTime)
         {
-            //TODO:  Ok, great..  We have started a level...
-            //  lets figure out how to actually do something.
-            //  You can do this Xeno.  Everything is ready to go.
-            //  Perhaps send a message to the clients letting them know where there ships are?
-            //     --Past Xeno
-
-
-            float speed = ((1280 / 3f) / 1000f) * elapsedTime;
+            var speed = ((1280 / 3f) / 1000f) * elapsedTime;
             foreach (var player in _myPlayers.Values.Where(player => player.Velocity.X != 0 || player.Velocity.Y != 0))
             {
                 player.Position = new Vector2(
