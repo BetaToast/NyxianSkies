@@ -23,7 +23,10 @@ $(() => {
     }
     hub.client.joinedGame = (gameId, playerId) => {
         GameId = gameId;
-        if (!NyxianSkies.NyxianSkiesGame.player1)
+        if ((NyxianSkies.NyxianSkiesGame.player1 && NyxianSkies.NyxianSkiesGame.player1.playerId === playerId) ||
+        (NyxianSkies.NyxianSkiesGame.player2 && NyxianSkies.NyxianSkiesGame.player2.playerId === playerId)) {
+        }
+        else if (!NyxianSkies.NyxianSkiesGame.player1 )
             NyxianSkies.NyxianSkiesGame.player1 = new NyxianSkies.Player(NyxianSkies.NyxianSkiesGame.shipType, playerId);
         else if (!NyxianSkies.NyxianSkiesGame.player2)
             NyxianSkies.NyxianSkiesGame.player2 = new NyxianSkies.Player(NyxianSkies.NyxianSkiesGame.shipType, playerId);
@@ -55,7 +58,7 @@ $(() => {
     }
 
     //Start the hub and wire up server call functions after it is started
-    $.connection.hub.logging = true; //debugging
+    //$.connection.hub.logging = true; //debugging
     $.connection.hub.start();
 
 });

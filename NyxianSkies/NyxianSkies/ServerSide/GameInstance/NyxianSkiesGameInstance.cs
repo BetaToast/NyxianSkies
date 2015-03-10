@@ -31,9 +31,9 @@ namespace NyxianSkies.ServerSide.GameInstance
                 await hub.Groups.Add(joinGame.PlayerId.ToString(), GameId.ToString());
                 foreach (var p in _myPlayers.Values.Where(c => c.PlayerId != joinGame.PlayerId))
                 {
-                    hub.Clients.Client(joinGame.PlayerId.ToString()).JoinedGame(GameId, p.PlayerId);
+                    await hub.Clients.Client(joinGame.PlayerId.ToString()).JoinedGame(GameId, p.PlayerId);
                 }
-                hub.Clients.Group(GameId.ToString()).JoinedGame(GameId, joinGame.PlayerId);
+                await hub.Clients.Group(GameId.ToString()).JoinedGame(GameId, joinGame.PlayerId);
             }
 
             StartGameCheck();
