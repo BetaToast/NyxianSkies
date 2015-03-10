@@ -17,7 +17,9 @@ $(function () {
     };
     hub.client.joinedGame = function (gameId, playerId) {
         GameId = gameId;
-        if (!NyxianSkies.NyxianSkiesGame.player1)
+        if ((NyxianSkies.NyxianSkiesGame.player1 && NyxianSkies.NyxianSkiesGame.player1.playerId === playerId) || (NyxianSkies.NyxianSkiesGame.player2 && NyxianSkies.NyxianSkiesGame.player2.playerId === playerId)) {
+        }
+        else if (!NyxianSkies.NyxianSkiesGame.player1)
             NyxianSkies.NyxianSkiesGame.player1 = new NyxianSkies.Player(NyxianSkies.NyxianSkiesGame.shipType, playerId);
         else if (!NyxianSkies.NyxianSkiesGame.player2)
             NyxianSkies.NyxianSkiesGame.player2 = new NyxianSkies.Player(NyxianSkies.NyxianSkiesGame.shipType, playerId);
@@ -41,7 +43,7 @@ $(function () {
         }
     };
     //Start the hub and wire up server call functions after it is started
-    $.connection.hub.logging = true; //debugging
+    //$.connection.hub.logging = true; //debugging
     $.connection.hub.start();
 });
 var __extends = this.__extends || function (d, b) {
@@ -521,56 +523,6 @@ var NyxianSkies;
     })(Phaser.State);
     NyxianSkies.Gameplay = Gameplay;
 })(NyxianSkies || (NyxianSkies = {}));
-<<<<<<< HEAD
-=======
-/// <reference path="../typings/jquery/jquery.d.ts" />
-/// <reference path="../typings/signalr/signalr.d.ts" />
-var canExecute = false;
-var pingId;
-$(function () {
-    hub = $.connection.mainHub;
-    hub.client.yourPlayerId = function (playerId) {
-        PlayerId = playerId;
-        canExecute = true;
-    };
-    hub.client.pong = function (id) {
-        if (pingId == id) {
-            var laspe = (new Date()).getTime() - pingId;
-            $("#Latency").html(laspe + "ms");
-        }
-    };
-    hub.client.joinedGame = function (gameId, playerId) {
-        GameId = gameId;
-        if ((NyxianSkies.NyxianSkiesGame.player1 && NyxianSkies.NyxianSkiesGame.player1.playerId === playerId) || (NyxianSkies.NyxianSkiesGame.player2 && NyxianSkies.NyxianSkiesGame.player2.playerId === playerId)) {
-        }
-        else if (!NyxianSkies.NyxianSkiesGame.player1)
-            NyxianSkies.NyxianSkiesGame.player1 = new NyxianSkies.Player(NyxianSkies.NyxianSkiesGame.shipType, playerId);
-        else if (!NyxianSkies.NyxianSkiesGame.player2)
-            NyxianSkies.NyxianSkiesGame.player2 = new NyxianSkies.Player(NyxianSkies.NyxianSkiesGame.shipType, playerId);
-    };
-    hub.client.loadLevel = function (level) {
-        NyxianSkies.NyxianSkiesGame.currentState.state.start('Gameplay', true, false);
-        hub.server.sendAction(JSON.stringify({
-            action: 'StartLevel',
-            playerId: PlayerId,
-            gameId: GameId
-        }));
-    };
-    hub.client.shipPostionUpdate = function (playerId, position, velocity) {
-        if (NyxianSkies.NyxianSkiesGame.player1 && NyxianSkies.NyxianSkiesGame.player1.sprite && NyxianSkies.NyxianSkiesGame.player1.playerId === playerId) {
-            NyxianSkies.NyxianSkiesGame.player1.sprite.x = position.X;
-            NyxianSkies.NyxianSkiesGame.player1.sprite.y = position.Y;
-        }
-        else if (NyxianSkies.NyxianSkiesGame.player2 && NyxianSkies.NyxianSkiesGame.player2.sprite && NyxianSkies.NyxianSkiesGame.player2.playerId === playerId) {
-            NyxianSkies.NyxianSkiesGame.player2.sprite.x = position.X;
-            NyxianSkies.NyxianSkiesGame.player2.sprite.y = position.Y;
-        }
-    };
-    //Start the hub and wire up server call functions after it is started
-    //$.connection.hub.logging = true; //debugging
-    $.connection.hub.start();
-});
->>>>>>> d0c26daab99bb39941951d1b32d8d4203f466b46
 /// <reference path="../typings/phaser/phaser.d.ts" />
 /// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
