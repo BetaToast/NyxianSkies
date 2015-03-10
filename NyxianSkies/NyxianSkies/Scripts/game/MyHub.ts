@@ -15,11 +15,12 @@ $(() => {
         canExecute = true;
     }
 
-    hub.client.pong = id => {
+    hub.client.pong = (id, version) => {
         if (pingId == id) {
             var laspe = (new Date()).getTime() - pingId;
             $("#Latency").html(laspe + "ms");
         }
+        NyxianSkies.NyxianSkiesGame.version = version;
     }
     hub.client.joinedGame = (gameId, playerId) => {
         GameId = gameId;

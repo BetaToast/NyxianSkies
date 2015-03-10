@@ -16,8 +16,11 @@ namespace NyxianSkies.ServerSide.Server
         private readonly MultiInstanceGameManager _multiInstanceGameManager;
         private readonly HandlerManager _handlerManager;
 
+        public string Version { get; set; }
+
         public MainHub()
         {
+            Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             _multiInstanceGameManager = MultiInstanceGameManager.Instance;
             _handlerManager = HandlerManager.Instance;
         }
@@ -60,7 +63,7 @@ namespace NyxianSkies.ServerSide.Server
                 if (rawObject is PingServer)
                 {
                     var ping = (PingServer)rawObject;
-                    Clients.Caller.Pong(ping.ID);
+                    Clients.Caller.Pong(ping.ID, Version);
                 }
                 else
                     _multiInstanceGameManager.SendAction(rawObject);

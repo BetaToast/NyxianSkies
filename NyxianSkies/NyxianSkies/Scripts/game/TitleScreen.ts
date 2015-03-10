@@ -11,6 +11,12 @@ module NyxianSkies {
         btnOnePlayer: BetaToast.Button;
         btnTwoPlayer: BetaToast.Button;
 
+        fontSize = 22;
+        textStyle = {
+            font: "22px Arial",
+            fill: "#FFFFFF"
+        };
+
         create() {
             NyxianSkiesGame.currentState = this;
             for (var y = 0; y < 720; y += 256) {
@@ -62,7 +68,8 @@ module NyxianSkies {
             this.add.tween(this.btnOnePlayer.textSprite).to({ x: 348, y: 600 }, length, Phaser.Easing.Elastic.InOut, true, start);
             this.add.tween(this.btnOnePlayer.textSpriteShadow).to({ x: 348, y: 600 }, length, Phaser.Easing.Elastic.InOut, true, start);
 
-            //
+            this.game.add.text(0, this.game.world.height - 22, "Version: " + NyxianSkiesGame.version, this.textStyle);
+            //this.x, this.y + (i * this.fontSize), line, this.textStyle);
         }
 
         update() {

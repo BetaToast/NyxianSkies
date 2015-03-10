@@ -51,12 +51,13 @@ interface MainHubClient
 {
  
     /**
-      * Set this function with a "function(id : number){}" to receive the "pong" message from the MainHub hub.
+      * Set this function with a "function(id : number, version : string){}" to receive the "pong" message from the MainHub hub.
       * Contract Documentation: ---
       * @param id {number} 
+      * @param version {string} 
       * @return {void}
       */
-    pong : (id : number) => void;
+    pong : (id : number, version : string) => void;
  
     /**
       * Set this function with a "function(connectionId : string){}" to receive the "yourPlayerId" message from the MainHub hub.

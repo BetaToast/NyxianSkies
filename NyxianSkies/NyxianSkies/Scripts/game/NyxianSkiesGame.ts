@@ -13,6 +13,7 @@ module NyxianSkies {
         static gameTypeSelected: number;
         static mapSpeed: number = 8;
         static currentMapName: string = "Earth";
+        static version: string;
 
         hub;
 

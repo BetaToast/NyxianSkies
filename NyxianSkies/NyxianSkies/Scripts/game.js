@@ -1,3 +1,49 @@
+/// <reference path="../typings/jquery/jquery.d.ts" />
+/// <reference path="../typings/signalr/signalr.d.ts" />
+var canExecute = false;
+var pingId;
+$(function () {
+    hub = $.connection.mainHub;
+    hub.client.yourPlayerId = function (playerId) {
+        PlayerId = playerId;
+        canExecute = true;
+    };
+    hub.client.pong = function (id, version) {
+        if (pingId == id) {
+            var laspe = (new Date()).getTime() - pingId;
+            $("#Latency").html(laspe + "ms");
+        }
+        NyxianSkies.NyxianSkiesGame.version = version;
+    };
+    hub.client.joinedGame = function (gameId, playerId) {
+        GameId = gameId;
+        if (!NyxianSkies.NyxianSkiesGame.player1)
+            NyxianSkies.NyxianSkiesGame.player1 = new NyxianSkies.Player(NyxianSkies.NyxianSkiesGame.shipType, playerId);
+        else if (!NyxianSkies.NyxianSkiesGame.player2)
+            NyxianSkies.NyxianSkiesGame.player2 = new NyxianSkies.Player(NyxianSkies.NyxianSkiesGame.shipType, playerId);
+    };
+    hub.client.loadLevel = function (level) {
+        NyxianSkies.NyxianSkiesGame.currentState.state.start('Gameplay', true, false);
+        hub.server.sendAction(JSON.stringify({
+            action: 'StartLevel',
+            playerId: PlayerId,
+            gameId: GameId
+        }));
+    };
+    hub.client.shipPostionUpdate = function (playerId, position, velocity) {
+        if (NyxianSkies.NyxianSkiesGame.player1 && NyxianSkies.NyxianSkiesGame.player1.sprite && NyxianSkies.NyxianSkiesGame.player1.playerId === playerId) {
+            NyxianSkies.NyxianSkiesGame.player1.sprite.x = position.X;
+            NyxianSkies.NyxianSkiesGame.player1.sprite.y = position.Y;
+        }
+        else if (NyxianSkies.NyxianSkiesGame.player2 && NyxianSkies.NyxianSkiesGame.player2.sprite && NyxianSkies.NyxianSkiesGame.player2.playerId === playerId) {
+            NyxianSkies.NyxianSkiesGame.player2.sprite.x = position.X;
+            NyxianSkies.NyxianSkiesGame.player2.sprite.y = position.Y;
+        }
+    };
+    //Start the hub and wire up server call functions after it is started
+    $.connection.hub.logging = true; //debugging
+    $.connection.hub.start();
+});
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -475,51 +521,6 @@ var NyxianSkies;
     })(Phaser.State);
     NyxianSkies.Gameplay = Gameplay;
 })(NyxianSkies || (NyxianSkies = {}));
-/// <reference path="../typings/jquery/jquery.d.ts" />
-/// <reference path="../typings/signalr/signalr.d.ts" />
-var canExecute = false;
-var pingId;
-$(function () {
-    hub = $.connection.mainHub;
-    hub.client.yourPlayerId = function (playerId) {
-        PlayerId = playerId;
-        canExecute = true;
-    };
-    hub.client.pong = function (id) {
-        if (pingId == id) {
-            var laspe = (new Date()).getTime() - pingId;
-            $("#Latency").html(laspe + "ms");
-        }
-    };
-    hub.client.joinedGame = function (gameId, playerId) {
-        GameId = gameId;
-        if (!NyxianSkies.NyxianSkiesGame.player1)
-            NyxianSkies.NyxianSkiesGame.player1 = new NyxianSkies.Player(NyxianSkies.NyxianSkiesGame.shipType, playerId);
-        else if (!NyxianSkies.NyxianSkiesGame.player2)
-            NyxianSkies.NyxianSkiesGame.player2 = new NyxianSkies.Player(NyxianSkies.NyxianSkiesGame.shipType, playerId);
-    };
-    hub.client.loadLevel = function (level) {
-        NyxianSkies.NyxianSkiesGame.currentState.state.start('Gameplay', true, false);
-        hub.server.sendAction(JSON.stringify({
-            action: 'StartLevel',
-            playerId: PlayerId,
-            gameId: GameId
-        }));
-    };
-    hub.client.shipPostionUpdate = function (playerId, position, velocity) {
-        if (NyxianSkies.NyxianSkiesGame.player1 && NyxianSkies.NyxianSkiesGame.player1.sprite && NyxianSkies.NyxianSkiesGame.player1.playerId === playerId) {
-            NyxianSkies.NyxianSkiesGame.player1.sprite.x = position.X;
-            NyxianSkies.NyxianSkiesGame.player1.sprite.y = position.Y;
-        }
-        else if (NyxianSkies.NyxianSkiesGame.player2 && NyxianSkies.NyxianSkiesGame.player2.sprite && NyxianSkies.NyxianSkiesGame.player2.playerId === playerId) {
-            NyxianSkies.NyxianSkiesGame.player2.sprite.x = position.X;
-            NyxianSkies.NyxianSkiesGame.player2.sprite.y = position.Y;
-        }
-    };
-    //Start the hub and wire up server call functions after it is started
-    $.connection.hub.logging = true; //debugging
-    $.connection.hub.start();
-});
 /// <reference path="../typings/phaser/phaser.d.ts" />
 /// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
@@ -1251,11 +1252,53 @@ var NyxianSkies;
 /// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
+    var WaitingLobby = (function (_super) {
+        __extends(WaitingLobby, _super);
+        function WaitingLobby() {
+            _super.apply(this, arguments);
+            this.backgroundTiles = [];
+        }
+        WaitingLobby.prototype.create = function () {
+            NyxianSkies.NyxianSkiesGame.currentState = this;
+            for (var y = -256; y < 976; y += 256) {
+                for (var x = 0; x < 1280; x += 256) {
+                    var index = this.backgroundTiles.length;
+                    this.backgroundTiles[index] = this.add.sprite(x, y, 'blackBackground');
+                }
+            }
+            this.ui = new BetaToast.UserInterface(this, "blue");
+        };
+        WaitingLobby.prototype.update = function () {
+            for (var i = 0; i < this.backgroundTiles.length; i++) {
+                var tile = this.backgroundTiles[i];
+                tile.y++;
+                if (tile.y >= 720)
+                    tile.y = -256;
+            }
+            this.ui.update();
+            //if (NyxianSkies.NyxianSkiesGame.map !== null) {
+            //    var game = <NyxianSkiesGame> this.game;
+            //game.hub.client.startLevel();
+            //}
+        };
+        return WaitingLobby;
+    })(Phaser.State);
+    NyxianSkies.WaitingLobby = WaitingLobby;
+})(NyxianSkies || (NyxianSkies = {}));
+/// <reference path="../typings/phaser/phaser.d.ts" />
+/// <reference path="../typings/phaser/pixi.d.ts" />
+var NyxianSkies;
+(function (NyxianSkies) {
     var TitleScreen = (function (_super) {
         __extends(TitleScreen, _super);
         function TitleScreen() {
             _super.apply(this, arguments);
             this.backgroundTiles = [];
+            this.fontSize = 22;
+            this.textStyle = {
+                font: "22px Arial",
+                fill: "#FFFFFF"
+            };
         }
         TitleScreen.prototype.create = function () {
             NyxianSkies.NyxianSkiesGame.currentState = this;
@@ -1298,7 +1341,8 @@ var NyxianSkies;
             this.add.tween(this.btnOnePlayer.clickSprite).to({ x: 348, y: 600 }, length, Phaser.Easing.Elastic.InOut, true, start);
             this.add.tween(this.btnOnePlayer.textSprite).to({ x: 348, y: 600 }, length, Phaser.Easing.Elastic.InOut, true, start);
             this.add.tween(this.btnOnePlayer.textSpriteShadow).to({ x: 348, y: 600 }, length, Phaser.Easing.Elastic.InOut, true, start);
-            //
+            this.game.add.text(0, this.game.world.height - 22, "Version: " + NyxianSkies.NyxianSkiesGame.version, this.textStyle);
+            //this.x, this.y + (i * this.fontSize), line, this.textStyle);
         };
         TitleScreen.prototype.update = function () {
             for (var i = 0; i < this.backgroundTiles.length; i++) {
@@ -1342,43 +1386,6 @@ var NyxianSkies;
         return TitleScreen;
     })(Phaser.State);
     NyxianSkies.TitleScreen = TitleScreen;
-})(NyxianSkies || (NyxianSkies = {}));
-/// <reference path="../typings/phaser/phaser.d.ts" />
-/// <reference path="../typings/phaser/pixi.d.ts" />
-var NyxianSkies;
-(function (NyxianSkies) {
-    var WaitingLobby = (function (_super) {
-        __extends(WaitingLobby, _super);
-        function WaitingLobby() {
-            _super.apply(this, arguments);
-            this.backgroundTiles = [];
-        }
-        WaitingLobby.prototype.create = function () {
-            NyxianSkies.NyxianSkiesGame.currentState = this;
-            for (var y = -256; y < 976; y += 256) {
-                for (var x = 0; x < 1280; x += 256) {
-                    var index = this.backgroundTiles.length;
-                    this.backgroundTiles[index] = this.add.sprite(x, y, 'blackBackground');
-                }
-            }
-            this.ui = new BetaToast.UserInterface(this, "blue");
-        };
-        WaitingLobby.prototype.update = function () {
-            for (var i = 0; i < this.backgroundTiles.length; i++) {
-                var tile = this.backgroundTiles[i];
-                tile.y++;
-                if (tile.y >= 720)
-                    tile.y = -256;
-            }
-            this.ui.update();
-            //if (NyxianSkies.NyxianSkiesGame.map !== null) {
-            //    var game = <NyxianSkiesGame> this.game;
-            //game.hub.client.startLevel();
-            //}
-        };
-        return WaitingLobby;
-    })(Phaser.State);
-    NyxianSkies.WaitingLobby = WaitingLobby;
 })(NyxianSkies || (NyxianSkies = {}));
 var _this = this;
 window.onload = function () {

@@ -6,7 +6,7 @@ namespace NyxianSkies.ServerSide.Server
 {
     public interface IMainHubClient
     {
-        void Pong(long id);
+        void Pong(long id, string version);
         void YourPlayerId(string connectionId);
         void LoadLevel(string LevelName);
         void JoinedGame(Guid GameId, Guid PlayerId);
