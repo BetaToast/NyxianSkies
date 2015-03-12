@@ -126,12 +126,11 @@
     <Content Include="assets\images\Water002.png" />
     <Content Include="assets\images\Water003.png" />
     <Content Include="assets\images\Water004.png" />
-    <Content Include="Scripts\game.js.map" />
     <Content Include="assets\images\nyxianskies-hash.json" />
     <Content Include="assets\maps\Earth.json" />
     <None Include="Properties\PublishProfiles\BetaToastNyxianSkies.pubxml" />
-    <None Include="Scripts\jquery-2.1.3.intellisense.js" />
-    <Content Include="Scripts\jquery-2.1.3.min.map" />
+    <None Include="Scripts\typings\jquery-2.1.3.intellisense.js" />
+    <Content Include="Scripts\typings\jquery-2.1.3.min.map" />
     <Content Include="Scripts\typings\hubs.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>hubs.d.ts</LastGenOutput>
@@ -168,7 +167,6 @@
     <Content Include="index.html" />
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\Website.pubxml" />
-    <Content Include="Scripts\game.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
