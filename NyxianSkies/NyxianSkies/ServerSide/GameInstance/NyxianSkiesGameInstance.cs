@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,54 +22,50 @@ namespace NyxianSkies.ServerSide.GameInstance
             LoadMap();
         }
 
+        public async Task HandleAction(ClientDisconnect disconnect)
+        {
+            //TODO:  What shall we do whena player disconnects
+        }
+
         public async Task HandleAction(IJoinGame joinGame)
         {
             //This seems like it should be handled by the base class
             {
                 if (_myPlayers.ContainsKey(joinGame.PlayerId)) return;
-                var player = new Player(joinGame.PlayerId);
+                var player = new Player(joinGame.PlayerId, joinGame.Ship);
                 _myPlayers.TryAdd(player.PlayerId, player);
                 await hub.Groups.Add(joinGame.PlayerId.ToString(), GameId.ToString());
-                foreach (var p in _myPlayers.Values.Where(c => c.PlayerId != joinGame.PlayerId))
-                {
-                    await hub.Clients.Client(joinGame.PlayerId.ToString()).JoinedGame(GameId, p.PlayerId);
-                }
-                await hub.Clients.Group(GameId.ToString()).JoinedGame(GameId, joinGame.PlayerId);
             }
 
             StartGameCheck();
         }
 
-        public async Task HandleAction(ClientDisconnect disconnect)
+        private void StartGameCheck()
         {
-            //TODO:  What shall we do whena player disconnects
+            if (_myPlayers.Count == NumberOfPlayers)
+            {
+                Enqueue(new StartGame());
+            }
         }
 
         public async Task HandleAction(StartGame startGame)
         {
             IsStarted = true;
 
+            var i = 1;
             foreach (var p in _myPlayers)
             {
                 p.Value.LoadingLevel = "Earth";
                 p.Value.Ready = false;
+                p.Value.Position = new PointF(i * (1280 / 3), 700);
+                p.Value.Velocity = new Point(0, 0);
+                i++;
             }
 
+            hub.Clients.Group(GameId.ToString()).GameStart(GameId, _myPlayers.Values.ToList());
             hub.Clients.Group(GameId.ToString()).LoadLevel("Earth");
-
         }
 
-        public async Task HandleAction(StartLevel startLevel)
-        {
-            GameTime.Start();
-
-            foreach (var p in _myPlayers.Values)
-            {
-                p.Position = new Vector2(1280 / 3, 700);
-                p.Velocity = new Point(0, 0);
-                hub.Clients.Client(p.PlayerId.ToString()).ShipPostionUpdate(p.PlayerId, p.Position, p.Velocity);
-            }
-        }
 
         public async Task HandleAction(MapLoadedAndReady playerReady)
         {
@@ -83,6 +80,12 @@ namespace NyxianSkies.ServerSide.GameInstance
                 hub.Clients.Group(GameId.ToString()).StartLevel("Earth");
                 Enqueue(new StartLevel { Level = "Earth" });
             }
+        }
+        public async Task HandleAction(StartLevel startLevel)
+        {
+            GameTime.Start();
+
+
         }
 
         public async Task HandleAction(MoveStop stopPlayer)
@@ -99,13 +102,7 @@ namespace NyxianSkies.ServerSide.GameInstance
             }
 
         }
-        private void StartGameCheck()
-        {
-            if (_myPlayers.Count == NumberOfPlayers)
-            {
-                Enqueue(new StartGame());
-            }
-        }
+
 
         private void LoadMap()
         {
@@ -121,18 +118,31 @@ namespace NyxianSkies.ServerSide.GameInstance
             var speed = ((1280 / 3f) / 1000f) * elapsedTime;
             foreach (var player in _myPlayers.Values.Where(player => player.Velocity.X != 0 || player.Velocity.Y != 0))
             {
-                player.Position = new Vector2(
-                    player.Position.X + player.Velocity.X * speed
-                    , player.Position.Y + player.Velocity.Y * speed
-                );
+                var newPosition = new PointF(player.Position.X + player.Velocity.X * speed, player.Position.Y + player.Velocity.Y * speed);
+                if (!FreeFromCollisions(player, newPosition))
+                    continue;
+                player.Position = newPosition;
+                player.HasUpdate = true;
             }
+        }
+
+        private bool FreeFromCollisions(Player movingPlayer, PointF newPosition)
+        {
+            var newPostionRectangle = new RectangleF(newPosition, new SizeF(112, 75));
+            foreach (var otherPlayer in _myPlayers.Where(c => c.Key != movingPlayer.PlayerId).Select(c => c.Value))
+            {
+                if (otherPlayer.BoundingRectangle.IntersectsWith(newPostionRectangle))
+                    return false;
+            }
+            return true;
         }
 
         protected override void UpdateClients()
         {
-            foreach (var player in _myPlayers.Values)
+            foreach (var player in _myPlayers.Values.Where(c => c.HasUpdate))
             {
                 hub.Clients.Group(GameId.ToString()).ShipPostionUpdate(player.PlayerId, player.Position, player.Velocity);
+                player.HasUpdate = false;
             }
         }
     }

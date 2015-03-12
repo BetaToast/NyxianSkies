@@ -9,29 +9,26 @@ namespace NyxianSkies.ServerSide.GameInstance
         public String PlayerName { get; set; }
         public Boolean Ready { get; set; }
 
-        public ShipType Ship { get; private set; }
+        public int Ship { get; private set; }
         public decimal Health { get; private set; }
         public decimal HullShield { get; private set; }
 
         public string LoadingLevel { get; set; }
-        public Vector2 Position { get; set; }
+        public PointF Position { get; set; }
         public Point Velocity { get; set; }
+        public bool HasUpdate { get; set; }
 
-        public Player(Guid playerId)
+        //97-112x75
+        public RectangleF BoundingRectangle
+        {
+            get { return new RectangleF(Position, new SizeF(112, 75)); }
+        }
+
+        public Player(Guid playerId, int ship)
         {
             PlayerId = playerId;
+            Ship = ship;
         }
     }
 
-    public class Vector2
-    {
-        public Vector2(float x, float y)
-        {
-            X = x;
-            Y = y;
-        }
-
-        public float X { get; set; }
-        public float Y { get; set; }
-    }
 }

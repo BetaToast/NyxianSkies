@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using NyxianSkies.ServerSide.GameInstance;
 
@@ -9,8 +10,8 @@ namespace NyxianSkies.ServerSide.Server
         void Pong(long id, string version);
         void YourPlayerId(string connectionId);
         void LoadLevel(string LevelName);
-        void JoinedGame(Guid GameId, Guid PlayerId);
+        void GameStart(Guid GameId, List<Player> players);
 
-        void ShipPostionUpdate(Guid PlayerId, Vector2 Postion, Point velocity);
+        void ShipPostionUpdate(Guid PlayerId, PointF Postion, Point velocity);
     }
 }
