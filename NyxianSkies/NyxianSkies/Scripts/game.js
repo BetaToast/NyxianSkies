@@ -978,6 +978,8 @@ var NyxianSkies;
             this.speed = 1280 / 3;
             this.shield = 0;
             this.hull = 100;
+            this.bullets = [];
+            this.previousMouse = -1;
             this.shipType = shipType;
             this.playerId = playerId;
         }
@@ -1045,16 +1047,30 @@ var NyxianSkies;
                     this.moveStart(x, y);
                 }
             }
-            if (this.game.input.onHold) {
-                this.fireNormal();
-            }
             if (this.specialKey.isDown) {
                 this.fireSpecial();
             }
+            if (this.game.input.activePointer.isDown) {
+                if (this.game.input.activePointer.button === Phaser.Mouse.LEFT_BUTTON) {
+                    this.fireNormal();
+                }
+            }
         };
         Player.prototype.fireNormal = function () {
+            var bulletSprite = this.game.add.sprite(this.sprite.x, this.sprite.y, 'spritesheet', 'laserGreen04.png');
+            this.bullets[this.bullets.length] = bulletSprite;
+            var bulletTween = this.game.add.tween(bulletSprite).to({ y: -256 }, 2000, Phaser.Easing.Linear.None, true, 0);
+            bulletTween.onComplete.add(this.onBulletOffScreen, [this.bullets, bulletSprite]);
         };
         Player.prototype.fireSpecial = function () {
+        };
+        Player.prototype.onBulletOffScreen = function () {
+            var bullets = this[0];
+            var bulletSprite = this[1];
+            var index = bullets.indexOf(bulletSprite, 0);
+            if (index != undefined) {
+                bullets.splice(index, 1);
+            }
         };
         Player.prototype.move = function (x, y) {
             this.sprite.x += (x * this.speed);
