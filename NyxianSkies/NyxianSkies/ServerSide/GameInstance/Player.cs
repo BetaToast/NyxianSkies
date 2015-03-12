@@ -5,6 +5,7 @@ namespace NyxianSkies.ServerSide.GameInstance
 {
     public class Player
     {
+
         public Guid PlayerId { get; private set; }
         public String PlayerName { get; set; }
         public Boolean Ready { get; set; }
