@@ -17,13 +17,14 @@
         clickSprite: Phaser.Sprite;
 
         sprite: Phaser.Sprite;
+
         content: string;
         textSprite: Phaser.Text;
         textSpriteShadow: Phaser.Text;
         parent: Phaser.State;
         enabled: boolean;
 
-
+        
         textStyle = {
             font: "22px Arial",
             fill: "#FFFFFF"
