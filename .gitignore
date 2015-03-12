@@ -196,4 +196,5 @@ FakesAssemblies/
 *.opt
 
 *.js
+!game.js
 *.map
