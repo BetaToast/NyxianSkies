@@ -49,16 +49,24 @@ $(() => {
 
 
     hub.client.shipPostionUpdate = (playerId, position, velocity) => {
+        var player1 = NyxianSkies.NyxianSkiesGame.player1;
+        var player2 = NyxianSkies.NyxianSkiesGame.player2;
 
-        if (NyxianSkies.NyxianSkiesGame.player1 && NyxianSkies.NyxianSkiesGame.player1.sprite &&
-            NyxianSkies.NyxianSkiesGame.player1.playerId === playerId) {
-            NyxianSkies.NyxianSkiesGame.player1.sprite.x = position.X;
-            NyxianSkies.NyxianSkiesGame.player1.sprite.y = position.Y;
+        if (player1
+            && player1.sprite
+            && player1.playerId === playerId
+            && (player1.sprite.x !== position.X || player1.sprite.y !== position.Y)) {
+            //NyxianSkies.NyxianSkiesGame.player1.sprite.x = position.X;
+            //NyxianSkies.NyxianSkiesGame.player1.sprite.y = position.Y;
+            NyxianSkies.NyxianSkiesGame.player1.moveTo(position.X, position.Y);
         } else
-            if (NyxianSkies.NyxianSkiesGame.player2 && NyxianSkies.NyxianSkiesGame.player2.sprite &&
-                NyxianSkies.NyxianSkiesGame.player2.playerId === playerId) {
-                NyxianSkies.NyxianSkiesGame.player2.sprite.x = position.X;
-                NyxianSkies.NyxianSkiesGame.player2.sprite.y = position.Y;
+            if (player2
+                && player2.sprite
+                && player2.playerId === playerId
+                && (player2.sprite.x !== position.X || player2.sprite.y !== position.Y)) {
+                //NyxianSkies.NyxianSkiesGame.player2.sprite.x = position.X;
+                //NyxianSkies.NyxianSkiesGame.player2.sprite.y = position.Y;
+                NyxianSkies.NyxianSkiesGame.player2.moveTo(position.X, position.Y);
             }
     }
 

@@ -7,7 +7,7 @@
         x: number = 0;
         y: number = 0;
         shipType: number = 0;
-        speed: number = 8;
+        speed: number = 1280 / 3;
         game: Phaser.Game;
         shield: number = 0;
         hull: number = 100;
@@ -131,8 +131,12 @@
         }
 
         move(x: number, y: number) {
-            this.sprite.x += x;
-            this.sprite.y += y;
+            this.sprite.x += (x  * this.speed);
+            this.sprite.y += (y * this.speed);
+        }
+
+        moveTo(x: number, y: number) {
+            this.game.add.tween(this.sprite).to({ x: x, y: y }, 100, Phaser.Easing.Linear.None, true, 0);
         }
 
         takeShieldDamage(value: number) {
@@ -145,19 +149,19 @@
 
         moveStart(x: number, y: number) {
             hub.server.sendAction(JSON.stringify(
-                {
-                    action: 'MoveStart',
-                    gameId: GameId,
-                    direction: x + ", " + y,
-                }));
+            {
+                action: 'MoveStart',
+                gameId: GameId,
+                direction: x + ", " + y,
+            }));
         }
 
         moveStop() {
             hub.server.sendAction(JSON.stringify(
-                {
-                    action: 'MoveStop',
-                    gameId: GameId,
-                }));
+            {
+                action: 'MoveStop',
+                gameId: GameId,
+            }));
         }
     }
 }

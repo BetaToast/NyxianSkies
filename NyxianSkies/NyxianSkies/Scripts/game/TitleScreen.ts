@@ -10,6 +10,7 @@ module NyxianSkies {
         ui: BetaToast.UserInterface;
         btnOnePlayer: BetaToast.Button;
         btnTwoPlayer: BetaToast.Button;
+        versionText: Phaser.Text;
 
         fontSize = 22;
         textStyle = {
@@ -68,7 +69,7 @@ module NyxianSkies {
             this.add.tween(this.btnOnePlayer.textSprite).to({ x: 348, y: 600 }, length, Phaser.Easing.Elastic.InOut, true, start);
             this.add.tween(this.btnOnePlayer.textSpriteShadow).to({ x: 348, y: 600 }, length, Phaser.Easing.Elastic.InOut, true, start);
 
-            this.game.add.text(0, this.game.world.height - 22, "Version: " + NyxianSkiesGame.version, this.textStyle);
+            this.versionText = this.game.add.text(0, this.game.world.height - 22, "Version: " + NyxianSkiesGame.version, this.textStyle);
             //this.x, this.y + (i * this.fontSize), line, this.textStyle);
         }
 
@@ -80,6 +81,7 @@ module NyxianSkies {
             }
 
             this.ui.update();
+            this.versionText.setText("Version: " + NyxianSkiesGame.version);
         }
 
         fadeOut() {
