@@ -229,9 +229,6 @@ var BetaToast;
                 control.update();
             }
         };
-        ///////////////////////////////////////
-        // Add Control Methods
-        ///////////////////////////////////////
         UserInterface.prototype.addButton = function (x, y, content, tx, ty) {
             if (tx === void 0) { tx = 0; }
             if (ty === void 0) { ty = 0; }
@@ -301,9 +298,6 @@ var BetaToast;
         return UserInterface;
     })();
     BetaToast.UserInterface = UserInterface;
-    ///////////////////////////////////////
-    // Enumerations
-    ///////////////////////////////////////
     (function (ControlState) {
         ControlState[ControlState["Normal"] = 0] = "Normal";
         ControlState[ControlState["Hover"] = 1] = "Hover";
@@ -312,8 +306,6 @@ var BetaToast;
     var ControlState = BetaToast.ControlState;
     ;
 })(BetaToast || (BetaToast = {}));
-/// <reference path="../typings/phaser/phaser.d.ts" />
-/// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
     var Boot = (function (_super) {
@@ -334,8 +326,6 @@ var NyxianSkies;
     })(Phaser.State);
     NyxianSkies.Boot = Boot;
 })(NyxianSkies || (NyxianSkies = {}));
-/// <reference path="../typings/phaser/phaser.d.ts" />
-/// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
     var GameOver = (function (_super) {
@@ -350,8 +340,6 @@ var NyxianSkies;
     })(Phaser.State);
     NyxianSkies.GameOver = GameOver;
 })(NyxianSkies || (NyxianSkies = {}));
-/// <reference path="../typings/phaser/phaser.d.ts" />
-/// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
     var Utils = BetaToast.Utils;
@@ -390,7 +378,6 @@ var NyxianSkies;
             for (var i = 0; i < bgLayer1Tiles.length; i++) {
                 var tile = bgLayer1Tiles[i];
                 tile.y += NyxianSkies.NyxianSkiesGame.mapSpeed;
-                //if (tile.y <= -256) tile.y = 976;
                 if (tile.y >= 976)
                     tile.y = -256;
             }
@@ -404,8 +391,6 @@ var NyxianSkies;
                 var gameObject = gameObjects[i];
                 gameObject.y += NyxianSkies.NyxianSkiesGame.mapSpeed;
             }
-            //var obj = gameObjects[0];
-            //this.console.changeLine(0, "Game Object [0]: [" + obj.x + ", " + obj.y + "]");
             this.console.changeLine(0, "Player 1: " + NyxianSkies.NyxianSkiesGame.player1.playerId);
             if (NyxianSkies.NyxianSkiesGame.player2 != null)
                 this.console.changeLine(1, "Player 2: " + NyxianSkies.NyxianSkiesGame.player2.playerId);
@@ -431,9 +416,7 @@ var NyxianSkies;
             var bgLayer2Tiles = this.bgLayer2Tiles;
             var details = this.bgDetails;
             var gameObjects = this.gameObjects;
-            // BG Color
             this.stage.setBackgroundColor(this.map.bgColor);
-            // BG Layer 1
             if (map.bgLayer1 !== "None") {
                 for (var y = -256; y < 976; y += 256) {
                     for (var x = 0; x < 1280; x += 256) {
@@ -442,7 +425,6 @@ var NyxianSkies;
                     }
                 }
             }
-            // BG Layer 2
             if (map.bgLayer2 !== "None") {
                 for (var y = -256; y < 976; y += 256) {
                     for (var x = 0; x < 1280; x += 256) {
@@ -487,8 +469,6 @@ var NyxianSkies;
     })(Phaser.State);
     NyxianSkies.Gameplay = Gameplay;
 })(NyxianSkies || (NyxianSkies = {}));
-/// <reference path="../typings/jquery/jquery.d.ts" />
-/// <reference path="../typings/signalr/signalr.d.ts" />
 var canExecute = false;
 var pingId;
 $(function () {
@@ -529,22 +509,14 @@ $(function () {
         var player1 = NyxianSkies.NyxianSkiesGame.player1;
         var player2 = NyxianSkies.NyxianSkiesGame.player2;
         if (player1 && player1.sprite && player1.playerId === playerId && (player1.sprite.x !== position.X || player1.sprite.y !== position.Y)) {
-            //NyxianSkies.NyxianSkiesGame.player1.sprite.x = position.X;
-            //NyxianSkies.NyxianSkiesGame.player1.sprite.y = position.Y;
             NyxianSkies.NyxianSkiesGame.player1.moveTo(position.X, position.Y);
         }
         else if (player2 && player2.sprite && player2.playerId === playerId && (player2.sprite.x !== position.X || player2.sprite.y !== position.Y)) {
-            //NyxianSkies.NyxianSkiesGame.player2.sprite.x = position.X;
-            //NyxianSkies.NyxianSkiesGame.player2.sprite.y = position.Y;
             NyxianSkies.NyxianSkiesGame.player2.moveTo(position.X, position.Y);
         }
     };
-    //Start the hub and wire up server call functions after it is started
-    //$.connection.hub.logging = true; //debugging
     $.connection.hub.start();
 });
-/// <reference path="../typings/phaser/phaser.d.ts" />
-/// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
     var NyxianSkiesGame = (function (_super) {
@@ -552,7 +524,6 @@ var NyxianSkies;
         function NyxianSkiesGame(hub) {
             _super.call(this);
             this.hub = hub;
-            // Add all of our screens here
             this.state.add('Boot', NyxianSkies.Boot, false);
             this.state.add('GameOver', NyxianSkies.GameOver, false);
             this.state.add('Gameplay', NyxianSkies.Gameplay, false);
@@ -562,7 +533,6 @@ var NyxianSkies;
             this.state.add('TechSelect', NyxianSkies.TechSelect, false);
             this.state.add('TitleScreen', NyxianSkies.TitleScreen, false);
             this.state.add('WaitingLobby', NyxianSkies.WaitingLobby, false);
-            // Start Boot screen
             this.state.start('Boot');
         }
         NyxianSkiesGame.getPlayerShipAtlasKey = function (id) {
@@ -969,9 +939,6 @@ var NyxianSkies;
 (function (NyxianSkies) {
     var Player = (function () {
         function Player(shipType, playerId) {
-            /////////////////////////////
-            // Variables
-            /////////////////////////////
             this.x = 0;
             this.y = 0;
             this.shipType = 0;
@@ -1110,8 +1077,6 @@ var NyxianSkies;
     })();
     NyxianSkies.Player = Player;
 })(NyxianSkies || (NyxianSkies = {}));
-/// <reference path="../typings/phaser/phaser.d.ts" />
-/// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
     var Preloader = (function (_super) {
@@ -1122,9 +1087,6 @@ var NyxianSkies;
         Preloader.prototype.preload = function () {
             this.preloadBar = this.add.sprite(640 - 200, 360 - 20, 'preloadBar');
             this.load.setPreloadSprite(this.preloadBar);
-            // Load all of our assets here
-            // Images
-            //this.load.image('spritesheet', 'assets/images/sheet.png');
             this.load.image('blueUISpriteSheet', 'assets/ui/blueSheet.png');
             this.load.image('greenUISpriteSheet', 'assets/ui/greenSheet.png');
             this.load.image('greyUISpriteSheet', 'assets/ui/greySheet.png');
@@ -1169,7 +1131,6 @@ var NyxianSkies;
             this.load.image('playerShip12', 'assets/images/playerShip3_orange.png');
             this.load.atlasJSONHash('spritesheet', 'assets/images/nyxianskies-spritesheet.png', 'assets/images/nyxianskies-hash.json');
             this.load.spritesheet('blueUISpriteSheet-Button', 'assets/ui/blueSheet.png', 190, 49);
-            // Audio
             this.load.audio('styx', 'assets/audio/styx.mp3');
         };
         Preloader.prototype.create = function () {
@@ -1184,8 +1145,6 @@ var NyxianSkies;
     })(Phaser.State);
     NyxianSkies.Preloader = Preloader;
 })(NyxianSkies || (NyxianSkies = {}));
-/// <reference path="../typings/phaser/phaser.d.ts" />
-/// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
     var ShipSelect = (function (_super) {
@@ -1265,8 +1224,6 @@ var NyxianSkies;
     })(Phaser.State);
     NyxianSkies.ShipSelect = ShipSelect;
 })(NyxianSkies || (NyxianSkies = {}));
-/// <reference path="../typings/phaser/phaser.d.ts" />
-/// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
     var StageSelect = (function (_super) {
@@ -1281,8 +1238,6 @@ var NyxianSkies;
     })(Phaser.State);
     NyxianSkies.StageSelect = StageSelect;
 })(NyxianSkies || (NyxianSkies = {}));
-/// <reference path="../typings/phaser/phaser.d.ts" />
-/// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
     var TechSelect = (function (_super) {
@@ -1297,8 +1252,6 @@ var NyxianSkies;
     })(Phaser.State);
     NyxianSkies.TechSelect = TechSelect;
 })(NyxianSkies || (NyxianSkies = {}));
-/// <reference path="../typings/phaser/phaser.d.ts" />
-/// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
     var TitleScreen = (function (_super) {
@@ -1326,7 +1279,6 @@ var NyxianSkies;
             this.title = this.add.sprite(-400, 462, 'title');
             this.title.anchor.setTo(0.5, 0.5);
             this.music = this.add.audio('styx', 1, true);
-            //this.music.play();
             this.ui = new BetaToast.UserInterface(this, "blue");
             this.btnOnePlayer = this.ui.addButton(-400, 462, "1 Player", 48, 8);
             this.btnOnePlayer.onClickAction = this.btnOnePlayerClick;
@@ -1354,7 +1306,6 @@ var NyxianSkies;
             this.add.tween(this.btnOnePlayer.textSprite).to({ x: 348, y: 600 }, length, Phaser.Easing.Elastic.InOut, true, start);
             this.add.tween(this.btnOnePlayer.textSpriteShadow).to({ x: 348, y: 600 }, length, Phaser.Easing.Elastic.InOut, true, start);
             this.versionText = this.game.add.text(0, this.game.world.height - 22, "Version: " + NyxianSkies.NyxianSkiesGame.version, this.textStyle);
-            //this.x, this.y + (i * this.fontSize), line, this.textStyle);
         };
         TitleScreen.prototype.update = function () {
             for (var i = 0; i < this.backgroundTiles.length; i++) {
@@ -1400,8 +1351,6 @@ var NyxianSkies;
     })(Phaser.State);
     NyxianSkies.TitleScreen = TitleScreen;
 })(NyxianSkies || (NyxianSkies = {}));
-/// <reference path="../typings/phaser/phaser.d.ts" />
-/// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
     var WaitingLobby = (function (_super) {
@@ -1428,10 +1377,6 @@ var NyxianSkies;
                     tile.y = -256;
             }
             this.ui.update();
-            //if (NyxianSkies.NyxianSkiesGame.map !== null) {
-            //    var game = <NyxianSkiesGame> this.game;
-            //game.hub.client.startLevel();
-            //}
         };
         return WaitingLobby;
     })(Phaser.State);
@@ -1441,4 +1386,3 @@ var _this = this;
 window.onload = function () {
     var game = new NyxianSkies.NyxianSkiesGame(_this.hub);
 };
-//# sourceMappingURL=game.js.map

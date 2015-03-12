@@ -30,6 +30,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PublishDatabases>false</PublishDatabases>
+    <ExcludeGeneratedDebugSymbol>true</ExcludeGeneratedDebugSymbol>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -241,6 +243,8 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptRemoveComments>True</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>False</TypeScriptSourceMap>
     <TypeScriptOutFile>scripts/game.js</TypeScriptOutFile>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
