@@ -16,6 +16,7 @@ namespace NyxianSkies.ServerSide.GameInstance
         public string LoadingLevel { get; set; }
         public Vector2 Position { get; set; }
         public Point Velocity { get; set; }
+        public bool HasUpdate { get; set; }
 
         public Player(Guid playerId, int ship)
         {

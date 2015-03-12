@@ -31,14 +31,14 @@ namespace NyxianSkies.ServerSide.GameInstance
             //This seems like it should be handled by the base class
             {
                 if (_myPlayers.ContainsKey(joinGame.PlayerId)) return;
-                var player = new Player(joinGame.PlayerId,joinGame.Ship);
+                var player = new Player(joinGame.PlayerId, joinGame.Ship);
                 _myPlayers.TryAdd(player.PlayerId, player);
                 await hub.Groups.Add(joinGame.PlayerId.ToString(), GameId.ToString());
             }
 
             StartGameCheck();
         }
-        
+
         private void StartGameCheck()
         {
             if (_myPlayers.Count == NumberOfPlayers)
@@ -101,7 +101,7 @@ namespace NyxianSkies.ServerSide.GameInstance
             }
 
         }
-      
+
 
         private void LoadMap()
         {
@@ -121,14 +121,16 @@ namespace NyxianSkies.ServerSide.GameInstance
                     player.Position.X + player.Velocity.X * speed
                     , player.Position.Y + player.Velocity.Y * speed
                 );
+                player.HasUpdate = true;
             }
         }
 
         protected override void UpdateClients()
         {
-            foreach (var player in _myPlayers.Values)
+            foreach (var player in _myPlayers.Values.Where(c => c.HasUpdate))
             {
                 hub.Clients.Group(GameId.ToString()).ShipPostionUpdate(player.PlayerId, player.Position, player.Velocity);
+                player.HasUpdate = false;
             }
         }
     }
