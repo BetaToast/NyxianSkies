@@ -154,13 +154,15 @@
         move(x: number, y: number) {
             this.sprite.x += (x * this.speed) * this.game.time.elapsedMS;
             this.sprite.y += (y * this.speed) * this.game.time.elapsedMS;
-            this.moveTo(this.sprite.x, this.sprite.y);
+            this.moveTo_WithTime(this.sprite.x, this.sprite.y, this.game.time.elapsedMS);
         }
 
+        moveTo_WithTime(x: number, y: number, time: number) {
+            this.game.add.tween(this.sprite).to({ x: x, y: y }, time, Phaser.Easing.Linear.None, true, 0);
+        }
         moveTo(x: number, y: number) {
-            this.game.add.tween(this.sprite).to({ x: x, y: y }, 100, Phaser.Easing.Linear.None, true, 0);
+            this.moveTo_WithTime(x, y, 100);
         }
-
         takeShieldDamage(value: number) {
             this.shield -= value;
         }
