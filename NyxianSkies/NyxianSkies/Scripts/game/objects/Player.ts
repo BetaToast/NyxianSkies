@@ -20,6 +20,7 @@
         sprite: Phaser.Sprite;
         leftEngineEmitter: Phaser.Particles.Arcade.Emitter;
         rightEngineEmitter: Phaser.Particles.Arcade.Emitter;
+        bullets: Array<Phaser.Sprite> = [];
 
         /////////////////////////////
         // Input
@@ -33,8 +34,8 @@
         downKeyIsDown: boolean;
         leftKeyIsDown: boolean;
         rightKeyIsDown: boolean;
-
-
+        previousMouse: number = -1;
+        
         constructor(shipType: number, playerId: Guid) {
             this.shipType = shipType;
             this.playerId = playerId;
@@ -112,22 +113,37 @@
                     this.moveStart(x, y);
                 }
             }
-
-            if (this.game.input.onHold) {
-                this.fireNormal();
-            }
+            
             if (this.specialKey.isDown) {
                 this.fireSpecial();
+            }
+
+            if (this.game.input.activePointer.isDown) {
+                if (this.game.input.activePointer.button === Phaser.Mouse.LEFT_BUTTON) {
+                    this.fireNormal();
+                }
             }
 
         }
 
         fireNormal() {
-
+            var bulletSprite = this.game.add.sprite(this.sprite.x, this.sprite.y, 'spritesheet', 'laserGreen04.png');
+            this.bullets[this.bullets.length] = bulletSprite;
+            var bulletTween = this.game.add.tween(bulletSprite).to({ y: -256 }, 2000, Phaser.Easing.Linear.None, true, 0);
+            bulletTween.onComplete.add(this.onBulletOffScreen, [this.bullets, bulletSprite]);
         }
 
         fireSpecial() {
+            
+        }
 
+        onBulletOffScreen() {
+            var bullets = this[0];
+            var bulletSprite = this[1];
+            var index = bullets.indexOf(bulletSprite, 0);
+            if (index != undefined) {
+                bullets.splice(index, 1);
+            }
         }
 
         move(x: number, y: number) {
