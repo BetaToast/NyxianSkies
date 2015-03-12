@@ -85,14 +85,14 @@ interface MainHubClient
     gameStart : (GameId : Guid, players : Player[]) => void;
  
     /**
-      * Set this function with a "function(PlayerId : Guid, Postion : Vector2, velocity : Point){}" to receive the "shipPostionUpdate" message from the MainHub hub.
+      * Set this function with a "function(PlayerId : Guid, Postion : PointF, velocity : Point){}" to receive the "shipPostionUpdate" message from the MainHub hub.
       * Contract Documentation: ---
       * @param PlayerId {Guid} 
-      * @param Postion {Vector2} 
+      * @param Postion {PointF} 
       * @param velocity {Point} 
       * @return {void}
       */
-    shipPostionUpdate : (PlayerId : Guid, Postion : Vector2, velocity : Point) => void;
+    shipPostionUpdate : (PlayerId : Guid, Postion : PointF, velocity : Point) => void;
 }
  
 //#endregion MainHub hub
@@ -118,9 +118,10 @@ interface Point {
  
  
 /**
-  * Data contract for NyxianSkies.ServerSide.GameInstance.Vector2
+  * Data contract for System.Drawing.PointF
   */
-interface Vector2 {
+interface PointF {
+    IsEmpty : boolean;
     X : number;
     Y : number;
 }
@@ -137,8 +138,38 @@ interface Player {
     Health : Decimal;
     HullShield : Decimal;
     LoadingLevel : string;
-    Position : Vector2;
+    Position : PointF;
     Velocity : Point;
+    HasUpdate : boolean;
+    BoundingRectangle : RectangleF;
+}
+ 
+ 
+/**
+  * Data contract for System.Drawing.RectangleF
+  */
+interface RectangleF {
+    Location : PointF;
+    Size : SizeF;
+    X : number;
+    Y : number;
+    Width : number;
+    Height : number;
+    Left : number;
+    Top : number;
+    Right : number;
+    Bottom : number;
+    IsEmpty : boolean;
+}
+ 
+ 
+/**
+  * Data contract for System.Drawing.SizeF
+  */
+interface SizeF {
+    IsEmpty : boolean;
+    Width : number;
+    Height : number;
 }
  
  

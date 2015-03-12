@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -56,7 +57,7 @@ namespace NyxianSkies.ServerSide.GameInstance
             {
                 p.Value.LoadingLevel = "Earth";
                 p.Value.Ready = false;
-                p.Value.Position = new Vector2(i * (1280 / 3), 700);
+                p.Value.Position = new PointF(i * (1280 / 3), 700);
                 p.Value.Velocity = new Point(0, 0);
                 i++;
             }
@@ -117,12 +118,23 @@ namespace NyxianSkies.ServerSide.GameInstance
             var speed = ((1280 / 3f) / 1000f) * elapsedTime;
             foreach (var player in _myPlayers.Values.Where(player => player.Velocity.X != 0 || player.Velocity.Y != 0))
             {
-                player.Position = new Vector2(
-                    player.Position.X + player.Velocity.X * speed
-                    , player.Position.Y + player.Velocity.Y * speed
-                );
+                var newPosition = new PointF(player.Position.X + player.Velocity.X * speed, player.Position.Y + player.Velocity.Y * speed);
+                if (!FreeFromCollisions(player, newPosition))
+                    continue;
+                player.Position = newPosition;
                 player.HasUpdate = true;
             }
+        }
+
+        private bool FreeFromCollisions(Player movingPlayer, PointF newPosition)
+        {
+            var newPostionRectangle = new RectangleF(newPosition, new SizeF(112, 75));
+            foreach (var otherPlayer in _myPlayers.Where(c => c.Key != movingPlayer.PlayerId).Select(c => c.Value))
+            {
+                if (otherPlayer.BoundingRectangle.IntersectsWith(newPostionRectangle))
+                    return false;
+            }
+            return true;
         }
 
         protected override void UpdateClients()
