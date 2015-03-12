@@ -22,15 +22,19 @@ $(() => {
         }
         NyxianSkies.NyxianSkiesGame.version = version;
     }
-    hub.client.joinedGame = (gameId, playerId) => {
+
+    hub.client.gameStart = (gameId, players) => {
         GameId = gameId;
-        if ((NyxianSkies.NyxianSkiesGame.player1 && NyxianSkies.NyxianSkiesGame.player1.playerId === playerId) ||
-        (NyxianSkies.NyxianSkiesGame.player2 && NyxianSkies.NyxianSkiesGame.player2.playerId === playerId)) {
+        if (players.length > 0 && !NyxianSkies.NyxianSkiesGame.player1) {
+            NyxianSkies.NyxianSkiesGame.player1 = new NyxianSkies.Player(players[0].Ship, players[0].PlayerId);
+            NyxianSkies.NyxianSkiesGame.player1.x = players[0].Position.X;
+            NyxianSkies.NyxianSkiesGame.player1.y = players[0].Position.Y;
         }
-        else if (!NyxianSkies.NyxianSkiesGame.player1 )
-            NyxianSkies.NyxianSkiesGame.player1 = new NyxianSkies.Player(NyxianSkies.NyxianSkiesGame.shipType, playerId);
-        else if (!NyxianSkies.NyxianSkiesGame.player2)
-            NyxianSkies.NyxianSkiesGame.player2 = new NyxianSkies.Player(NyxianSkies.NyxianSkiesGame.shipType, playerId);
+        if (players.length > 1 && !NyxianSkies.NyxianSkiesGame.player2) {
+            NyxianSkies.NyxianSkiesGame.player2 = new NyxianSkies.Player(players[1].Ship, players[1].PlayerId);
+            NyxianSkies.NyxianSkiesGame.player2.x = players[1].Position.X;
+            NyxianSkies.NyxianSkiesGame.player2.y = players[1].Position.Y;
+        }
     }
 
     hub.client.loadLevel = level => {
@@ -45,7 +49,7 @@ $(() => {
 
 
     hub.client.shipPostionUpdate = (playerId, position, velocity) => {
-    
+
         if (NyxianSkies.NyxianSkiesGame.player1 && NyxianSkies.NyxianSkiesGame.player1.sprite &&
             NyxianSkies.NyxianSkiesGame.player1.playerId === playerId) {
             NyxianSkies.NyxianSkiesGame.player1.sprite.x = position.X;

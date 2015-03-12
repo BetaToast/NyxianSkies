@@ -35,7 +35,7 @@ module NyxianSkies {
 
             this.music = this.add.audio('styx', 1, true);
             
-            this.music.play();
+            //this.music.play();
 
             this.ui = new BetaToast.UserInterface(this, "blue");
             this.btnOnePlayer = this.ui.addButton(-400, 462, "1 Player", 48, 8);

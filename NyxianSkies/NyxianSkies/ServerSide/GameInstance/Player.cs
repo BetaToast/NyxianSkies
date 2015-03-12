@@ -9,7 +9,7 @@ namespace NyxianSkies.ServerSide.GameInstance
         public String PlayerName { get; set; }
         public Boolean Ready { get; set; }
 
-        public ShipType Ship { get; private set; }
+        public int Ship { get; private set; }
         public decimal Health { get; private set; }
         public decimal HullShield { get; private set; }
 
@@ -17,9 +17,10 @@ namespace NyxianSkies.ServerSide.GameInstance
         public Vector2 Position { get; set; }
         public Point Velocity { get; set; }
 
-        public Player(Guid playerId)
+        public Player(Guid playerId, int ship)
         {
             PlayerId = playerId;
+            Ship = ship;
         }
     }
 

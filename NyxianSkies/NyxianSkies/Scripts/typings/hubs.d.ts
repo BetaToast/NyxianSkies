@@ -76,13 +76,13 @@ interface MainHubClient
     loadLevel : (LevelName : string) => void;
  
     /**
-      * Set this function with a "function(GameId : Guid, PlayerId : Guid){}" to receive the "joinedGame" message from the MainHub hub.
+      * Set this function with a "function(GameId : Guid, players : Player[]){}" to receive the "gameStart" message from the MainHub hub.
       * Contract Documentation: ---
       * @param GameId {Guid} 
-      * @param PlayerId {Guid} 
+      * @param players {Player[]} 
       * @return {void}
       */
-    joinedGame : (GameId : Guid, PlayerId : Guid) => void;
+    gameStart : (GameId : Guid, players : Player[]) => void;
  
     /**
       * Set this function with a "function(PlayerId : Guid, Postion : Vector2, velocity : Point){}" to receive the "shipPostionUpdate" message from the MainHub hub.
@@ -123,6 +123,29 @@ interface Point {
 interface Vector2 {
     X : number;
     Y : number;
+}
+ 
+ 
+/**
+  * Data contract for NyxianSkies.ServerSide.GameInstance.Player
+  */
+interface Player {
+    PlayerId : Guid;
+    PlayerName : string;
+    Ready : boolean;
+    Ship : number;
+    Health : Decimal;
+    HullShield : Decimal;
+    LoadingLevel : string;
+    Position : Vector2;
+    Velocity : Point;
+}
+ 
+ 
+/**
+  * Data contract for System.Decimal
+  */
+interface Decimal {
 }
  
  
