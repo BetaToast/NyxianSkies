@@ -130,6 +130,7 @@
     <Content Include="assets\maps\Earth.json" />
     <None Include="Properties\PublishProfiles\BetaToastNyxianSkies.pubxml" />
     <None Include="Scripts\typings\jquery-2.1.3.intellisense.js" />
+    <Content Include="Scripts\game.js" />
     <Content Include="Scripts\typings\jquery-2.1.3.min.map" />
     <Content Include="Scripts\typings\hubs.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
