@@ -7,7 +7,7 @@
         x: number = 0;
         y: number = 0;
         shipType: number = 0;
-        speed: number = 1280 / 3;
+        speed: number = (1280 / 3000);
         game: Phaser.Game;
         shield: number = 0;
         hull: number = 100;
@@ -81,8 +81,25 @@
             this.rightEngineEmitter.emitX = this.sprite.x + 25;
             this.rightEngineEmitter.emitY = this.sprite.y + 30;
 
+            this.movementUpdate();
+            
+            if (this.specialKey.isDown) {
+                this.fireSpecial();
+            }
 
+            if (this.game.input.activePointer.isDown) {
+                if (this.game.input.activePointer.button === Phaser.Mouse.LEFT_BUTTON) {
+                    this.fireNormal();
+                }
+            }
+
+        }
+
+        movementUpdate() {
             var keyChange = false;
+            var x = 0;
+            var y = 0;
+            
             if (this.upKey.isDown !== this.upKeyIsDown) {
                 this.upKeyIsDown = this.upKey.isDown;
                 keyChange = true;
@@ -104,26 +121,14 @@
                 if (this.leftKeyIsDown && this.rightKeyIsDown && this.upKeyIsDown && this.downKeyIsDown) {
                     this.moveStop();
                 } else {
-                    var x = 0;
-                    var y = 0;
                     x += this.leftKeyIsDown ? -1 : 0;
                     x += this.rightKeyIsDown ? 1 : 0;
                     y += this.upKeyIsDown ? -1 : 0;
                     y += this.downKeyIsDown ? 1 : 0;
                     this.moveStart(x, y);
+                    this.move(x, y);
                 }
             }
-            
-            if (this.specialKey.isDown) {
-                this.fireSpecial();
-            }
-
-            if (this.game.input.activePointer.isDown) {
-                if (this.game.input.activePointer.button === Phaser.Mouse.LEFT_BUTTON) {
-                    this.fireNormal();
-                }
-            }
-
         }
 
         fireNormal() {
@@ -147,8 +152,9 @@
         }
 
         move(x: number, y: number) {
-            this.sprite.x += (x  * this.speed);
-            this.sprite.y += (y * this.speed);
+            this.sprite.x += (x * this.speed) * this.game.time.elapsedMS;
+            this.sprite.y += (y * this.speed) * this.game.time.elapsedMS;
+            this.moveTo(this.sprite.x, this.sprite.y);
         }
 
         moveTo(x: number, y: number) {

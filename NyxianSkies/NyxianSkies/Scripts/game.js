@@ -975,7 +975,7 @@ var NyxianSkies;
             this.x = 0;
             this.y = 0;
             this.shipType = 0;
-            this.speed = 1280 / 3;
+            this.speed = (1280 / 3000);
             this.shield = 0;
             this.hull = 100;
             this.bullets = [];
@@ -1016,7 +1016,20 @@ var NyxianSkies;
             this.leftEngineEmitter.emitY = this.sprite.y + 30;
             this.rightEngineEmitter.emitX = this.sprite.x + 25;
             this.rightEngineEmitter.emitY = this.sprite.y + 30;
+            this.movementUpdate();
+            if (this.specialKey.isDown) {
+                this.fireSpecial();
+            }
+            if (this.game.input.activePointer.isDown) {
+                if (this.game.input.activePointer.button === Phaser.Mouse.LEFT_BUTTON) {
+                    this.fireNormal();
+                }
+            }
+        };
+        Player.prototype.movementUpdate = function () {
             var keyChange = false;
+            var x = 0;
+            var y = 0;
             if (this.upKey.isDown !== this.upKeyIsDown) {
                 this.upKeyIsDown = this.upKey.isDown;
                 keyChange = true;
@@ -1038,21 +1051,12 @@ var NyxianSkies;
                     this.moveStop();
                 }
                 else {
-                    var x = 0;
-                    var y = 0;
                     x += this.leftKeyIsDown ? -1 : 0;
                     x += this.rightKeyIsDown ? 1 : 0;
                     y += this.upKeyIsDown ? -1 : 0;
                     y += this.downKeyIsDown ? 1 : 0;
                     this.moveStart(x, y);
-                }
-            }
-            if (this.specialKey.isDown) {
-                this.fireSpecial();
-            }
-            if (this.game.input.activePointer.isDown) {
-                if (this.game.input.activePointer.button === Phaser.Mouse.LEFT_BUTTON) {
-                    this.fireNormal();
+                    this.move(x, y);
                 }
             }
         };
@@ -1073,8 +1077,9 @@ var NyxianSkies;
             }
         };
         Player.prototype.move = function (x, y) {
-            this.sprite.x += (x * this.speed);
-            this.sprite.y += (y * this.speed);
+            this.sprite.x += (x * this.speed) * this.game.time.elapsedMS;
+            this.sprite.y += (y * this.speed) * this.game.time.elapsedMS;
+            this.moveTo(this.sprite.x, this.sprite.y);
         };
         Player.prototype.moveTo = function (x, y) {
             this.game.add.tween(this.sprite).to({ x: x, y: y }, 100, Phaser.Easing.Linear.None, true, 0);
