@@ -14,7 +14,7 @@ namespace NyxianSkies.ServerSide.GameInstance
     {
 
         private List<Map> maps = new List<Map>();
-        private List<Bullets> bullets = new List<Bullets>();
+        private List<Bullet> bullets = new List<Bullet>();
 
         public NyxianSkiesGameInstance(int numberOfPlayers)
             : base(numberOfPlayers)
@@ -105,7 +105,13 @@ namespace NyxianSkies.ServerSide.GameInstance
 
         public async Task HandleAction(FirePrimaryWeapon weaponFired)
         {
+            var bullet = new Bullet
+            {
+                ObjectId = weaponFired.ObjectId,
+                Position = new PointF(weaponFired.StartLocationX, weaponFired.StartLocationY)
+            };
 
+            bullets.Add(bullet);
         }
 
         private void LoadMap()
@@ -151,7 +157,7 @@ namespace NyxianSkies.ServerSide.GameInstance
         }
     }
 
-    internal class Bullets
+    internal class Bullet
     {
         public Int64 ObjectId { get; set; }
         public PointF Position { get; set; }
