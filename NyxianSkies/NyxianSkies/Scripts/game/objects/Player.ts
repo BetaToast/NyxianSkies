@@ -152,6 +152,7 @@
                 action: 'FirePrimaryWeapon',
                 gameId: GameId,
                 playerId: PlayerId,
+                objectId: Sequence.Next(),
                 startLocation: this.sprite.x + ", " + this.sprite.y,
             }));
         }

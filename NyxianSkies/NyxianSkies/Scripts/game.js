@@ -1044,6 +1044,7 @@ var NyxianSkies;
                 action: 'FirePrimaryWeapon',
                 gameId: GameId,
                 playerId: PlayerId,
+                objectId: NyxianSkies.Sequence.Next(),
                 startLocation: this.sprite.x + ", " + this.sprite.y,
             }));
         };
@@ -1158,6 +1159,23 @@ var NyxianSkies;
         return Preloader;
     })(Phaser.State);
     NyxianSkies.Preloader = Preloader;
+})(NyxianSkies || (NyxianSkies = {}));
+var NyxianSkies;
+(function (NyxianSkies) {
+    var Sequence = (function () {
+        function Sequence() {
+        }
+        Sequence.Next = function () {
+            this.value += this.increment;
+            return this.value;
+        };
+        Sequence.Reset = function () {
+            this.value = 0;
+        };
+        Sequence.increment = 1;
+        return Sequence;
+    })();
+    NyxianSkies.Sequence = Sequence;
 })(NyxianSkies || (NyxianSkies = {}));
 var NyxianSkies;
 (function (NyxianSkies) {
