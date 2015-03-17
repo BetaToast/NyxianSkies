@@ -123,7 +123,6 @@
                     this.fireNormal();
                 }
             }
-
         }
 
         fireNormal() {
