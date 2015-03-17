@@ -129,8 +129,7 @@
                     this.move(x, y);
                 }
             }
-<<<<<<< HEAD
-            
+           
             if (this.specialKey.isDown) {
                 this.fireSpecial();
             }
@@ -140,8 +139,6 @@
                     this.fireNormal();
                 }
             }
-=======
->>>>>>> 5ed470fd49bf945eabd4ddc2a4577a5b7e2b1ea8
         }
 
         fireNormal() {
@@ -149,6 +146,13 @@
             this.bullets[this.bullets.length] = bulletSprite;
             var bulletTween = this.game.add.tween(bulletSprite).to({ y: -256 }, 2000, Phaser.Easing.Linear.None, true, 0);
             bulletTween.onComplete.add(this.onBulletOffScreen, [this.bullets, bulletSprite]);
+
+            //hub.server.sendAction(JSON.stringify(
+            //{
+            //    action: 'FireNormal',
+            //    Id: Sequence.Next(),
+            //    start: this.sprite.x + ", " + this.sprite.y,
+            //}));
         }
 
         fireSpecial() {
@@ -173,9 +177,11 @@
         moveTo_WithTime(x: number, y: number, time: number) {
             this.game.add.tween(this.sprite).to({ x: x, y: y }, time, Phaser.Easing.Linear.None, true, 0);
         }
+
         moveTo(x: number, y: number) {
             this.moveTo_WithTime(x, y, 100);
         }
+
         takeShieldDamage(value: number) {
             this.shield -= value;
         }
