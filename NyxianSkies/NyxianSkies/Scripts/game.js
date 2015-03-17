@@ -1172,6 +1172,7 @@ var NyxianSkies;
         Sequence.Reset = function () {
             this.value = 0;
         };
+        Sequence.value = 0;
         Sequence.increment = 1;
         return Sequence;
     })();
