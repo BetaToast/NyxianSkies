@@ -14,7 +14,7 @@ namespace NyxianSkies.ServerSide.GameInstance
     {
 
         private List<Map> maps = new List<Map>();
-
+        private List<Bullets> bullets = new List<Bullets>();
 
         public NyxianSkiesGameInstance(int numberOfPlayers)
             : base(numberOfPlayers)
@@ -103,6 +103,10 @@ namespace NyxianSkies.ServerSide.GameInstance
 
         }
 
+        public async Task HandleAction(FirePrimaryWeapon weaponFired)
+        {
+
+        }
 
         private void LoadMap()
         {
@@ -144,6 +148,18 @@ namespace NyxianSkies.ServerSide.GameInstance
                 hub.Clients.Group(GameId.ToString()).ShipPostionUpdate(player.PlayerId, player.Position, player.Velocity);
                 player.HasUpdate = false;
             }
+        }
+    }
+
+    internal class Bullets
+    {
+        public Int64 ObjectId { get; set; }
+        public PointF Position { get; set; }
+        public Point Velocity = new Point(0, -720);
+
+        public RectangleF BoundingRectangle
+        {
+            get { return new RectangleF(Position, new SizeF(13, 13)); }
         }
     }
 }
