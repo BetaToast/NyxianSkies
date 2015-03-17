@@ -210,6 +210,7 @@
     <TypeScriptCompile Include="Scripts\game\objects\Map.ts" />
     <TypeScriptCompile Include="Scripts\game\objects\Player.ts" />
     <TypeScriptCompile Include="Scripts\game\Preloader.ts" />
+    <TypeScriptCompile Include="Scripts\game\Sequence.ts" />
     <TypeScriptCompile Include="Scripts\game\ShipSelect.ts" />
     <TypeScriptCompile Include="Scripts\game\StageSelect.ts" />
     <TypeScriptCompile Include="Scripts\game\TechSelect.ts" />
