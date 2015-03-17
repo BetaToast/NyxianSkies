@@ -1045,7 +1045,8 @@ var NyxianSkies;
                 gameId: GameId,
                 playerId: PlayerId,
                 objectId: NyxianSkies.Sequence.Next(),
-                startLocation: this.sprite.x + ", " + this.sprite.y,
+                startLocationX: this.sprite.x,
+                startLocationY: this.sprite.y,
             }));
         };
         Player.prototype.fireSpecial = function () {
@@ -1172,6 +1173,7 @@ var NyxianSkies;
         Sequence.Reset = function () {
             this.value = 0;
         };
+        Sequence.value = 0;
         Sequence.increment = 1;
         return Sequence;
     })();

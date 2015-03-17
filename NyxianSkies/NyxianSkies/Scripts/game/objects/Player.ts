@@ -153,7 +153,8 @@
                 gameId: GameId,
                 playerId: PlayerId,
                 objectId: Sequence.Next(),
-                startLocation: this.sprite.x + ", " + this.sprite.y,
+                startLocationX: this.sprite.x,
+                startLocationY: this.sprite.y,
             }));
         }
 

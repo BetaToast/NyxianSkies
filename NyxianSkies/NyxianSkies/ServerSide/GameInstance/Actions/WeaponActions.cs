@@ -8,7 +8,8 @@ namespace NyxianSkies.ServerSide.GameInstance.Actions
         public Guid PlayerId { get; set; }
         public Guid GameId { get; set; }
         public Int64 ObjectId { get; set; }
-        public PointF StartLocation { get; set; }
+        public float StartLocationX { get; set; }
+        public float StartLocationY { get; set; }
     }
 
     //public class FirePrimaryWeaponStart : IPlayerAction, IGameAction

@@ -1,6 +1,6 @@
 ﻿module NyxianSkies {
     export class Sequence {
-        static value: number;
+        static value: number= 0;
         static increment: number = 1;
 
         static Next() {

@@ -108,7 +108,7 @@ namespace NyxianSkies.ServerSide.GameInstance
             var bullet = new Bullet
             {
                 ObjectId = weaponFired.ObjectId,
-                Position = weaponFired.StartLocation
+                Position = new PointF(weaponFired.StartLocationX, weaponFired.StartLocationY)
             };
 
             bullets.Add(bullet);
