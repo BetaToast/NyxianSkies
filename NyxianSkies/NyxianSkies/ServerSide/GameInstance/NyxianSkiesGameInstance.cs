@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -125,15 +126,25 @@ namespace NyxianSkies.ServerSide.GameInstance
 
         protected override void UpdateGame(long elapsedTime)
         {
-            var speed = ((1280 / 3f) / 1000f) * elapsedTime;
+            var shipSpeed = ((1280 / 3f) / 1000f) * elapsedTime;
+            var bulletSpeed = ((720 / 1f) / 1000f) * elapsedTime;
             foreach (var player in _myPlayers.Values.Where(player => player.Velocity.X != 0 || player.Velocity.Y != 0))
             {
-                var newPosition = new PointF(player.Position.X + player.Velocity.X * speed, player.Position.Y + player.Velocity.Y * speed);
+                var newPosition = new PointF(player.Position.X + player.Velocity.X * shipSpeed, player.Position.Y + player.Velocity.Y * shipSpeed);
                 if (!FreeFromCollisions(player, newPosition))
                     continue;
                 player.Position = newPosition;
                 player.HasUpdate = true;
             }
+
+            foreach (var b in bullets)
+            {
+                var newPosition = new PointF(b.Position.X + b.Velocity.X * bulletSpeed, b.Position.Y + b.Velocity.Y * bulletSpeed);
+                b.Position = newPosition;
+                //TODO:  Do collision Check
+            }
+
+            bullets.RemoveAll(c => c.Position.Y < -256);
         }
 
         private bool FreeFromCollisions(Player movingPlayer, PointF newPosition)
@@ -161,7 +172,7 @@ namespace NyxianSkies.ServerSide.GameInstance
     {
         public Int64 ObjectId { get; set; }
         public PointF Position { get; set; }
-        public Point Velocity = new Point(0, -720);
+        public Point Velocity = new Point(0, -1);
 
         public RectangleF BoundingRectangle
         {
