@@ -129,7 +129,6 @@
                     this.move(x, y);
                 }
             }
-<<<<<<< HEAD
             
             if (this.specialKey.isDown) {
                 this.fireSpecial();
@@ -140,8 +139,6 @@
                     this.fireNormal();
                 }
             }
-=======
->>>>>>> 5ed470fd49bf945eabd4ddc2a4577a5b7e2b1ea8
         }
 
         fireNormal() {
