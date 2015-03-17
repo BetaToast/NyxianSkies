@@ -146,6 +146,14 @@
             this.bullets[this.bullets.length] = bulletSprite;
             var bulletTween = this.game.add.tween(bulletSprite).to({ y: -256 }, 2000, Phaser.Easing.Linear.None, true, 0);
             bulletTween.onComplete.add(this.onBulletOffScreen, [this.bullets, bulletSprite]);
+
+            hub.server.sendAction(JSON.stringify(
+            {
+                action: 'FirePrimaryWeapon',
+                gameId: GameId,
+                playerId: PlayerId,
+                startLocation: this.sprite.x + ", " + this.sprite.y,
+            }));
         }
 
         fireSpecial() {
