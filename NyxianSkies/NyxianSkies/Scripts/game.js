@@ -429,11 +429,6 @@ var NyxianSkies;
                 if (tile.y >= 976)
                     tile.y = -256;
             }
-            var details = this.bgDetails;
-            for (var i = 0; i < details.length; i++) {
-                var detail = details[i];
-                detail.y += NyxianSkies.NyxianSkiesGame.mapSpeed;
-            }
             var gameObjects = this.gameObjects;
             for (var i = 0; i < gameObjects.length; i++) {
                 var gameObject = gameObjects[i];
@@ -480,18 +475,6 @@ var NyxianSkies;
                         bgLayer2Tiles[index] = this.add.sprite(x, y, map.bgLayer2 + 'Background');
                     }
                 }
-            }
-            for (var i = 0; i < map.bgDetails.length; i++) {
-                var detail = map.bgDetails[i];
-                var sprite = this.add.sprite(detail.x, detail.y, detail.asset);
-                var index = details.length;
-                if (map.direction === "Vertical") {
-                    sprite.y = sprite.y - map.height;
-                }
-                else if (map.direction === "Horizontal") {
-                    sprite.x = sprite.x + map.width;
-                }
-                details[index] = sprite;
             }
             for (var i = 0; i < map.gameObjects.length; i++) {
                 var gameObject = map.gameObjects[i];
@@ -939,16 +922,23 @@ var NyxianSkies;
 (function (NyxianSkies) {
     var Player = (function () {
         function Player(shipType, playerId) {
+            var _this = this;
             this.x = 0;
             this.y = 0;
             this.shipType = 0;
             this.speed = (1280 / 3000);
             this.shield = 0;
             this.hull = 100;
+            this.elapsed = 0;
+            this.fireElapsed = 0;
+            this.interval = 100;
             this.bullets = [];
             this.previousMouse = -1;
             this.shipType = shipType;
             this.playerId = playerId;
+            this.timer = setInterval(function () {
+                _this.tick(_this);
+            }, this.interval);
         }
         Player.prototype.createGraphics = function (game, x, y) {
             this.game = game;
@@ -984,14 +974,6 @@ var NyxianSkies;
             this.rightEngineEmitter.emitX = this.sprite.x + 25;
             this.rightEngineEmitter.emitY = this.sprite.y + 30;
             this.movementUpdate();
-            if (this.specialKey.isDown) {
-                this.fireSpecial();
-            }
-            if (this.game.input.activePointer.isDown) {
-                if (this.game.input.activePointer.button === Phaser.Mouse.LEFT_BUTTON) {
-                    this.fireNormal();
-                }
-            }
         };
         Player.prototype.movementUpdate = function () {
             var keyChange = false;
@@ -1031,7 +1013,12 @@ var NyxianSkies;
             }
             if (this.game.input.activePointer.isDown) {
                 if (this.game.input.activePointer.button === Phaser.Mouse.LEFT_BUTTON) {
-                    this.fireNormal();
+                    if (this.fireElapsed > 500) {
+                        this.fireElapsed -= 500;
+                        if (this.fireElapsed <= 0)
+                            this.fireElapsed = 0;
+                        this.fireNormal();
+                    }
                 }
             }
         };
@@ -1088,6 +1075,10 @@ var NyxianSkies;
                 action: 'MoveStop',
                 gameId: GameId,
             }));
+        };
+        Player.prototype.tick = function (player) {
+            player.elapsed += player.interval;
+            player.fireElapsed += player.interval;
         };
         return Player;
     })();

@@ -13,6 +13,10 @@
         hull: number = 100;
         shipKey: string;
         playerId: Guid;
+        timer: any;
+        elapsed: number = 0;
+        fireElapsed: number = 0;
+        interval: number = 100;
 
         /////////////////////////////
         // Variables
@@ -39,6 +43,7 @@
         constructor(shipType: number, playerId: Guid) {
             this.shipType = shipType;
             this.playerId = playerId;
+            this.timer = setInterval(() => { this.tick(this); }, this.interval);
         }
 
         createGraphics(game: Phaser.Game, x: number, y: number) {
@@ -82,17 +87,6 @@
             this.rightEngineEmitter.emitY = this.sprite.y + 30;
 
             this.movementUpdate();
-            
-            if (this.specialKey.isDown) {
-                this.fireSpecial();
-            }
-
-            if (this.game.input.activePointer.isDown) {
-                if (this.game.input.activePointer.button === Phaser.Mouse.LEFT_BUTTON) {
-                    this.fireNormal();
-                }
-            }
-
         }
 
         movementUpdate() {
@@ -136,7 +130,11 @@
 
             if (this.game.input.activePointer.isDown) {
                 if (this.game.input.activePointer.button === Phaser.Mouse.LEFT_BUTTON) {
-                    this.fireNormal();
+                    if (this.fireElapsed > 500) {
+                        this.fireElapsed -= 500;
+                        if (this.fireElapsed <= 0) this.fireElapsed = 0;
+                        this.fireNormal();
+                    }
                 }
             }
         }
@@ -206,6 +204,11 @@
                 action: 'MoveStop',
                 gameId: GameId,
             }));
+        }
+
+        tick(player: Player) {
+            player.elapsed += player.interval;
+            player.fireElapsed += player.interval;
         }
     }
 }
