@@ -183,6 +183,7 @@
     <Compile Include="ServerSide\GameInstance\NyxianSkiesGameInstance.cs" />
     <Compile Include="ServerSide\GameInstance\Player.cs" />
     <Compile Include="ServerSide\Server\ConnectionMapping.cs" />
+    <Compile Include="ServerSide\Server\Enemy.cs" />
     <Compile Include="ServerSide\Server\HandlerManager.cs" />
     <Compile Include="ServerSide\Server\IMainHubClient.cs" />
     <Compile Include="ServerSide\Server\LoggedAction.cs" />

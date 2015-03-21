@@ -141,10 +141,25 @@ namespace NyxianSkies.ServerSide.GameInstance
             {
                 var newPosition = new PointF(b.Position.X + b.Velocity.X * bulletSpeed, b.Position.Y + b.Velocity.Y * bulletSpeed);
                 b.Position = newPosition;
+                if (CheckForCollision(b))
+                {
+
+                }
                 //TODO:  Do collision Check
             }
 
             bullets.RemoveAll(c => c.Position.Y < -256);
+        }
+
+        private bool CheckForCollision(Bullet bullet)
+        {
+            var bulletLocation = bullet.BoundingRectangle;
+            foreach (var enemy in _myEnemies.Select(c => c.Value))
+            {
+                if (enemy.BoundingRectangle.IntersectsWith(bulletLocation))
+                    return false;
+            }
+            return true;
         }
 
         private bool FreeFromCollisions(Player movingPlayer, PointF newPosition)

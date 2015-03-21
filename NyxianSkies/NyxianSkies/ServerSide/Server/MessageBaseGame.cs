@@ -24,6 +24,7 @@ namespace NyxianSkies.ServerSide.Server
 
         protected readonly int NumberOfPlayers;
         protected readonly ConcurrentDictionary<Guid, Player> _myPlayers = new ConcurrentDictionary<Guid, Player>();
+        protected readonly ConcurrentDictionary<Guid, Enemy> _myEnemies = new ConcurrentDictionary<Guid, Enemy>();
         private readonly List<LoggedAction> _allGameActions = new List<LoggedAction>();
         private ConcurrentQueue<IAction> ActionQueue = new ConcurrentQueue<IAction>();
         protected Stopwatch GameTime = new Stopwatch();
@@ -102,6 +103,4 @@ namespace NyxianSkies.ServerSide.Server
         }
 
     }
-
-
 }
