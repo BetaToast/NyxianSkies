@@ -5,7 +5,7 @@ namespace NyxianSkies.ServerSide.Server
 {
     public class Enemy
     {
-        public Guid Id { get; private set; }
+        public Guid Id { get; set; }
         public PointF Position { get; set; }
         public Point Velocity { get; set; }
 

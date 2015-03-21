@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
@@ -25,6 +26,7 @@ namespace NyxianSkies.ServerSide.Server
         protected readonly int NumberOfPlayers;
         protected readonly ConcurrentDictionary<Guid, Player> _myPlayers = new ConcurrentDictionary<Guid, Player>();
         protected readonly ConcurrentDictionary<Guid, Enemy> _myEnemies = new ConcurrentDictionary<Guid, Enemy>();
+
         private readonly List<LoggedAction> _allGameActions = new List<LoggedAction>();
         private ConcurrentQueue<IAction> ActionQueue = new ConcurrentQueue<IAction>();
         protected Stopwatch GameTime = new Stopwatch();
@@ -37,6 +39,11 @@ namespace NyxianSkies.ServerSide.Server
             GameId = Guid.NewGuid();
             //AwaitingPlayers = true;
             NumberOfPlayers = numberOfPlayers;
+            for (int x = 0; x < 100; x++)
+            {
+                var g = Guid.NewGuid();
+                _myEnemies.TryAdd(g, new Enemy { Id = g, Position = new PointF(100, 100), Velocity = new Point(0, 0) });
+            }
             Task.Run(() => GameLoop());
         }
 

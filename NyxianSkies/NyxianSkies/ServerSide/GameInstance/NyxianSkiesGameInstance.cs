@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -131,6 +129,15 @@ namespace NyxianSkies.ServerSide.GameInstance
             foreach (var player in _myPlayers.Values.Where(player => player.Velocity.X != 0 || player.Velocity.Y != 0))
             {
                 var newPosition = new PointF(player.Position.X + player.Velocity.X * shipSpeed, player.Position.Y + player.Velocity.Y * shipSpeed);
+                if (newPosition.X < 0)
+                    newPosition.X = 0;
+                if (newPosition.X > 1280)
+                    newPosition.X = 1280;
+                if (newPosition.Y < 0)
+                    newPosition.Y = 0;
+                if (newPosition.Y > 720)
+                    newPosition.Y = 720;
+
                 if (!FreeFromCollisions(player, newPosition))
                     continue;
                 player.Position = newPosition;
@@ -157,9 +164,9 @@ namespace NyxianSkies.ServerSide.GameInstance
             foreach (var enemy in _myEnemies.Select(c => c.Value))
             {
                 if (enemy.BoundingRectangle.IntersectsWith(bulletLocation))
-                    return false;
+                    return true;
             }
-            return true;
+            return false;
         }
 
         private bool FreeFromCollisions(Player movingPlayer, PointF newPosition)
@@ -180,18 +187,6 @@ namespace NyxianSkies.ServerSide.GameInstance
                 hub.Clients.Group(GameId.ToString()).ShipPostionUpdate(player.PlayerId, player.Position, player.Velocity);
                 player.HasUpdate = false;
             }
-        }
-    }
-
-    internal class Bullet
-    {
-        public Int64 ObjectId { get; set; }
-        public PointF Position { get; set; }
-        public Point Velocity = new Point(0, -1);
-
-        public RectangleF BoundingRectangle
-        {
-            get { return new RectangleF(Position, new SizeF(13, 13)); }
         }
     }
 }
