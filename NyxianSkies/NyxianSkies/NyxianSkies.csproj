@@ -176,6 +176,7 @@
     <Compile Include="ServerSide\GameInstance\Actions\InternalGameActiosn.cs" />
     <Compile Include="ServerSide\GameInstance\Actions\JoinActions.cs" />
     <Compile Include="ServerSide\GameInstance\Actions\MovementActions.cs" />
+    <Compile Include="ServerSide\GameInstance\Bullet.cs" />
     <Compile Include="ServerSide\GameInstance\SecondaryWeapon.cs" />
     <Compile Include="ServerSide\GameInstance\Actions\ServerActions.cs" />
     <Compile Include="ServerSide\GameInstance\Actions\WeaponActions.cs" />
