@@ -13,10 +13,12 @@
         hull: number = 100;
         shipKey: string;
         playerId: Guid;
+        playerServerPosition: basicTypes.point;
         timer: any;
         elapsed: number = 0;
         fireElapsed: number = 0;
         interval: number = 100;
+        moveQueue: Utils.Queue = new Utils.Queue();
 
         /////////////////////////////
         // Variables
@@ -39,7 +41,7 @@
         leftKeyIsDown: boolean;
         rightKeyIsDown: boolean;
         previousMouse: number = -1;
-        
+
         constructor(shipType: number, playerId: Guid) {
             this.shipType = shipType;
             this.playerId = playerId;
@@ -93,7 +95,7 @@
             var keyChange = false;
             var x = 0;
             var y = 0;
-            
+
             if (this.upKey.isDown !== this.upKeyIsDown) {
                 this.upKeyIsDown = this.upKey.isDown;
                 keyChange = true;
@@ -112,7 +114,7 @@
             }
 
             if (keyChange === true) {
-                if (this.leftKeyIsDown && this.rightKeyIsDown && this.upKeyIsDown && this.downKeyIsDown) {
+                if (!this.leftKeyIsDown && !this.rightKeyIsDown && !this.upKeyIsDown && !this.downKeyIsDown) {
                     this.moveStop();
                 } else {
                     x += this.leftKeyIsDown ? -1 : 0;
@@ -123,7 +125,7 @@
                     this.move(x, y);
                 }
             }
-            
+
             if (this.specialKey.isDown) {
                 this.fireSpecial();
             }
@@ -145,19 +147,25 @@
             var bulletTween = this.game.add.tween(bulletSprite).to({ y: -256 }, 2000, Phaser.Easing.Linear.None, true, 0);
             bulletTween.onComplete.add(this.onBulletOffScreen, [this.bullets, bulletSprite]);
 
-            hub.server.sendAction(JSON.stringify(
-            {
-                action: 'FirePrimaryWeapon',
-                gameId: GameId,
-                playerId: PlayerId,
-                objectId: Sequence.Next(),
-                startLocationX: this.sprite.x,
-                startLocationY: this.sprite.y,
-            }));
+            this.send(JSON.stringify(
+                {
+                    action: 'FirePrimaryWeapon',
+                    gameId: GameId,
+                    playerId: PlayerId,
+                    objectId: Sequence.Next(),
+                    startLocationX: this.sprite.x,
+                    startLocationY: this.sprite.y,
+                }));
+        }
+
+        public send(message: string) {
+            console.log(message);
+            this.moveQueue.enqueue(new Utils.QueueObject(message));
+            hub.server.sendAction(message);
         }
 
         fireSpecial() {
-            
+
         }
 
         onBulletOffScreen() {
@@ -170,17 +178,97 @@
         }
 
         move(x: number, y: number) {
-            this.sprite.x += (x * this.speed) * this.game.time.elapsedMS;
-            this.sprite.y += (y * this.speed) * this.game.time.elapsedMS;
+            var dif = this.move_CalculateChange(x, y, this.game.time.elapsedMS);
+            this.sprite.x += dif.x;
+            this.sprite.y += dif.y;
             this.moveTo_WithTime(this.sprite.x, this.sprite.y, this.game.time.elapsedMS);
         }
-
+        private move_CalculateChange(x: number, y: number, duration: number): basicTypes.point {
+            var p = new basicTypes.point(
+                (x * this.speed) * duration,
+                (y * this.speed) * duration
+            );
+            console.log("move_calculation");
+            console.log(duration);
+            console.log(x);
+            console.log(y);
+            //            console.log(p);
+            return p;
+        }
         moveTo_WithTime(x: number, y: number, time: number) {
             this.game.add.tween(this.sprite).to({ x: x, y: y }, time, Phaser.Easing.Linear.None, true, 0);
         }
-        moveTo(x: number, y: number) {
-            this.moveTo_WithTime(x, y, 100);
+        //TODO: Complete this logic
+        updateFromServer(x: number, y: number, serverTime: number) {
+            console.log("update From Server");
+            //save the server position and timestamp
+            this.playerServerPosition = new basicTypes.point(x, y);
+
+            //clean the event queue
+            for (var pos1 = 0; pos1 < this.moveQueue.getLenth() && this.moveQueue.queue[pos1].time < serverTime;) {
+                var i = this.moveQueue.queue[pos1];
+                //  Since we store only the moveStart and moveStop events
+                //  we will need to be a little more selective on the removes
+                //  If the old object is a start, we need to scan forward to see if the another start/stop is also old
+                //  if so, we can remove the start (it isn't necessary to remove the newer start/stop, since will will eventually make it
+                //  to that spot and remove it normally)
+                var b = JSON.parse(i.body);
+                switch (b.action) {
+                    case "MoveStart":
+                        var pos2 = pos1 + 1;//Skip the first one since that should be what i is.
+                        for (var pos2 = pos1 + 1; pos2 < this.moveQueue.getLenth() && this.moveQueue.queue[pos2].time < serverTime; pos2++) {
+                            switch (JSON.parse(this.moveQueue.queue[pos2].body).action) {
+                                case "MoveStart":
+                                case "MoveStop":
+                                    this.moveQueue.remove(pos1);
+                                    continue;
+                            }
+                        }
+                        break;
+                    default:
+                        this.moveQueue.remove(pos1);
+                        continue;
+                }
+                pos1++;
+            }//end event queue    
+
+            console.log("server Position");
+            console.log(this.playerServerPosition);
+            //calculate a new current position
+            var temp = new basicTypes.point(this.playerServerPosition.x, this.playerServerPosition.y);
+            for (var pos1 = 0; pos1 < this.moveQueue.getLenth(); pos1++) {
+                var b = JSON.parse(this.moveQueue.queue[pos1].body);
+                var endTime = Date.now();
+                switch (b.action) {
+                    case "MoveStart":
+                        var pos2 = pos1 + 1;//Skip the first one since that should be what i is.
+                        
+                        for (var pos2 = pos1 + 1; pos2 < this.moveQueue.getLenth(); pos2++) {
+                            switch (JSON.parse(this.moveQueue.queue[pos2].body).action) {
+                                case "MoveStart":
+                                case "MoveStop":
+                                    endTime = this.moveQueue.queue[pos2].time;
+                                    break;
+                            }
+                        }   
+                        var elapsed = endTime - (this.moveQueue.queue[pos1].time);
+                        var dx = this.move_CalculateChange(b.x, b.y, elapsed);
+                        temp.x += dx.x;
+                        temp.y += dx.y;
+
+                        console.log("server Position");
+                        console.log(this.playerServerPosition);
+                        console.log("New Location");
+                        console.log(temp);
+                        //Move player to that new postion
+                        this.sprite.x = temp.x;
+                        this.sprite.y = temp.y;
+                        break;
+                }
+            }
+
         }
+
         takeShieldDamage(value: number) {
             this.shield -= value;
         }
@@ -190,20 +278,22 @@
         }
 
         moveStart(x: number, y: number) {
-            hub.server.sendAction(JSON.stringify(
-            {
-                action: 'MoveStart',
-                gameId: GameId,
-                direction: x + ", " + y,
-            }));
+            this.send(JSON.stringify(
+                {
+                    action: 'MoveStart',
+                    gameId: GameId,
+                    direction: x + ", " + y,
+                    x: x,
+                    y: y
+                }));
         }
 
         moveStop() {
-            hub.server.sendAction(JSON.stringify(
-            {
-                action: 'MoveStop',
-                gameId: GameId,
-            }));
+            this.send(JSON.stringify(
+                {
+                    action: 'MoveStop',
+                    gameId: GameId,
+                }));
         }
 
         tick(player: Player) {

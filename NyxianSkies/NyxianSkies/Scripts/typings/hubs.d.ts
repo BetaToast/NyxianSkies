@@ -51,13 +51,15 @@ interface MainHubClient
 {
  
     /**
-      * Set this function with a "function(id : number, version : string){}" to receive the "pong" message from the MainHub hub.
+      * Set this function with a "function(id : number, version : string, time : number, clientTime : number){}" to receive the "pong" message from the MainHub hub.
       * Contract Documentation: ---
       * @param id {number} 
       * @param version {string} 
+      * @param time {number} 
+      * @param clientTime {number} 
       * @return {void}
       */
-    pong : (id : number, version : string) => void;
+    pong : (id : number, version : string, time : number, clientTime : number) => void;
  
     /**
       * Set this function with a "function(connectionId : string){}" to receive the "yourPlayerId" message from the MainHub hub.
@@ -85,14 +87,15 @@ interface MainHubClient
     gameStart : (GameId : Guid, players : Player[]) => void;
  
     /**
-      * Set this function with a "function(PlayerId : Guid, Postion : PointF, velocity : Point){}" to receive the "shipPostionUpdate" message from the MainHub hub.
+      * Set this function with a "function(PlayerId : Guid, Postion : PointF, velocity : Point, serverTime : number){}" to receive the "shipPostionUpdate" message from the MainHub hub.
       * Contract Documentation: ---
       * @param PlayerId {Guid} 
       * @param Postion {PointF} 
       * @param velocity {Point} 
+      * @param serverTime {number} 
       * @return {void}
       */
-    shipPostionUpdate : (PlayerId : Guid, Postion : PointF, velocity : Point) => void;
+    shipPostionUpdate : (PlayerId : Guid, Postion : PointF, velocity : Point, serverTime : number) => void;
 }
  
 //#endregion MainHub hub
@@ -132,14 +135,14 @@ interface PointF {
   */
 interface Player {
     PlayerId : Guid;
+    Position : PointF;
+    Velocity : Point;
     PlayerName : string;
     Ready : boolean;
     Ship : number;
     Health : Decimal;
     HullShield : Decimal;
     LoadingLevel : string;
-    Position : PointF;
-    Velocity : Point;
     HasUpdate : boolean;
     BoundingRectangle : RectangleF;
 }

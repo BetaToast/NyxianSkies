@@ -1,3 +1,16 @@
+var basicTypes;
+(function (basicTypes) {
+    var point = (function () {
+        function point(x, y) {
+            this.x = x;
+            this.y = y;
+        }
+        return point;
+    })();
+    basicTypes.point = point;
+})(basicTypes || (basicTypes = {}));
+/// <reference path="../typings/jquery/jquery.d.ts" />
+/// <reference path="../typings/signalr/signalr.d.ts" />
 var canExecute = false;
 var pingId;
 $(function () {
@@ -34,23 +47,28 @@ $(function () {
             gameId: GameId
         }));
     };
-    hub.client.shipPostionUpdate = function (playerId, position, velocity) {
+    hub.client.shipPostionUpdate = function (playerId, position, velocity, serverTime) {
         var player1 = NyxianSkies.NyxianSkiesGame.player1;
         var player2 = NyxianSkies.NyxianSkiesGame.player2;
-        if (player1 && player1.sprite && player1.playerId === playerId && (player1.sprite.x !== position.X || player1.sprite.y !== position.Y)) {
-            NyxianSkies.NyxianSkiesGame.player1.moveTo(position.X, position.Y);
+        if (player1
+            && player1.sprite
+            && player1.playerId === playerId
+            && (player1.sprite.x !== position.X || player1.sprite.y !== position.Y)) {
+            NyxianSkies.NyxianSkiesGame.player1.updateFromServer(position.X, position.Y, serverTime);
         }
-        else if (player2 && player2.sprite && player2.playerId === playerId && (player2.sprite.x !== position.X || player2.sprite.y !== position.Y)) {
-            NyxianSkies.NyxianSkiesGame.player2.moveTo(position.X, position.Y);
+        else if (player2
+            && player2.sprite
+            && player2.playerId === playerId
+            && (player2.sprite.x !== position.X || player2.sprite.y !== position.Y)) {
+            NyxianSkies.NyxianSkiesGame.player2.updateFromServer(position.X, position.Y, serverTime);
         }
     };
     $.connection.hub.start();
 });
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var BetaToast;
 (function (BetaToast) {
@@ -92,7 +110,13 @@ var BetaToast;
             return JSON.parse(jsonStr);
         };
         Utils.json2Str = function (js_obj) {
-            var rejsn = JSON.stringify(js_obj, undefined, 2).replace(/(\\t|\\r|\\n)/g, '').replace(/"",[\n\t\r\s]+""[,]*/g, '').replace(/(\n[\t\s\r]*\n)/g, '').replace(/[\s\t]{2,}""[,]{0,1}/g, '').replace(/"[\s\t]{1,}"[,]{0,1}/g, '').replace(/\[[\t\s]*\]/g, '""');
+            var rejsn = JSON.stringify(js_obj, undefined, 2)
+                .replace(/(\\t|\\r|\\n)/g, '')
+                .replace(/"",[\n\t\r\s]+""[,]*/g, '')
+                .replace(/(\n[\t\s\r]*\n)/g, '')
+                .replace(/[\s\t]{2,}""[,]{0,1}/g, '')
+                .replace(/"[\s\t]{1,}"[,]{0,1}/g, '')
+                .replace(/\[[\t\s]*\]/g, '""');
             return (rejsn.indexOf('"parsererror": {') == -1) ? rejsn : 'Invalid XML format';
         };
         Utils.setJsonObj = function (xml) {
@@ -136,7 +160,7 @@ var BetaToast;
 (function (BetaToast) {
     var Button = (function () {
         function Button() {
-            this.state = 0 /* Normal */;
+            this.state = BetaToast.ControlState.Normal;
             this.x = 0;
             this.y = 0;
             this.width = 0;
@@ -157,25 +181,25 @@ var BetaToast;
             this.hoverSprite.visible = false;
             this.clickSprite.visible = false;
             switch (this.state) {
-                case 0 /* Normal */:
+                case BetaToast.ControlState.Normal:
                     this.normalSprite.visible = true;
                     break;
-                case 1 /* Hover */:
+                case BetaToast.ControlState.Hover:
                     this.hoverSprite.visible = true;
                     break;
-                case 2 /* Click */:
+                case BetaToast.ControlState.Click:
                     this.clickSprite.visible = true;
                     break;
             }
         };
         Button.prototype.onHover = function (button, pointer) {
-            this.state = 1 /* Hover */;
+            this.state = BetaToast.ControlState.Hover;
         };
         Button.prototype.onLeave = function (button, pointer) {
-            this.state = 0 /* Normal */;
+            this.state = BetaToast.ControlState.Normal;
         };
         Button.prototype.onClick = function (button, pointer) {
-            this.state = 2 /* Click */;
+            this.state = BetaToast.ControlState.Click;
             if (this.onClickAction != null && this.enabled)
                 this.onClickAction(this);
         };
@@ -354,6 +378,8 @@ var BetaToast;
     var ControlState = BetaToast.ControlState;
     ;
 })(BetaToast || (BetaToast = {}));
+/// <reference path="../typings/phaser/phaser.d.ts" />
+/// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
     var Boot = (function (_super) {
@@ -374,6 +400,8 @@ var NyxianSkies;
     })(Phaser.State);
     NyxianSkies.Boot = Boot;
 })(NyxianSkies || (NyxianSkies = {}));
+/// <reference path="../typings/phaser/phaser.d.ts" />
+/// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
     var GameOver = (function (_super) {
@@ -388,6 +416,8 @@ var NyxianSkies;
     })(Phaser.State);
     NyxianSkies.GameOver = GameOver;
 })(NyxianSkies || (NyxianSkies = {}));
+/// <reference path="../typings/phaser/phaser.d.ts" />
+/// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
     var Utils = BetaToast.Utils;
@@ -500,6 +530,8 @@ var NyxianSkies;
     })(Phaser.State);
     NyxianSkies.Gameplay = Gameplay;
 })(NyxianSkies || (NyxianSkies = {}));
+/// <reference path="../typings/phaser/phaser.d.ts" />
+/// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
     var NyxianSkiesGame = (function (_super) {
@@ -932,13 +964,12 @@ var NyxianSkies;
             this.elapsed = 0;
             this.fireElapsed = 0;
             this.interval = 100;
+            this.moveQueue = new Utils.Queue();
             this.bullets = [];
             this.previousMouse = -1;
             this.shipType = shipType;
             this.playerId = playerId;
-            this.timer = setInterval(function () {
-                _this.tick(_this);
-            }, this.interval);
+            this.timer = setInterval(function () { _this.tick(_this); }, this.interval);
         }
         Player.prototype.createGraphics = function (game, x, y) {
             this.game = game;
@@ -996,7 +1027,7 @@ var NyxianSkies;
                 keyChange = true;
             }
             if (keyChange === true) {
-                if (this.leftKeyIsDown && this.rightKeyIsDown && this.upKeyIsDown && this.downKeyIsDown) {
+                if (!this.leftKeyIsDown && !this.rightKeyIsDown && !this.upKeyIsDown && !this.downKeyIsDown) {
                     this.moveStop();
                 }
                 else {
@@ -1027,7 +1058,7 @@ var NyxianSkies;
             this.bullets[this.bullets.length] = bulletSprite;
             var bulletTween = this.game.add.tween(bulletSprite).to({ y: -256 }, 2000, Phaser.Easing.Linear.None, true, 0);
             bulletTween.onComplete.add(this.onBulletOffScreen, [this.bullets, bulletSprite]);
-            hub.server.sendAction(JSON.stringify({
+            this.send(JSON.stringify({
                 action: 'FirePrimaryWeapon',
                 gameId: GameId,
                 playerId: PlayerId,
@@ -1035,6 +1066,11 @@ var NyxianSkies;
                 startLocationX: this.sprite.x,
                 startLocationY: this.sprite.y,
             }));
+        };
+        Player.prototype.send = function (message) {
+            console.log(message);
+            this.moveQueue.enqueue(new Utils.QueueObject(message));
+            hub.server.sendAction(message);
         };
         Player.prototype.fireSpecial = function () {
         };
@@ -1047,15 +1083,76 @@ var NyxianSkies;
             }
         };
         Player.prototype.move = function (x, y) {
-            this.sprite.x += (x * this.speed) * this.game.time.elapsedMS;
-            this.sprite.y += (y * this.speed) * this.game.time.elapsedMS;
+            var dif = this.move_CalculateChange(x, y, this.game.time.elapsedMS);
+            this.sprite.x += dif.x;
+            this.sprite.y += dif.y;
             this.moveTo_WithTime(this.sprite.x, this.sprite.y, this.game.time.elapsedMS);
+        };
+        Player.prototype.move_CalculateChange = function (x, y, duration) {
+            var p = new basicTypes.point((x * this.speed) * duration, (y * this.speed) * duration);
+            console.log("move_calculation");
+            console.log(duration);
+            console.log(x);
+            console.log(y);
+            return p;
         };
         Player.prototype.moveTo_WithTime = function (x, y, time) {
             this.game.add.tween(this.sprite).to({ x: x, y: y }, time, Phaser.Easing.Linear.None, true, 0);
         };
-        Player.prototype.moveTo = function (x, y) {
-            this.moveTo_WithTime(x, y, 100);
+        Player.prototype.updateFromServer = function (x, y, serverTime) {
+            console.log("update From Server");
+            this.playerServerPosition = new basicTypes.point(x, y);
+            for (var pos1 = 0; pos1 < this.moveQueue.getLenth() && this.moveQueue.queue[pos1].time < serverTime;) {
+                var i = this.moveQueue.queue[pos1];
+                var b = JSON.parse(i.body);
+                switch (b.action) {
+                    case "MoveStart":
+                        var pos2 = pos1 + 1;
+                        for (var pos2 = pos1 + 1; pos2 < this.moveQueue.getLenth() && this.moveQueue.queue[pos2].time < serverTime; pos2++) {
+                            switch (JSON.parse(this.moveQueue.queue[pos2].body).action) {
+                                case "MoveStart":
+                                case "MoveStop":
+                                    this.moveQueue.remove(pos1);
+                                    continue;
+                            }
+                        }
+                        break;
+                    default:
+                        this.moveQueue.remove(pos1);
+                        continue;
+                }
+                pos1++;
+            }
+            console.log("server Position");
+            console.log(this.playerServerPosition);
+            var temp = new basicTypes.point(this.playerServerPosition.x, this.playerServerPosition.y);
+            for (var pos1 = 0; pos1 < this.moveQueue.getLenth(); pos1++) {
+                var b = JSON.parse(this.moveQueue.queue[pos1].body);
+                var endTime = Date.now();
+                switch (b.action) {
+                    case "MoveStart":
+                        var pos2 = pos1 + 1;
+                        for (var pos2 = pos1 + 1; pos2 < this.moveQueue.getLenth(); pos2++) {
+                            switch (JSON.parse(this.moveQueue.queue[pos2].body).action) {
+                                case "MoveStart":
+                                case "MoveStop":
+                                    endTime = this.moveQueue.queue[pos2].time;
+                                    break;
+                            }
+                        }
+                        var elapsed = endTime - (this.moveQueue.queue[pos1].time);
+                        var dx = this.move_CalculateChange(b.x, b.y, elapsed);
+                        temp.x += dx.x;
+                        temp.y += dx.y;
+                        console.log("server Position");
+                        console.log(this.playerServerPosition);
+                        console.log("New Location");
+                        console.log(temp);
+                        this.sprite.x = temp.x;
+                        this.sprite.y = temp.y;
+                        break;
+                }
+            }
         };
         Player.prototype.takeShieldDamage = function (value) {
             this.shield -= value;
@@ -1064,14 +1161,16 @@ var NyxianSkies;
             this.hull -= value;
         };
         Player.prototype.moveStart = function (x, y) {
-            hub.server.sendAction(JSON.stringify({
+            this.send(JSON.stringify({
                 action: 'MoveStart',
                 gameId: GameId,
                 direction: x + ", " + y,
+                x: x,
+                y: y
             }));
         };
         Player.prototype.moveStop = function () {
-            hub.server.sendAction(JSON.stringify({
+            this.send(JSON.stringify({
                 action: 'MoveStop',
                 gameId: GameId,
             }));
@@ -1084,6 +1183,8 @@ var NyxianSkies;
     })();
     NyxianSkies.Player = Player;
 })(NyxianSkies || (NyxianSkies = {}));
+/// <reference path="../typings/phaser/phaser.d.ts" />
+/// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
     var Preloader = (function (_super) {
@@ -1170,6 +1271,8 @@ var NyxianSkies;
     })();
     NyxianSkies.Sequence = Sequence;
 })(NyxianSkies || (NyxianSkies = {}));
+/// <reference path="../typings/phaser/phaser.d.ts" />
+/// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
     var ShipSelect = (function (_super) {
@@ -1249,6 +1352,8 @@ var NyxianSkies;
     })(Phaser.State);
     NyxianSkies.ShipSelect = ShipSelect;
 })(NyxianSkies || (NyxianSkies = {}));
+/// <reference path="../typings/phaser/phaser.d.ts" />
+/// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
     var StageSelect = (function (_super) {
@@ -1263,6 +1368,8 @@ var NyxianSkies;
     })(Phaser.State);
     NyxianSkies.StageSelect = StageSelect;
 })(NyxianSkies || (NyxianSkies = {}));
+/// <reference path="../typings/phaser/phaser.d.ts" />
+/// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
     var TechSelect = (function (_super) {
@@ -1277,6 +1384,8 @@ var NyxianSkies;
     })(Phaser.State);
     NyxianSkies.TechSelect = TechSelect;
 })(NyxianSkies || (NyxianSkies = {}));
+/// <reference path="../typings/phaser/phaser.d.ts" />
+/// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
     var WaitingLobby = (function (_super) {
@@ -1308,6 +1417,8 @@ var NyxianSkies;
     })(Phaser.State);
     NyxianSkies.WaitingLobby = WaitingLobby;
 })(NyxianSkies || (NyxianSkies = {}));
+/// <reference path="../typings/phaser/phaser.d.ts" />
+/// <reference path="../typings/phaser/pixi.d.ts" />
 var NyxianSkies;
 (function (NyxianSkies) {
     var TitleScreen = (function (_super) {
@@ -1411,3 +1522,53 @@ var _this = this;
 window.onload = function () {
     var game = new NyxianSkies.NyxianSkiesGame(_this.hub);
 };
+var Utils;
+(function (Utils) {
+    var Queue = (function () {
+        function Queue() {
+            this.queue = [];
+            this.offset = 0;
+        }
+        Queue.prototype.getLenth = function () {
+            return (this.queue.length - this.offset);
+        };
+        Queue.prototype.isEmpty = function () {
+            return (this.queue.length == 0);
+        };
+        Queue.prototype.enqueue = function (item) {
+            console.log(item);
+            this.queue.push(item);
+        };
+        Queue.prototype.dequeue = function () {
+            if (this.isEmpty)
+                return undefined;
+            var item = this.queue[this.offset];
+            if (++this.offset * 2 >= this.queue.length) {
+                this.queue = this.queue.slice(this.offset);
+                this.offset = 0;
+            }
+            return item;
+        };
+        Queue.prototype.peek = function () {
+            if (this.isEmpty)
+                return undefined;
+            return this.queue[this.offset];
+        };
+        Queue.prototype.remove = function (index) {
+            if (this.getLenth() <= index)
+                return;
+            this.queue.splice(index, 1);
+        };
+        return Queue;
+    })();
+    Utils.Queue = Queue;
+    var QueueObject = (function () {
+        function QueueObject(body) {
+            this.time = Date.now();
+            this.body = body;
+        }
+        return QueueObject;
+    })();
+    Utils.QueueObject = QueueObject;
+})(Utils || (Utils = {}));
+//# sourceMappingURL=game.js.map

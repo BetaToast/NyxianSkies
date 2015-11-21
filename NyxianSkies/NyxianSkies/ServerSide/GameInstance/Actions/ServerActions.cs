@@ -8,6 +8,7 @@ namespace NyxianSkies.ServerSide.GameInstance.Actions
     public class PingServer : IAction
     {
         public long ID { get; set; }
+        public double clientTime { get; set; }
     }
     public class PingGame : IGameAction
     {

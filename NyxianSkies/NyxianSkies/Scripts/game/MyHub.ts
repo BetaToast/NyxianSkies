@@ -48,7 +48,7 @@ $(() => {
     }
 
 
-    hub.client.shipPostionUpdate = (playerId, position, velocity) => {
+    hub.client.shipPostionUpdate = (playerId, position, velocity, serverTime) => {
         var player1 = NyxianSkies.NyxianSkiesGame.player1;
         var player2 = NyxianSkies.NyxianSkiesGame.player2;
 
@@ -56,17 +56,13 @@ $(() => {
             && player1.sprite
             && player1.playerId === playerId
             && (player1.sprite.x !== position.X || player1.sprite.y !== position.Y)) {
-            //NyxianSkies.NyxianSkiesGame.player1.sprite.x = position.X;
-            //NyxianSkies.NyxianSkiesGame.player1.sprite.y = position.Y;
-            NyxianSkies.NyxianSkiesGame.player1.moveTo(position.X, position.Y);
+            NyxianSkies.NyxianSkiesGame.player1.updateFromServer(position.X, position.Y, serverTime);
         } else
             if (player2
                 && player2.sprite
                 && player2.playerId === playerId
                 && (player2.sprite.x !== position.X || player2.sprite.y !== position.Y)) {
-                //NyxianSkies.NyxianSkiesGame.player2.sprite.x = position.X;
-                //NyxianSkies.NyxianSkiesGame.player2.sprite.y = position.Y;
-                NyxianSkies.NyxianSkiesGame.player2.moveTo(position.X, position.Y);
+                NyxianSkies.NyxianSkiesGame.player2.updateFromServer(position.X, position.Y, serverTime);
             }
     }
 

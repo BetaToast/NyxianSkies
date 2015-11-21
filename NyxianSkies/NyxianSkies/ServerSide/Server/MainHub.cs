@@ -63,7 +63,8 @@ namespace NyxianSkies.ServerSide.Server
                 if (rawObject is PingServer)
                 {
                     var ping = (PingServer)rawObject;
-                    Clients.Caller.Pong(ping.ID, Version);
+                    var dt = DateTime.UtcNow.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
+                    Clients.Caller.Pong(ping.ID, Version, dt, ping.clientTime);
                 }
                 else
                     _multiInstanceGameManager.SendAction(rawObject);
@@ -74,7 +75,6 @@ namespace NyxianSkies.ServerSide.Server
 
         private void InjectKnownData(ref object rawObject)
         {
-            //TODO:  I think we can do a lot more in here
             if (rawObject is IJoinGame)
             {
                 var player = (IJoinGame)rawObject;
