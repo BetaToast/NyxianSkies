@@ -1,0 +1,3 @@
+[submodule "CarpMuffin"]
+	path = CarpMuffin
+	url = https://github.com/BetaToast/CarpMuffin.git
