@@ -1,3 +1,6 @@
 [submodule "CarpMuffin"]
 	path = CarpMuffin
 	url = https://github.com/BetaToast/CarpMuffin.git
+[submodule "TroutCake"]
+	path = TroutCake
+	url = https://github.com/BetaToast/TroutCake.git
